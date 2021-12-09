@@ -34,15 +34,7 @@
                 year = DateTime.Now.Year.ToString().Substring(2);
                 day = int.Parse(args[0]).ToString("00");
             }
-
-            // Type[] matchingProblems = problems.Where(
-            //     x => String.Equals(x.Namespace, ("Year" + year), StringComparison.Ordinal) &&
-            //     String.Equals(x.Name, ("Day" + day), StringComparison.Ordinal)).ToArray();
-            // foreach (Type problem in problems)
-            // {
-            //     Console.WriteLine(problem.FullName);
-            // }
-            // Console.WriteLine($"Year{year}.Day{day}");
+            
             Type[] matchingProblems = problems.Where(x => x.FullName == $"Year20{year}.Day{day}").ToArray();
             if (matchingProblems.Length > 0)
             {
@@ -111,23 +103,24 @@
     }
     public static void PrintProblem(IDay problem)
     {
-        string year = problem.GetType().FullName;
-        string day = problem.GetType().FullName;
+        string[] fullName = problem.GetType().FullName!.Split('.');
+        string year = fullName[0][4..];
+        string day = fullName[1][3..];
         Console.WriteLine(problem + ":");
         Console.WriteLine("Solution 1:");
-        Console.WriteLine(problem.Sol1(File.ReadAllText($@"C:\Users\DirkFreijters\OneDrive - FYN Benelux BV\.dev\AoC\{year}\Day{day}\Input\input.txt")));
+        Console.WriteLine(problem.Sol1(File.ReadAllText($@"C:\Users\DirkFreijters\OneDrive - FYN Benelux BV\.dev\AoC\{year}\Day{day}\Input\input day{day}.txt")));
         Console.WriteLine("Solution 2:");
-        Console.WriteLine(problem.Sol2(File.ReadAllText($@"C:\Users\DirkFreijters\OneDrive - FYN Benelux BV\.dev\AoC\{year}\Day{day}\Input\input.txt")));
+        Console.WriteLine(problem.Sol2(File.ReadAllText($@"C:\Users\DirkFreijters\OneDrive - FYN Benelux BV\.dev\AoC\{year}\Day{day}\Input\input day{day}.txt")));
     }
 
     public static async void SetFileContent(Int32 year, String day)
     {
         Directory.CreateDirectory($@"{year}\Day{day}\Code");
         Directory.CreateDirectory($@"{year}\Day{day}\Input");
-        File.Create($@"{year}\Day{day}\Input\input.txt");
-        File.Create($@"{year}\Day{day}\Input\small input.txt");
+        File.Create($@"{year}\Day{day}\Input\input day{day}.txt");
+        File.Create($@"{year}\Day{day}\Input\small input day{day}.txt");
 
-        await File.WriteAllTextAsync($@"{year}\Day{day}\Code\main.cs",
+        await File.WriteAllTextAsync($@"{year}\Day{day}\Code\Day{day}.cs",
 $@"namespace Year{year}
 {{
     public class Day{day} : IDay
