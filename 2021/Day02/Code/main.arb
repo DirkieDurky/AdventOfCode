@@ -1,0 +1,11 @@
+inputs = File.open("input.txt").read.split("\n")
+depth=0
+hor=0
+aim=0
+inputs.each{
+    _1.split[0]=="forward"&&(hor += _1.split[1].to_i;depth += (aim*_1.split[1].to_i))
+    _1.split[0]=="down"&&aim += _1.split[1].to_i
+    _1.split[0]=="up"&&aim -= _1.split[1].to_i
+}
+
+puts hor*depth

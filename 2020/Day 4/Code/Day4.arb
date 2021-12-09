@@ -1,0 +1,25 @@
+reqKeys=["byr","iyr","eyr","hgt","hcl","ecl","pid"]
+passports=File.open("input.txt").read.split("\n\n")
+passports = passports.map{
+    Hash[*_1.split(/[\n\s:]/)]
+}
+p passports.select{|passport|
+    byr=passport["byr"].to_i
+    iyr=passport["iyr"].to_i
+    eyr=passport["eyr"].to_i
+    hgt=passport["hgt"]
+    hcl=passport["hcl"]
+    ecl=passport["ecl"]
+    pid=passport["pid"]
+    (
+        reqKeys.all?{|key|passport.key?(key)} &&
+        byr>1919 && byr<2003 &&
+        iyr>2009 && iyr<2021 &&
+        eyr>2019 && eyr<2031 &&
+        ((/^\d+cm$/.match?(hgt) && hgt.scan(/\d+/).first.to_i>149 && hgt.scan(/\d+/).first.to_i<194) ||
+        (/^\d+in$/.match?(hgt) && hgt.scan(/\d+/).first.to_i>58 && hgt.scan(/\d+/).first.to_i<77)) &&
+        /^#[\da-f]{6}$/.match?(hcl) &&
+        (ecl=="amb"||ecl=="blu"||ecl=="brn"||ecl=="gry"||ecl=="grn"||ecl=="hzl"||ecl=="oth") &&
+        /^\d{9}$/.match?(pid)
+    )
+}.size

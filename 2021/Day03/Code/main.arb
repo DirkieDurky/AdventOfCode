@@ -1,0 +1,42 @@
+#Part 1
+# inputs = File.open("inputs.txt").read.split("\n")
+
+# gamma = inputs.map{_1.chars}.transpose.map{
+#     count = Hash.new(0)
+#     _1.each {|a| count[a] += 1}
+#     count.sort_by { |a,number| number}.last[0]
+# }.join
+# epsilon = inputs.map{_1.chars}.transpose.map{
+#     count = Hash.new(0)
+#     _1.each {|a| count[a] += 1}
+#     count.sort_by { |a,number| number}.first[0]
+# }.join
+# p gamma.to_i(2)*epsilon.to_i(2)
+
+#Part 2
+inputs = File.open("inputs.txt").read.split("\n")
+
+oxy = inputs
+
+i=0
+(
+    zeroes = oxy.map{|s|s.chars}.transpose[i].count("0")
+    ones = oxy.map{|s|s.chars}.transpose[i].count("1")
+    mostCommon = zeroes > ones ? 0 : 1
+    tmp = oxy.select{|c|c[i].to_i == mostCommon}
+    (oxy=tmp) if (tmp.size > 0)
+    i+=1
+) while (oxy.size > 1&&i<12)
+
+co2 = inputs
+i=0
+(
+    zeroes = co2.map{|s|s.chars}.transpose[i].count("0")
+    ones = co2.map{|s|s.chars}.transpose[i].count("1")
+    leastCommon = zeroes > ones ? 1 : 0
+    tmp = co2.select{|c|c[i].to_i == leastCommon}
+    (co2=tmp) if (tmp.size > 0)
+    i+=1
+) while (co2.size > 1&&i<12)
+
+p oxy[0].to_i(2)*co2[0].to_i(2)
