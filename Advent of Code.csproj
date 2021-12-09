@@ -7,6 +7,6 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="AoCHelper" Version="1.0.2"/>
+		<PackageReference Include="AoCHelper" Version="1.0.2" />
 	</ItemGroup>
 </Project>
