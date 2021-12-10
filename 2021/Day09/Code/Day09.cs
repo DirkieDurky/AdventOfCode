@@ -4,7 +4,7 @@ namespace Year2021
     {
         public Object Sol1(String input)
         {
-            int[][] grid = input.Split('\n').Select(x => x.Select(y => y - '0').ToArray()).ToArray();
+            int[][] grid = input.Split('\n').Select(x => x.Trim().Select(y => y - '0').ToArray()).ToArray();
             List<int> lowPoints = new();
             for (int i = 0; i < 100; i++)
             {
@@ -28,7 +28,7 @@ namespace Year2021
 
         public Object Sol2(String input)
         {
-            int[][] grid = input.Split('\n').Select(x => x.Select(y => y - '0').ToArray()).ToArray();
+            int[][] grid = input.Split('\n').Select(x => x.Trim().Select(y => y - '0').ToArray()).ToArray();
             int width = grid.Length;
             int height = grid[0].Length;
             List<int[][]> basins = new();
@@ -60,10 +60,10 @@ namespace Year2021
             {
                 List<int[]> flowPoints = new();
 
-                if (x - 1 >= 0 && inputs[x - 1][y] != 9 && !oldFlowPoints.Any(a => a.SequenceEqual(new int[] { x - 1, y }))) flowPoints.Add(new[] { x - 1, y });
-                if (x + 1 < width && inputs[x + 1][y] != 9 && !oldFlowPoints.Any(a => a.SequenceEqual(new int[] { x + 1, y }))) flowPoints.Add(new[] { x + 1, y });
-                if (y - 1 >= 0 && inputs[x][y - 1] != 9 && !oldFlowPoints.Any(a => a.SequenceEqual(new int[] { x, y - 1 }))) flowPoints.Add(new[] { x, y - 1 });
-                if (y + 1 < height && inputs[x][y + 1] != 9 && !oldFlowPoints.Any(a => a.SequenceEqual(new int[] { x, y + 1 }))) flowPoints.Add(new[] { x, y + 1 });
+                if (x - 1 >= 0 && inputs[x - 1][y] != 9 && !oldFlowPoints.Any(a => a.SequenceEqual(new[] { x - 1, y }))) flowPoints.Add(new[] { x - 1, y });
+                if (x + 1 < width && inputs[x + 1][y] != 9 && !oldFlowPoints.Any(a => a.SequenceEqual(new[] { x + 1, y }))) flowPoints.Add(new[] { x + 1, y });
+                if (y - 1 >= 0 && inputs[x][y - 1] != 9 && !oldFlowPoints.Any(a => a.SequenceEqual(new[] { x, y - 1 }))) flowPoints.Add(new[] { x, y - 1 });
+                if (y + 1 < height && inputs[x][y + 1] != 9 && !oldFlowPoints.Any(a => a.SequenceEqual(new[] { x, y + 1 }))) flowPoints.Add(new[] { x, y + 1 });
 
                 List<int[]> basin = new();
                 basin.AddRange(oldFlowPoints);

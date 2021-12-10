@@ -67,10 +67,10 @@ namespace Year2021
                     }
                 }
             }
-            foreach (string line2 in lines)
-            {
-                Console.WriteLine(line2);
-            }
+            //foreach (string line2 in lines)
+            //{
+            //    Console.WriteLine(line2);
+            //}
 
             return total;
         }
@@ -142,10 +142,10 @@ namespace Year2021
             //    Console.WriteLine(line2);
             //}
             scores.Sort();
-            foreach (long score in scores)
-            {
-                Console.WriteLine(score);
-            }
+            //foreach (long score in scores)
+            //{
+            //    Console.WriteLine(score);
+            //}
 
             return scores[scores.Count/2];
         }

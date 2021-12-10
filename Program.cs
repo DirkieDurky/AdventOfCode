@@ -2,6 +2,8 @@
 {
     static void Main(String[] args)
     {
+        Console.ForegroundColor = ConsoleColor.Gray;
+
         Type[] problems = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
             .Where(p => typeof(IDay).IsAssignableFrom(p) && p.IsClass).ToArray();
@@ -34,7 +36,7 @@
                 year = DateTime.Now.Year.ToString().Substring(2);
                 day = int.Parse(args[0]).ToString("00");
             }
-            
+
             Type[] matchingProblems = problems.Where(x => x.FullName == $"Year20{year}.Day{day}").ToArray();
             if (matchingProblems.Length > 0)
             {
@@ -101,6 +103,7 @@
             Main(Console.ReadLine()!.Split(' '));
         }
     }
+
     public static void PrintProblem(IDay problem)
     {
         string[] fullName = problem.GetType().FullName!.Split('.');
@@ -108,9 +111,32 @@
         string day = fullName[1][3..];
         Console.WriteLine(problem + ":");
         Console.WriteLine("Solution 1:");
-        Console.WriteLine(problem.Sol1(File.ReadAllText($@"C:\Users\DirkFreijters\OneDrive - FYN Benelux BV\.dev\AoC\{year}\Day{day}\Input\used input.txt")));
+        try
+        {
+            Console.WriteLine(problem.Sol1(File.ReadAllText(
+                $@"C:\Users\DirkFreijters\OneDrive - FYN Benelux BV\.dev\AoC\{year}\Day{day}\Input\used input.txt")));
+        }
+        catch (Exception e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Unhandled exception. {e.GetType()}: {e.Message}");
+            Console.WriteLine(e.StackTrace);
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
         Console.WriteLine("Solution 2:");
-        Console.WriteLine(problem.Sol2(File.ReadAllText($@"C:\Users\DirkFreijters\OneDrive - FYN Benelux BV\.dev\AoC\{year}\Day{day}\Input\used input.txt")));
+        try
+        {
+            Console.WriteLine(problem.Sol2(File.ReadAllText(
+                $@"C:\Users\DirkFreijters\OneDrive - FYN Benelux BV\.dev\AoC\{year}\Day{day}\Input\used input.txt")));
+        }
+        catch (Exception e)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Unhandled exception. {e.GetType()}: {e.Message}");
+            Console.WriteLine(e.StackTrace);
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
     }
 
     public static async void SetFileContent(Int32 year, String day)
