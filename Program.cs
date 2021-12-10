@@ -1,142 +1,253 @@
-﻿internal class Program
+﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
+using System.Timers;
+
+internal class Program
 {
+    private const String RootFolder = "C:\\Users\\DirkFreijters\\OneDrive - FYN Benelux BV\\.dev\\AoC\\";
     static void Main(String[] args)
     {
         Console.ForegroundColor = ConsoleColor.Gray;
 
         Type[] problems = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
-            .Where(p => typeof(IDay).IsAssignableFrom(p) && p.IsClass).ToArray();
-        if (args.Length > 0 && args[0] == "all")
-        {
-            foreach (Type problem in problems)
-            {
-                PrintProblem((IDay)Activator.CreateInstance(problem)!);
-            }
-        }
-        else if (args.Length > 0 && args[0].Any(char.IsDigit))
-        {
-            string year;
-            string day;
-            if (args.Length > 1)
-            {
-                if (args[0].Length == 4)
-                {
-                    year = args[0].Substring(2);
-                }
-                else if (args[0].Length == 2)
-                {
-                    year = args[0];
-                }
-                else throw new ArgumentException("Invalid year");
-                day = int.Parse(args[1]).ToString("00");
-            }
-            else
-            {
-                year = DateTime.Now.Year.ToString().Substring(2);
-                day = int.Parse(args[0]).ToString("00");
-            }
+            .Where(p => typeof(IDay).IsAssignableFrom(p) && p.IsClass)
+            .ToArray();
+        IDay[] days = problems.Select(x => (IDay)Activator.CreateInstance(x)!).ToArray();
 
-            Type[] matchingProblems = problems.Where(x => x.FullName == $"Year20{year}.Day{day}").ToArray();
-            if (matchingProblems.Length > 0)
-            {
-                if (matchingProblems.Length > 1)
-                {
-                    Console.WriteLine("Multiple matches found. Running all");
-                }
-                foreach (Type problem in matchingProblems)
-                {
-                    PrintProblem((IDay)Activator.CreateInstance(problem)!);
-                }
-            }
-            else
-            {
-                Console.WriteLine("No matching result found");
-            }
+        List<(Func<String, Object>, Int32)> matchingFuncs = new();
+        if (args.Length == 0)
+        {
+            Console.WriteLine("No input found. Please provide an input.");
+            Main(Console.ReadLine()!.Split(' '));
+            return;
         }
-        else if (args.Length > 0 && args[0] == "new")
+        if (args[0].Equals("help", StringComparison.OrdinalIgnoreCase) || args[0].Equals("?", StringComparison.OrdinalIgnoreCase))
+        {
+            PrintHelp(ConsoleColor.Gray);
+            Main(Console.ReadLine()!.Split(' '));
+            return;
+        }
+        if (args[0].Equals("new", StringComparison.OrdinalIgnoreCase))
         {
             NewProject(args);
         }
-        else if (args.Length > 0 && args[0] == "latest")
+        else if (args[0].Equals("all", StringComparison.OrdinalIgnoreCase))
         {
-            IDay? lastProblem = (IDay)Activator.CreateInstance(problems.Last())!;
-            if (lastProblem != null)
-            {
-                PrintProblem(lastProblem);
-            }
+            matchingFuncs.AddRange(days.SelectMany(x => new (Func<String, Object>, Int32)[] { (x.Sol1, 1), (x.Sol2, 2) }).ToArray());
         }
-        else if (args.Length > 0 && args[0] == "today")
+        //else if (args.All(arg=>Regex.IsMatch(arg,@"^\d{1,2}-\d$|^\d{2}(\d{2})?(\/\d{1,2}(-\d)?)?$|^\d$",RegexOptions.Multiline)))
+        else if (args.All(arg=>Regex.IsMatch(arg, @"^((\d{4}|\d{2}|latest)(\/(\d{1,2}|latest|today))?(-\d)?)$|^(((\d{1,2}|latest|today))(-\d)?)$", RegexOptions.Multiline)))
         {
-            String year = DateTime.Now.Year.ToString();
-            String day = DateTime.Now.Day.ToString("00");
-            Type[] matchingProblems = problems.Where(x => x.FullName == $"Year{year}.Day{day}").ToArray();
-
-            if (matchingProblems.Length > 0)
+            foreach (String arg in args)
             {
-                if (matchingProblems.Length > 1)
+                Int32 year = 0;
+                Int32 day = 0;
+                Int32 part = 0;
+
+                string[] split = arg.Split('/', '-');
+                if (arg.Contains('/') && arg.Contains('-'))
                 {
-                    Console.WriteLine("Multiple matches found. Running all");
+                    if (split[0] == "latest")
+                    {
+                        year = int.Parse(Directory.GetDirectories(RootFolder).Last());
+                    }
+                    else if (split[0].Length == 4)
+                    {
+                        year = int.Parse(split[0]);
+                    }
+                    else if (split[0].Length == 2)
+                    {
+                        year = int.Parse("20" + split[0]);
+                    }
+                    if (split[1] == "latest")
+                    {
+                        day = int.Parse(Directory.GetDirectories($"{RootFolder}Year{year}").Last());
+                    }
+                    else if (split[1] == "today")
+                    {
+                        day = DateTime.Now.Day;
+                    }
+                    else
+                    {
+                        day = int.Parse(split[1]);
+                    }
+                    part = int.Parse(split[2]);
+                }
+                else if (arg.Contains('/'))
+                {
+                    if (split[0] == "latest")
+                    {
+                        year = int.Parse(Directory.GetDirectories(RootFolder).Last());
+                    }
+                    else if (split[0].Length == 4)
+                    {
+                        year = int.Parse(split[0]);
+                    }
+                    else if (split[0].Length == 2)
+                    {
+                        year = int.Parse("20" + split[0]);
+                    }
+                    if (split[1] == "latest")
+                    {
+                        day = int.Parse(Directory.GetDirectories($"{RootFolder}Year{year}").Last());
+                    }
+                    else if (split[1] == "today")
+                    {
+                        day = DateTime.Now.Day;
+                    }
+                    else
+                    {
+                        day = int.Parse(split[1]);
+                    }
+                }
+                else if (arg.Contains('-'))
+                {
+                    year = DateTime.Now.Year;
+                    if (split[1] == "latest")
+                    {
+                        day = int.Parse(Directory.GetDirectories($"{RootFolder}Year{year}").Last());
+                    }
+                    else if (split[1] == "today")
+                    {
+                        day = DateTime.Now.Day;
+                    }
+                    else
+                    {
+                        day = int.Parse(split[0]);
+                    }
+                    part = int.Parse(split[1]);
+                }
+                else
+                {
+                    if (split[0] == "latest")
+                    {
+                        year = DateTime.Now.Year;
+                        day = int.Parse(split[0]);
+                    }
+                    if (split[0].Length == 4)
+                    {
+                        year = int.Parse(split[0]);
+                    } 
+                    else if (split[0].Length is 1 or 2)
+                    {
+                        year = DateTime.Now.Year;
+                        day = int.Parse(split[0]);
+                    }
                 }
 
-                foreach (Type problem in matchingProblems)
+                if (year == 0)
                 {
-                    PrintProblem((IDay)Activator.CreateInstance(problem)!);
+                    PrintLine(ConsoleColor.Red, "Invalid input. Valid options are:");
+                    PrintHelp(ConsoleColor.Red);
+                    Main(Console.ReadLine()!.Split(' '));
+                    return;
                 }
 
-            }
-            else
-            {
-                Console.WriteLine("No match found");
+                if (part == 0)
+                {
+                    matchingFuncs.AddRange(
+                        problems.Where(x => x.FullName!.Split('.')[0] == "Year" + year && (x.FullName.Split('.')[1] == $"Day{day:00}" || day == 0))
+                            .Select(x => (IDay)Activator.CreateInstance(x)!).ToArray()
+                            .SelectMany(x => new (Func<String, Object>, Int32)[] { (x.Sol1, 1), (x.Sol2, 2) })
+                    );
+                }
+                else
+                {
+                    IDay[] matchingDays = problems.Where(x =>
+                            x.FullName!.Split('.')[0] == "Year" + year && x.FullName.Split('.')[1] == $"Day{day:00}")
+                        .Select(x => (IDay)Activator.CreateInstance(x)!).ToArray();
+
+                    if (part == 1)
+                    {
+                        matchingFuncs.AddRange(matchingDays.SelectMany(x => new (Func<String, Object>, Int32)[] { (x.Sol1, 1) }));
+                    }
+                    else if (part == 2)
+                    {
+                        matchingFuncs.AddRange(matchingDays.SelectMany(x => new (Func<String, Object>, Int32)[] { (x.Sol2, 2) }));
+                    }
+                    else
+                    {
+                        PrintLine(ConsoleColor.Red, "Invalid part");
+                        Main(Console.ReadLine()!.Split(' '));
+                    }
+                }
             }
         }
         else
         {
-            if (args.Length == 0)
-            {
-                Console.WriteLine("No input found. Please provide an input.");
-            }
-            else
-            {
-                Console.WriteLine("Invalid input.");
-            }
+            PrintLine(ConsoleColor.Red, "Invalid input. Valid options are:");
+            PrintHelp(ConsoleColor.Red);
             Main(Console.ReadLine()!.Split(' '));
+        }
+
+        if (matchingFuncs.Count > 0)
+        {
+            PrintProblems(matchingFuncs.ToArray(),matchingFuncs.Count > 1);
+        }
+        else
+        {
+            PrintLine(ConsoleColor.Yellow, "No matches found");
+        }
+        Main(Console.ReadLine()!.Split(' '));
+    }
+
+    public static int PrintProblem(Func<String, Object> problem, Int32 solutionNumber)
+    {
+        int totalElapsedTime = 0;
+        Stopwatch stopwatch = new();
+        string[] fullName = problem.Target!.GetType().FullName!.Split('.');
+        string year = fullName[0][4..];
+        string day = fullName[1][3..];
+        Console.WriteLine($"\n{year}/{day}/{solutionNumber}:");
+        try
+        {
+            String input = File.ReadAllText($@"{RootFolder}{year}\Day{day}\Input\used input.txt");
+            stopwatch.Start();
+            Object output = problem.Invoke(input);
+            stopwatch.Stop();
+            Print(ConsoleColor.White, output);
+            PrintLine(ConsoleColor.DarkGray, $" : {stopwatch.ElapsedMilliseconds}ms");
+            totalElapsedTime += (int)stopwatch.ElapsedMilliseconds;
+            stopwatch.Reset();
+        }
+        catch (Exception e)
+        {
+            PrintLine(ConsoleColor.Red, $"Unhandled exception. {e.GetType()}: {e.Message}\n{e.StackTrace}");
+        }
+
+        return totalElapsedTime;
+    }
+
+    public static void PrintProblems((Func<String, Object>, Int32)[] problems,Boolean printTotal)
+    {
+        int totalElapsedTime = 0;
+        foreach ((Func<String, Object>, Int32) problem in problems)
+        {
+            totalElapsedTime += PrintProblem(problem.Item1, problem.Item2);
+        }
+
+        if (printTotal)
+        {
+            Console.Write("\nTotal time: ");
+            PrintLine(ConsoleColor.DarkGray, $"{totalElapsedTime}ms");
         }
     }
 
-    public static void PrintProblem(IDay problem)
+    public static void Print(ConsoleColor color, Object message)
     {
-        string[] fullName = problem.GetType().FullName!.Split('.');
-        string year = fullName[0][4..];
-        string day = fullName[1][3..];
-        Console.WriteLine(problem + ":");
-        Console.WriteLine("Solution 1:");
-        try
-        {
-            Console.WriteLine(problem.Sol1(File.ReadAllText(
-                $@"C:\Users\DirkFreijters\OneDrive - FYN Benelux BV\.dev\AoC\{year}\Day{day}\Input\used input.txt")));
-        }
-        catch (Exception e)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Unhandled exception. {e.GetType()}: {e.Message}");
-            Console.WriteLine(e.StackTrace);
-            Console.ForegroundColor = ConsoleColor.Gray;
-        }
+        ConsoleColor previousConsoleColor = Console.ForegroundColor;
+        Console.ForegroundColor = color;
+        Console.Write(message);
+        Console.ForegroundColor = previousConsoleColor;
+    }
 
-        Console.WriteLine("Solution 2:");
-        try
-        {
-            Console.WriteLine(problem.Sol2(File.ReadAllText(
-                $@"C:\Users\DirkFreijters\OneDrive - FYN Benelux BV\.dev\AoC\{year}\Day{day}\Input\used input.txt")));
-        }
-        catch (Exception e)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"Unhandled exception. {e.GetType()}: {e.Message}");
-            Console.WriteLine(e.StackTrace);
-            Console.ForegroundColor = ConsoleColor.Gray;
-        }
+    public static void PrintLine(ConsoleColor color, Object message)
+    {
+        ConsoleColor previousConsoleColor = Console.ForegroundColor;
+        Console.ForegroundColor = color;
+        Console.WriteLine(message);
+        Console.ForegroundColor = previousConsoleColor;
     }
 
     public static async void SetFileContent(Int32 year, String day)
@@ -171,8 +282,7 @@ $@"namespace Year{year}
         String currentDay;
         if (args.Length >= 2)
         {
-            Int32 currentDayInt;
-            if (Int32.TryParse(args[1], out currentDayInt))
+            if (Int32.TryParse(args[1], out Int32 currentDayInt))
             {
                 currentDay = currentDayInt.ToString("00");
             }
@@ -202,5 +312,18 @@ $@"namespace Year{year}
         {
             SetFileContent(currentYear, currentDay);
         }
+    }
+
+    public static void PrintHelp(ConsoleColor color)
+    {
+        PrintLine(color,
+$@"[YYYY]/[DD]-[P]
+[YYYY]/[DD]
+[YYYY]
+[DD]-[P]
+[DD]
+You can use the 2 number variant of a year (e.g {DateTime.Now.Year.ToString()[2..]} instead of {DateTime.Now.Year})
+You can use the ""today"" keyword to refer to today insted of manually typing out todays date
+You can use the ""latest"" keyword to refer to the latest year or date");
     }
 }
