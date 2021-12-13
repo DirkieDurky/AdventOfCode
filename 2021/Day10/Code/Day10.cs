@@ -7,18 +7,18 @@ namespace Year2021
     {
         public Object Sol1(String input)
         {
-            string[] lines = input.Split('\n').Select(x => x.Trim()).ToArray();
-            int total = 0;
-            for (int i = 0; i < lines.Length; i++)
+            String[] lines = input.Split('\n').Select(x => x.Trim()).ToArray();
+            Int32 total = 0;
+            for (Int32 i = 0; i < lines.Length; i++)
             {
-                int range = 1;
+                Int32 range = 1;
                 while (true)
                 {
-                    bool charFound = false;
-                    for (int j = range; j < lines[i].Length; j++)
+                    Boolean charFound = false;
+                    for (Int32 j = range; j < lines[i].Length; j++)
                     {
-                        char openingBracket = lines[i][j - range];
-                        char c = lines[i][j];
+                        Char openingBracket = lines[i][j - range];
+                        Char c = lines[i][j];
                         if (openingBracket == '(' && c == ')' ||
                             openingBracket == '[' && c == ']' ||
                             openingBracket == '{' && c == '}' ||
@@ -43,7 +43,7 @@ namespace Year2021
                     }
                 }
 
-                foreach (char c in lines[i])
+                foreach (Char c in lines[i])
                 {
                     if (c == ')')
                     {
@@ -77,18 +77,18 @@ namespace Year2021
 
         public Object Sol2(String input)
         {
-            string[] lines = input.Split('\n').Select(x => x.Trim()).ToArray();
-            List<long> scores = new();
-            for (int i = 0; i < lines.Length; i++)
+            String[] lines = input.Split('\n').Select(x => x.Trim()).ToArray();
+            List<Int64> scores = new();
+            for (Int32 i = 0; i < lines.Length; i++)
             {
-                int range = 1;
+                Int32 range = 1;
                 while (true)
                 {
-                    bool charFound = false;
-                    for (int j = range; j < lines[i].Length; j++)
+                    Boolean charFound = false;
+                    for (Int32 j = range; j < lines[i].Length; j++)
                     {
-                        char openingBracket = lines[i][j - range];
-                        char c = lines[i][j];
+                        Char openingBracket = lines[i][j - range];
+                        Char c = lines[i][j];
                         if (openingBracket == '(' && c == ')' ||
                             openingBracket == '[' && c == ']' ||
                             openingBracket == '{' && c == '}' ||
@@ -114,8 +114,8 @@ namespace Year2021
                 }
 
                 if (lines[i].Contains(')') || lines[i].Contains(']') || lines[i].Contains('}') || lines[i].Contains('>')) continue;
-                long total = 0;
-                foreach (char c in lines[i].Reverse())
+                Int64 total = 0;
+                foreach (Char c in lines[i].Reverse())
                 {
                     if (c == '(')
                     {

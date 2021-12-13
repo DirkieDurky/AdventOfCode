@@ -4,16 +4,16 @@ namespace Year2021
     {
         public Object Sol1(String input)
         {
-            int[] lines = input.Split(',').Select(i => Int32.Parse(i)).ToArray();
-            List<int> fishes = new();
-            foreach (int line in lines)
+            Int32[] lines = input.Split(',').Select(i => Int32.Parse(i)).ToArray();
+            List<Int32> fishes = new();
+            foreach (Int32 line in lines)
             {
                 fishes.Add(line);
             }
-            for (int i = 0; i < 80; i++)
+            for (Int32 i = 0; i < 80; i++)
             {
-                int count = fishes.Count;
-                for (int j = 0; j < count; j++)
+                Int32 count = fishes.Count;
+                for (Int32 j = 0; j < count; j++)
                 {
                     if (fishes[j] == 0)
                     {
@@ -31,7 +31,7 @@ namespace Year2021
 
         public Object Sol2(String input)
         {
-            long[] lines = input.Split(',').Select(i => long.Parse(i)).ToArray();
+            Int64[] lines = input.Split(',').Select(i => Int64.Parse(i)).ToArray();
 
             var groups = lines
             .GroupBy(s => s)
@@ -41,22 +41,22 @@ namespace Year2021
                 Count = s.Count()
             });
 
-            Dictionary<long, long> dictionary = groups.ToDictionary(g => g.Stuff, g => (long)g.Count);
+            Dictionary<Int64, Int64> dictionary = groups.ToDictionary(g => g.Stuff, g => (Int64)g.Count);
 
-            Dictionary<long, long> fish = new() { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 }, { 4, 0 }, { 5, 0 }, { 6, 0 }, { 7, 0 }, { 8, 0 }, { 9, 0 } };
+            Dictionary<Int64, Int64> fish = new() { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 }, { 4, 0 }, { 5, 0 }, { 6, 0 }, { 7, 0 }, { 8, 0 }, { 9, 0 } };
 
-            foreach (KeyValuePair<long, long> keyValuePair in dictionary)
+            foreach (KeyValuePair<Int64, Int64> keyValuePair in dictionary)
             {
                 fish[keyValuePair.Key] = keyValuePair.Value;
             }
 
             // Console.WriteLine(String.Join(',', fish));
 
-            for (long i = 0; i < 256; i++)
+            for (Int64 i = 0; i < 256; i++)
             {
                 fish[9] += fish[0];
                 fish[7] += fish[0];
-                for (int j = 0; j < 9; j++)
+                for (Int32 j = 0; j < 9; j++)
                 {
                     fish[j] = fish[j + 1];
                 }

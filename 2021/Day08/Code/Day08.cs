@@ -4,23 +4,23 @@
     {
         public Object Sol1(String input)
         {
-            string[] outputValues = input.Split('\n').Select(x => x.Split(" | ")[1]).ToArray();
+            String[] outputValues = input.Split('\n').Select(x => x.Split(" | ")[1]).ToArray();
             return outputValues.Sum(values => values.Trim().Split(' ').Count(value => value.Length is 2 or 3 or 4 or 7 or 8));
         }
 
         public Object Sol2(String input)
         {
-            string[][] split = input.Split('\n').Select(x => x.Split(" | ")).ToArray();
+            String[][] split = input.Split('\n').Select(x => x.Split(" | ")).ToArray();
             
-            int total = 0;
+            Int32 total = 0;
 
-            foreach (string[] line in split)
+            foreach (String[] line in split)
             {
-                string[] inputValues = line[0].Split(' ');
-                string?[] segDisplays = new string?[10];
-                for (int i = 0; i < 10; i++)
+                String[] inputValues = line[0].Split(' ');
+                String?[] segDisplays = new String?[10];
+                for (Int32 i = 0; i < 10; i++)
                 {
-                    foreach (string value in inputValues)
+                    foreach (String value in inputValues)
                     {
                         if (value.Length == 2) { segDisplays[1] = value; }
                         else if (value.Length == 4) { segDisplays[4] = value; }
@@ -28,7 +28,7 @@
                         else if (value.Length == 7) { segDisplays[8] = value; }
                     }
 
-                    foreach (string value in inputValues)
+                    foreach (String value in inputValues)
                     {
 
                         if (value.Length == 6)
@@ -64,14 +64,14 @@
                         }
                     }
                 }
-                string[] outputValues = line[1].Split(' ');
-                string output = "";
+                String[] outputValues = line[1].Split(' ');
+                String output = "";
 
-                foreach (string outputValue in outputValues)
+                foreach (String outputValue in outputValues)
                 {
-                    for (int i = 0; i < segDisplays.Length; i++)
+                    for (Int32 i = 0; i < segDisplays.Length; i++)
                     {
-                        string segDisplay = segDisplays[i]!;
+                        String segDisplay = segDisplays[i]!;
                         if (outputValue.Length == segDisplay.Length && segDisplay.All(x => outputValue.Contains(x)))
                         {
                             output += i;
@@ -80,7 +80,7 @@
                     }
                 }
 
-                total += int.Parse(output);
+                total += Int32.Parse(output);
             }
 
 

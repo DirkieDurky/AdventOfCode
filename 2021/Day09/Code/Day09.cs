@@ -4,13 +4,13 @@ namespace Year2021
     {
         public Object Sol1(String input)
         {
-            int[][] grid = input.Split('\n').Select(x => x.Trim().Select(y => y - '0').ToArray()).ToArray();
-            List<int> lowPoints = new();
-            for (int i = 0; i < 100; i++)
+            Int32[][] grid = input.Split('\n').Select(x => x.Trim().Select(y => y - '0').ToArray()).ToArray();
+            List<Int32> lowPoints = new();
+            for (Int32 i = 0; i < 100; i++)
             {
-                for (int j = 0; j < 100; j++)
+                for (Int32 j = 0; j < 100; j++)
                 {
-                    int c = grid[j][i];
+                    Int32 c = grid[j][i];
                     if (
                         (j < 1 || c < grid[j - 1][i]) &&
                         (j >= grid[i].Length - 1 || c < grid[j + 1][i]) &&
@@ -28,15 +28,15 @@ namespace Year2021
 
         public Object Sol2(String input)
         {
-            int[][] grid = input.Split('\n').Select(x => x.Trim().Select(y => y - '0').ToArray()).ToArray();
-            int width = grid.Length;
-            int height = grid[0].Length;
-            List<int[][]> basins = new();
-            for (int i = 0; i < height; i++)
+            Int32[][] grid = input.Split('\n').Select(x => x.Trim().Select(y => y - '0').ToArray()).ToArray();
+            Int32 width = grid.Length;
+            Int32 height = grid[0].Length;
+            List<Int32[][]> basins = new();
+            for (Int32 i = 0; i < height; i++)
             {
-                for (int j = 0; j < width; j++)
+                for (Int32 j = 0; j < width; j++)
                 {
-                    int c = grid[j][i];
+                    Int32 c = grid[j][i];
                     if (basins.Any(x => x.Any(y => y[0] == j && y[1] == i))) continue;
                     if (
                         c != 9 &&
@@ -46,7 +46,7 @@ namespace Year2021
                         (i < 1 || c < grid[j][i - 1])
                         )
                     {
-                        basins.Add(GetFlowPoints(grid, j, i, new List<int[]>()).ToArray());
+                        basins.Add(GetFlowPoints(grid, j, i, new List<Int32[]>()).ToArray());
                     }
                 }
             }
@@ -56,31 +56,31 @@ namespace Year2021
             basins.Reverse();
 
             return basins[0].Length * basins[1].Length * basins[2].Length;
-            List<int[]> GetFlowPoints(Int32[][] inputs, int x, int y, List<int[]> oldFlowPoints)
+            List<Int32[]> GetFlowPoints(Int32[][] inputs, Int32 x, Int32 y, List<Int32[]> oldFlowPoints)
             {
-                List<int[]> flowPoints = new();
+                List<Int32[]> flowPoints = new();
 
                 if (x - 1 >= 0 && inputs[x - 1][y] != 9 && !oldFlowPoints.Any(a => a.SequenceEqual(new[] { x - 1, y }))) flowPoints.Add(new[] { x - 1, y });
                 if (x + 1 < width && inputs[x + 1][y] != 9 && !oldFlowPoints.Any(a => a.SequenceEqual(new[] { x + 1, y }))) flowPoints.Add(new[] { x + 1, y });
                 if (y - 1 >= 0 && inputs[x][y - 1] != 9 && !oldFlowPoints.Any(a => a.SequenceEqual(new[] { x, y - 1 }))) flowPoints.Add(new[] { x, y - 1 });
                 if (y + 1 < height && inputs[x][y + 1] != 9 && !oldFlowPoints.Any(a => a.SequenceEqual(new[] { x, y + 1 }))) flowPoints.Add(new[] { x, y + 1 });
 
-                List<int[]> basin = new();
+                List<Int32[]> basin = new();
                 basin.AddRange(oldFlowPoints);
                 basin.AddRange(flowPoints);
                 basin.Add(new[] { x, y });
                 basin = Unique(basin.ToArray()).ToList();
-                foreach (int[] flowPoint in flowPoints)
+                foreach (Int32[] flowPoint in flowPoints)
                 {
                     basin.AddRange(GetFlowPoints(inputs, flowPoint[0], flowPoint[1], basin));
                 }
                 return basin;
             }
 
-            int[][] Unique(int[][] list)
+            Int32[][] Unique(Int32[][] list)
             {
-                List<int[]> output = new();
-                foreach (int[] item in list)
+                List<Int32[]> output = new();
+                foreach (Int32[] item in list)
                 {
                     if (!output.Any(a => a.SequenceEqual(item)))
                     {

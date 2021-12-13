@@ -5,6 +5,7 @@ using System.Timers;
 internal class Program
 {
     private const String RootFolder = "C:\\Users\\DirkFreijters\\OneDrive - FYN Benelux BV\\.dev\\AoC\\";
+    //private const String RootFolder = "C:\\Users\\Dirk\\OneDrive - FYN Benelux BV\\.dev\\AoC\\";
     static void Main(String[] args)
     {
         Console.ForegroundColor = ConsoleColor.Gray;
@@ -31,6 +32,7 @@ internal class Program
         if (args[0].Equals("new", StringComparison.OrdinalIgnoreCase))
         {
             NewProject(args);
+            return;
         }
         else if (args[0].Equals("all", StringComparison.OrdinalIgnoreCase))
         {
@@ -45,24 +47,24 @@ internal class Program
                 Int32 day = 0;
                 Int32 part = 0;
 
-                string[] split = arg.Split('/', '-');
+                String[] split = arg.Split('/', '-');
                 if (arg.Contains('/') && arg.Contains('-'))
                 {
                     if (split[0] == "latest")
                     {
-                        year = int.Parse(Directory.GetDirectories(RootFolder).Last());
+                        year = Int32.Parse(Directory.GetDirectories(RootFolder).Last());
                     }
                     else if (split[0].Length == 4)
                     {
-                        year = int.Parse(split[0]);
+                        year = Int32.Parse(split[0]);
                     }
                     else if (split[0].Length == 2)
                     {
-                        year = int.Parse("20" + split[0]);
+                        year = Int32.Parse("20" + split[0]);
                     }
                     if (split[1] == "latest")
                     {
-                        day = int.Parse(Directory.GetDirectories($"{RootFolder}Year{year}").Last());
+                        day = Int32.Parse(Directory.GetDirectories($"{RootFolder}Year{year}").Last());
                     }
                     else if (split[1] == "today")
                     {
@@ -70,27 +72,27 @@ internal class Program
                     }
                     else
                     {
-                        day = int.Parse(split[1]);
+                        day = Int32.Parse(split[1]);
                     }
-                    part = int.Parse(split[2]);
+                    part = Int32.Parse(split[2]);
                 }
                 else if (arg.Contains('/'))
                 {
                     if (split[0] == "latest")
                     {
-                        year = int.Parse(Directory.GetDirectories(RootFolder).Last());
+                        year = Int32.Parse(Directory.GetDirectories(RootFolder).Last());
                     }
                     else if (split[0].Length == 4)
                     {
-                        year = int.Parse(split[0]);
+                        year = Int32.Parse(split[0]);
                     }
                     else if (split[0].Length == 2)
                     {
-                        year = int.Parse("20" + split[0]);
+                        year = Int32.Parse("20" + split[0]);
                     }
                     if (split[1] == "latest")
                     {
-                        day = int.Parse(Directory.GetDirectories($"{RootFolder}Year{year}").Last());
+                        day = Int32.Parse(Directory.GetDirectories($"{RootFolder}Year{year}").Last());
                     }
                     else if (split[1] == "today")
                     {
@@ -98,7 +100,7 @@ internal class Program
                     }
                     else
                     {
-                        day = int.Parse(split[1]);
+                        day = Int32.Parse(split[1]);
                     }
                 }
                 else if (arg.Contains('-'))
@@ -106,7 +108,7 @@ internal class Program
                     year = DateTime.Now.Year;
                     if (split[1] == "latest")
                     {
-                        day = int.Parse(Directory.GetDirectories($"{RootFolder}Year{year}").Last());
+                        day = Int32.Parse(Directory.GetDirectories($"{RootFolder}Year{year}").Last());
                     }
                     else if (split[1] == "today")
                     {
@@ -114,25 +116,25 @@ internal class Program
                     }
                     else
                     {
-                        day = int.Parse(split[0]);
+                        day = Int32.Parse(split[0]);
                     }
-                    part = int.Parse(split[1]);
+                    part = Int32.Parse(split[1]);
                 }
                 else
                 {
                     if (split[0] == "latest")
                     {
                         year = DateTime.Now.Year;
-                        day = int.Parse(split[0]);
+                        day = Int32.Parse(split[0]);
                     }
                     if (split[0].Length == 4)
                     {
-                        year = int.Parse(split[0]);
+                        year = Int32.Parse(split[0]);
                     } 
                     else if (split[0].Length is 1 or 2)
                     {
                         year = DateTime.Now.Year;
-                        day = int.Parse(split[0]);
+                        day = Int32.Parse(split[0]);
                     }
                 }
 
@@ -188,18 +190,18 @@ internal class Program
         else
         {
             PrintLine(ConsoleColor.Yellow, "No matches found");
+            Main(Console.ReadLine()!.Split(' '));
         }
-        Main(Console.ReadLine()!.Split(' '));
     }
 
-    public static int PrintProblem(Func<String, Object> problem, Int32 solutionNumber)
+    public static Int32 PrintProblem(Func<String, Object> problem, Int32 solutionNumber)
     {
-        int totalElapsedTime = 0;
+        Int32 totalElapsedTime = 0;
         Stopwatch stopwatch = new();
-        string[] fullName = problem.Target!.GetType().FullName!.Split('.');
-        string year = fullName[0][4..];
-        string day = fullName[1][3..];
-        Console.WriteLine($"\n{year}/{day}/{solutionNumber}:");
+        String[] fullName = problem.Target!.GetType().FullName!.Split('.');
+        String year = fullName[0][4..];
+        String day = fullName[1][3..];
+        Console.WriteLine($"\n{year}/{day}-{solutionNumber}:");
         try
         {
             String input = File.ReadAllText($@"{RootFolder}{year}\Day{day}\Input\used input.txt");
@@ -208,7 +210,7 @@ internal class Program
             stopwatch.Stop();
             Print(ConsoleColor.White, output);
             PrintLine(ConsoleColor.DarkGray, $" : {stopwatch.ElapsedMilliseconds}ms");
-            totalElapsedTime += (int)stopwatch.ElapsedMilliseconds;
+            totalElapsedTime += (Int32)stopwatch.ElapsedMilliseconds;
             stopwatch.Reset();
         }
         catch (Exception e)
@@ -221,7 +223,7 @@ internal class Program
 
     public static void PrintProblems((Func<String, Object>, Int32)[] problems,Boolean printTotal)
     {
-        int totalElapsedTime = 0;
+        Int32 totalElapsedTime = 0;
         foreach ((Func<String, Object>, Int32) problem in problems)
         {
             totalElapsedTime += PrintProblem(problem.Item1, problem.Item2);
@@ -252,24 +254,28 @@ internal class Program
 
     public static async void SetFileContent(Int32 year, String day)
     {
-        Directory.CreateDirectory($@"{year}\Day{day}\Code");
-        Directory.CreateDirectory($@"{year}\Day{day}\Input");
-        File.Create($@"{year}\Day{day}\Input\original input.txt");
-        File.Create($@"{year}\Day{day}\Input\testing input.txt");
-        File.Create($@"{year}\Day{day}\Input\used input.txt");
+        Directory.CreateDirectory($@"{RootFolder}{year}\Day{day}\Code");
+        Directory.CreateDirectory($@"{RootFolder}{year}\Day{day}\Input");
+        File.Create($@"{RootFolder}{year}\Day{day}\Input\original input.txt");
+        File.Create($@"{RootFolder}{year}\Day{day}\Input\testing input.txt");
+        File.Create($@"{RootFolder}{year}\Day{day}\Input\used input.txt");
 
-        await File.WriteAllTextAsync($@"{year}\Day{day}\Code\Day{day}.cs",
+        await File.WriteAllTextAsync($@"{RootFolder}{year}\Day{day}\Code\Day{day}.cs",
 $@"namespace Year{year}
 {{
     public class Day{day} : IDay
     {{
         public Object Sol1(String input)
         {{
+
+
             return """";
         }}
 
         public Object Sol2(String input)
-        {{            
+        {{      
+
+
             return """";
         }}
     }}
@@ -300,7 +306,7 @@ $@"namespace Year{year}
         }
         Int32 currentYear = DateTime.Now.Year;
 
-        if (Directory.Exists($@"{currentYear}\Day{currentDay}") && !(args.Length >= 3 && args[2] == "--f"))
+        if (Directory.Exists($@"{RootFolder}{currentYear}\Day{currentDay}") && !(args.Length >= 3 && args[2] == "--f"))
         {
             Console.WriteLine($"There is already an existing folder for day {currentDay}. Overwrite it? (Y/N)");
             if (Console.ReadKey().Key == ConsoleKey.Y)
