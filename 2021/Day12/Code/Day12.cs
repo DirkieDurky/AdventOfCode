@@ -120,12 +120,6 @@ namespace Year2021
 
             List<(List<String>, Dictionary<String, Int32>)> GetPaths(List<String> currentPath, Dictionary<String, Int32> visitedCount, String? locationToVisitTwice)
             {
-                //All the time when locationToVisitTwice == "d" currentPath.Last() is also "d"
-                //WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
-                if (locationToVisitTwice == "d")
-                {
-
-                }
                 if (currentPath.Last() == "end") return new List<(List<String>, Dictionary<String, Int32>)> {(currentPath, visitedCount)};
                 List<(List<String>, Dictionary<String, Int32>, String?)> possiblePaths = new();
                 foreach (String[] connection in connections)
@@ -145,7 +139,6 @@ namespace Year2021
                             if (Char.IsLower(connection[j][0]) && locationToVisitTwice == null)
                             {
                                 possiblePaths.Add((currentPath, tmpVisitedCount, connection[j]));
-                                possiblePaths.Add((currentPath, tmpVisitedCount, null));
                             }
                             else
                             {

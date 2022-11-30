@@ -4,8 +4,9 @@ using System.Timers;
 
 internal class Program
 {
-    private const String RootFolder = "C:\\Users\\DirkFreijters\\OneDrive - FYN Benelux BV\\.dev\\AoC\\";
-    //private const String RootFolder = "C:\\Users\\Dirk\\OneDrive - FYN Benelux BV\\.dev\\AoC\\";
+    // private const String RootFolder = "C:\\Users\\DirkFreijters\\OneDrive - FYN Benelux BV\\.dev\\AoC\\";
+    // private const String RootFolder = "C:\\Users\\Dirk\\OneDrive - FYN Benelux BV\\.dev\\AoC\\";
+    private const string RootFolder = @"D:\OneDrive - Koning Willem I College\Jaar 2\Stage\.dev\AoC\";
     static void Main(String[] args)
     {
         Console.ForegroundColor = ConsoleColor.Gray;
@@ -39,7 +40,7 @@ internal class Program
             matchingFuncs.AddRange(days.SelectMany(x => new (Func<String, Object>, Int32)[] { (x.Sol1, 1), (x.Sol2, 2) }).ToArray());
         }
         //else if (args.All(arg=>Regex.IsMatch(arg,@"^\d{1,2}-\d$|^\d{2}(\d{2})?(\/\d{1,2}(-\d)?)?$|^\d$",RegexOptions.Multiline)))
-        else if (args.All(arg=>Regex.IsMatch(arg, @"^((\d{4}|\d{2}|latest)(\/(\d{1,2}|latest|today))?(-\d)?)$|^(((\d{1,2}|latest|today))(-\d)?)$", RegexOptions.Multiline)))
+        else if (args.All(arg => Regex.IsMatch(arg, @"^((\d{4}|\d{2}|latest)(\/(\d{1,2}|latest|today))?(-\d)?)$|^(((\d{1,2}|latest|today))(-\d)?)$", RegexOptions.Multiline)))
         {
             foreach (String arg in args)
             {
@@ -130,7 +131,7 @@ internal class Program
                     if (split[0].Length == 4)
                     {
                         year = Int32.Parse(split[0]);
-                    } 
+                    }
                     else if (split[0].Length is 1 or 2)
                     {
                         year = DateTime.Now.Year;
@@ -185,7 +186,7 @@ internal class Program
 
         if (matchingFuncs.Count > 0)
         {
-            PrintProblems(matchingFuncs.ToArray(),matchingFuncs.Count > 1);
+            PrintProblems(matchingFuncs.ToArray(), matchingFuncs.Count > 1);
         }
         else
         {
@@ -221,7 +222,7 @@ internal class Program
         return totalElapsedTime;
     }
 
-    public static void PrintProblems((Func<String, Object>, Int32)[] problems,Boolean printTotal)
+    public static void PrintProblems((Func<String, Object>, Int32)[] problems, Boolean printTotal)
     {
         Int32 totalElapsedTime = 0;
         foreach ((Func<String, Object>, Int32) problem in problems)
