@@ -309,7 +309,7 @@ $@"namespace Year{year}
 
         if (Directory.Exists($@"{RootFolder}{currentYear}\Day{currentDay}") && !(args.Length >= 3 && args[2] == "--f"))
         {
-            Console.WriteLine($"There is already an existing folder for day {currentDay}. Overwrite it? (Y/N)");
+            Console.WriteLine($"There is already an existing folder for day {currentDay}. Overwrite it? (y/N)");
             if (Console.ReadKey().Key == ConsoleKey.Y)
             {
                 SetFileContent(currentYear, currentDay);
