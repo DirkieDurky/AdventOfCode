@@ -22,8 +22,8 @@ namespace Year2021
             Int32 numberOfPackages = 0;
             Int32 lengthOfPackages = 0;
             //Boolean readNextPackage = true;
-            
-            Int32 currentAmountOfPackagesRead;
+
+            // Int32 currentAmountOfPackagesRead;
             Int32 currentNumberOfPackageCharsRead = 0;
 
             foreach (Char bit in binary)
@@ -66,7 +66,7 @@ namespace Year2021
                             step = Steps.SubPackets;
                             maxLastBitsLength = 5;
                             numberOfPackages = Convert.ToInt32(lastBits.ToString(), 2);
-                            currentAmountOfPackagesRead = 0;
+                            // currentAmountOfPackagesRead = 0;
                             break;
                         case Steps.SubPackets:
                             if (typeIsLiteral)
@@ -89,7 +89,7 @@ namespace Year2021
                             break;
                     }
                     lastBits.Clear();
-                } 
+                }
                 else if (lastBits.Length > maxLastBitsLength) throw new Exception("lastBits somehow exceeded the maxLastBitsLength");
 
                 currentNumberOfPackageCharsRead++;
@@ -99,7 +99,7 @@ namespace Year2021
         }
 
         public Object Sol2(String input)
-        {      
+        {
 
 
             return "";
