@@ -4,8 +4,6 @@ using System.Timers;
 
 internal class Program
 {
-    // private const String RootFolder = "C:\\Users\\DirkFreijters\\OneDrive - FYN Benelux BV\\.dev\\AoC\\";
-    // private const String RootFolder = "C:\\Users\\Dirk\\OneDrive - FYN Benelux BV\\.dev\\AoC\\";
     private const string RootFolder = @"D:\OneDrive - Koning Willem I College\Jaar 2\Stage\.dev\AoC\";
     static void Main(String[] args)
     {
@@ -39,7 +37,6 @@ internal class Program
         {
             matchingFuncs.AddRange(days.SelectMany(x => new (Func<String, Object>, Int32)[] { (x.Sol1, 1), (x.Sol2, 2) }).ToArray());
         }
-        //else if (args.All(arg=>Regex.IsMatch(arg,@"^\d{1,2}-\d$|^\d{2}(\d{2})?(\/\d{1,2}(-\d)?)?$|^\d$",RegexOptions.Multiline)))
         else if (args.All(arg => Regex.IsMatch(arg, @"^((\d{4}|\d{2}|latest)(\/(\d{1,2}|latest|today))?(-\d)?)$|^(((\d{1,2}|latest|today))(-\d)?)$", RegexOptions.Multiline)))
         {
             foreach (String arg in args)
@@ -173,6 +170,7 @@ internal class Program
                     {
                         PrintLine(ConsoleColor.Red, "Invalid part");
                         Main(Console.ReadLine()!.Split(' '));
+                        return;
                     }
                 }
             }
@@ -182,6 +180,7 @@ internal class Program
             PrintLine(ConsoleColor.Red, "Invalid input. Valid options are:");
             PrintHelp(ConsoleColor.Red);
             Main(Console.ReadLine()!.Split(' '));
+            return;
         }
 
         if (matchingFuncs.Count > 0)
@@ -192,6 +191,7 @@ internal class Program
         {
             PrintLine(ConsoleColor.Yellow, "No matches found");
             Main(Console.ReadLine()!.Split(' '));
+            return;
         }
     }
 
