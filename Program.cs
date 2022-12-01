@@ -4,7 +4,7 @@ using System.Timers;
 
 internal class Program
 {
-    private const string RootFolder = @"D:\OneDrive - Koning Willem I College\Jaar 2\Stage\.dev\AoC\";
+    private const string RootFolder = @"D:\dev\AoC\";
     static void Main(String[] args)
     {
         Console.ForegroundColor = ConsoleColor.Gray;
