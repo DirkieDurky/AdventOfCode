@@ -7,9 +7,9 @@ namespace Year2022
             String[] elves = input.Split("\n\n");
             List<Int32> totalElveCaloryCount = new List<Int32>();
 
-            foreach (String elve in elves)
+            foreach (String elf in elves)
             {
-                Int32[] caloryCount = elve.Split("\n").Select(i => Int32.Parse(i)).ToArray();
+                Int32[] caloryCount = elf.Split("\n").Select(i => Int32.Parse(i)).ToArray();
                 totalElveCaloryCount.Add(caloryCount.Sum());
             }
 
@@ -22,9 +22,9 @@ namespace Year2022
             String[] elves = input.Split("\n\n");
             List<Int32> totalElveCaloryCount = new List<Int32>();
 
-            foreach (String elve in elves)
+            foreach (String elf in elves)
             {
-                Int32[] caloryCount = elve.Split("\n").Select(i => Int32.Parse(i)).ToArray();
+                Int32[] caloryCount = elf.Split("\n").Select(i => Int32.Parse(i)).ToArray();
                 totalElveCaloryCount.Add(caloryCount.Sum());
             }
 
