@@ -1,5 +1,4 @@
-using System.Reflection;
-public class Tree
+public class Tree : IEquatable<Tree>
 {
     public Int32 X;
     public Int32 Y;
@@ -10,11 +9,9 @@ public class Tree
         Y = y;
     }
 
-    public override Boolean Equals(Object? obj)
+    public Boolean Equals(Tree? tree)
     {
-        if (obj == null) throw new Exception();
-
-        Tree tree = (Tree)obj;
+        if (tree == null) throw new Exception();
 
         return this.X == tree.X && this.Y == tree.Y;
     }
