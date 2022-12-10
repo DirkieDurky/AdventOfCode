@@ -3,9 +3,10 @@ using System.Text.RegularExpressions;
 
 internal class Program
 {
-    private const string RootFolder = @"D:\dev\AoC\";
+    private static string RootFolder;
     static void Main(String[] args)
     {
+        RootFolder = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar;
         Console.ForegroundColor = ConsoleColor.Gray;
 
         Type[] problems = AppDomain.CurrentDomain.GetAssemblies()
