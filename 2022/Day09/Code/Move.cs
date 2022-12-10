@@ -1,5 +1,3 @@
-using System.Reflection;
-using System.IO;
 class Move
 {
     public enum Direction
@@ -17,9 +15,9 @@ class Move
         Dir = direction;
     }
 
-    public static List<Move> Parse(String[] lines)
+    public static List<Direction> Parse(String[] lines)
     {
-        List<Move> moves = new();
+        List<Direction> directions = new();
 
         foreach (String line in lines)
         {
@@ -29,15 +27,15 @@ class Move
                 "U" => Direction.Up,
                 "D" => Direction.Down,
                 "L" => Direction.Left,
-                "R" => Direction.Right
+                "R" => Direction.Right,
+                _ => throw new ArgumentOutOfRangeException()
             };
-
             for (Int32 i = 0; i < int.Parse(split[1]); i++)
             {
-
+                directions.Add(dir);
             }
         }
 
-        return moves;
+        return directions;
     }
 }
