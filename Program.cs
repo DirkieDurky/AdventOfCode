@@ -3,7 +3,8 @@ using System.Text.RegularExpressions;
 
 internal class Program
 {
-    private static string RootFolder;
+    private static String RootFolder = default!;
+
     static void Main(String[] args)
     {
         RootFolder = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar;
@@ -13,7 +14,7 @@ internal class Program
             .SelectMany(s => s.GetTypes())
             .Where(p => typeof(IDay).IsAssignableFrom(p) && p.IsClass)
             .ToArray();
-        IDay[] days = problems.Select(x => (IDay)Activator.CreateInstance(x)!).ToArray();
+        IDay[] days = problems.Select(x => (IDay) Activator.CreateInstance(x)!).ToArray();
 
         List<(Func<String, Object>, Int32)> matchingFuncs = new();
         if (args.Length == 0)
@@ -22,12 +23,15 @@ internal class Program
             Main(Console.ReadLine()!.Split(' '));
             return;
         }
-        if (args[0].Equals("help", StringComparison.OrdinalIgnoreCase) || args[0].Equals("?", StringComparison.OrdinalIgnoreCase))
+
+        if (args[0].Equals("help", StringComparison.OrdinalIgnoreCase) ||
+            args[0].Equals("?", StringComparison.OrdinalIgnoreCase))
         {
             PrintHelp(ConsoleColor.Gray);
             Main(Console.ReadLine()!.Split(' '));
             return;
         }
+
         if (args[0].Equals("new", StringComparison.OrdinalIgnoreCase))
         {
             NewProject(args);
@@ -35,9 +39,12 @@ internal class Program
         }
         else if (args[0].Equals("all", StringComparison.OrdinalIgnoreCase))
         {
-            matchingFuncs.AddRange(days.SelectMany(x => new (Func<String, Object>, Int32)[] { (x.Sol1, 1), (x.Sol2, 2) }).ToArray());
+            matchingFuncs.AddRange(days.SelectMany(x => new (Func<String, Object>, Int32)[] {(x.Sol1, 1), (x.Sol2, 2)})
+                .ToArray());
         }
-        else if (args.All(arg => Regex.IsMatch(arg, @"^((\d{4}|\d{2}|latest)(\/(\d{1,2}|latest|today))?(-\d)?)$|^(((\d{1,2}|latest|today))(-\d)?)$", RegexOptions.Multiline)))
+        else if (args.All(arg => Regex.IsMatch(arg,
+                     @"^((\d{4}|\d{2}|latest)(\/(\d{1,2}|latest|today))?(-\d)?)$|^(((\d{1,2}|latest|today))(-\d)?)$",
+                     RegexOptions.Multiline)))
         {
             foreach (String arg in args)
             {
@@ -60,6 +67,7 @@ internal class Program
                     {
                         year = Int32.Parse("20" + split[0]);
                     }
+
                     if (split[1] == "latest")
                     {
                         day = Int32.Parse(Directory.GetDirectories($"{RootFolder}Year{year}").Last());
@@ -72,6 +80,7 @@ internal class Program
                     {
                         day = Int32.Parse(split[1]);
                     }
+
                     part = Int32.Parse(split[2]);
                 }
                 else if (arg.Contains('/'))
@@ -88,6 +97,7 @@ internal class Program
                     {
                         year = Int32.Parse("20" + split[0]);
                     }
+
                     if (split[1] == "latest")
                     {
                         day = Int32.Parse(Directory.GetDirectories($"{RootFolder}Year{year}").Last());
@@ -116,6 +126,7 @@ internal class Program
                     {
                         day = Int32.Parse(split[0]);
                     }
+
                     part = Int32.Parse(split[1]);
                 }
                 else
@@ -125,6 +136,7 @@ internal class Program
                         year = DateTime.Now.Year;
                         day = Int32.Parse(split[0]);
                     }
+
                     if (split[0].Length == 4)
                     {
                         year = Int32.Parse(split[0]);
@@ -147,24 +159,28 @@ internal class Program
                 if (part == 0)
                 {
                     matchingFuncs.AddRange(
-                        problems.Where(x => x.FullName!.Split('.')[0] == "Year" + year && (x.FullName.Split('.')[1] == $"Day{day:00}" || day == 0))
-                            .Select(x => (IDay)Activator.CreateInstance(x)!).ToArray()
-                            .SelectMany(x => new (Func<String, Object>, Int32)[] { (x.Sol1, 1), (x.Sol2, 2) })
+                        problems.Where(x =>
+                                x.FullName!.Split('.')[0] == "Year" + year &&
+                                (x.FullName.Split('.')[1] == $"Day{day:00}" || day == 0))
+                            .Select(x => (IDay) Activator.CreateInstance(x)!).ToArray()
+                            .SelectMany(x => new (Func<String, Object>, Int32)[] {(x.Sol1, 1), (x.Sol2, 2)})
                     );
                 }
                 else
                 {
                     IDay[] matchingDays = problems.Where(x =>
                             x.FullName!.Split('.')[0] == "Year" + year && x.FullName.Split('.')[1] == $"Day{day:00}")
-                        .Select(x => (IDay)Activator.CreateInstance(x)!).ToArray();
+                        .Select(x => (IDay) Activator.CreateInstance(x)!).ToArray();
 
                     if (part == 1)
                     {
-                        matchingFuncs.AddRange(matchingDays.SelectMany(x => new (Func<String, Object>, Int32)[] { (x.Sol1, 1) }));
+                        matchingFuncs.AddRange(matchingDays.SelectMany(x => new (Func<String, Object>, Int32)[]
+                            {(x.Sol1, 1)}));
                     }
                     else if (part == 2)
                     {
-                        matchingFuncs.AddRange(matchingDays.SelectMany(x => new (Func<String, Object>, Int32)[] { (x.Sol2, 2) }));
+                        matchingFuncs.AddRange(matchingDays.SelectMany(x => new (Func<String, Object>, Int32)[]
+                            {(x.Sol2, 2)}));
                     }
                     else
                     {
@@ -211,7 +227,7 @@ internal class Program
             stopwatch.Stop();
             Print(ConsoleColor.White, output);
             PrintLine(ConsoleColor.DarkGray, $" : {stopwatch.ElapsedMilliseconds}ms");
-            totalElapsedTime += (Int32)stopwatch.ElapsedMilliseconds;
+            totalElapsedTime += (Int32) stopwatch.ElapsedMilliseconds;
             stopwatch.Reset();
         }
         catch (Exception e)
@@ -262,7 +278,7 @@ internal class Program
         File.Create($@"{RootFolder}{year}\Day{day}\Input\used input.txt");
 
         await File.WriteAllTextAsync($@"{RootFolder}{year}\Day{day}\Code\Day{day}.cs",
-$@"namespace Year{year}
+            $@"namespace Year{year}
 {{
     public class Day{day} : IDay
     {{
@@ -305,6 +321,7 @@ $@"namespace Year{year}
             // DateTime.UtcNow, "Eastern Standard Time").Day.ToString("00");
             currentDay = DateTime.Now.Day.ToString("00");
         }
+
         Int32 currentYear = DateTime.Now.Year;
 
         if (Directory.Exists($@"{RootFolder}{currentYear}\Day{currentDay}") && !(args.Length >= 3 && args[2] == "--f"))
@@ -324,7 +341,7 @@ $@"namespace Year{year}
     public static void PrintHelp(ConsoleColor color)
     {
         PrintLine(color,
-$@"[YYYY]/[DD]-[P]
+            $@"[YYYY]/[DD]-[P]
 [YYYY]/[DD]
 [YYYY]
 [DD]-[P]
