@@ -13,8 +13,6 @@ namespace Year2022
             List<String> lines = input.Split('\n').ToList();
             Map = lines;
 
-            List<List<Node>> foundRoutes = new();
-
             Int32 startY = Map.FindIndex(x => x.Contains("S"));
             Int32 startX = Map[startY].IndexOf("S", StringComparison.Ordinal);
             Node start = new(startX, startY);
@@ -25,7 +23,6 @@ namespace Year2022
 
             Int32 endY = Map.FindIndex(x => x.Contains("E"));
             Int32 endX = Map[endY].IndexOf("E", StringComparison.Ordinal);
-            Node end = new(endX, endY);
 
             sb = new(Map[endY]);
             sb[endX] = 'z';
@@ -36,7 +33,7 @@ namespace Year2022
 
             activeNodes.Add(start);
 
-            List<Node>? bestRoute = null;
+            // List<Node>? bestRoute = null;
             Int32 bestRouteLength = Int32.MaxValue;
 
             while (activeNodes.Any())
@@ -57,15 +54,13 @@ namespace Year2022
                     route.Reverse();
                     route.RemoveAt(0);
 
-                    if (route.Count < bestRouteLength)
-                    {
-                        bestRoute = route;
-                        bestRouteLength = route.Count;
-                    }
+                    return route.Count;
 
-                    visitedNodes.Add(checkNode);
-                    activeNodes.Remove(checkNode);
-                    continue;
+                    // if (route.Count < bestRouteLength)
+                    // {
+                    //     // bestRoute = route;
+                    //     bestRouteLength = route.Count;
+                    // }
                 }
 
                 visitedNodes.Add(checkNode);
@@ -75,16 +70,7 @@ namespace Year2022
 
                 foreach (Node walkableNode in walkableNodes)
                 {
-                    Node currentNode = walkableNode;
-                    List<Node> route = new();
-                    while (currentNode.Parent != null)
-                    {
-                        route.Add(currentNode.Parent);
-                        currentNode = currentNode.Parent;
-                    }
-
-                    route.Reverse();
-                    if (route.Any(node => node.X == walkableNode.X && node.Y == walkableNode.Y)) continue;
+                    if (visitedNodes.Any(node => node.X == walkableNode.X && node.Y == walkableNode.Y)) continue;
 
                     if (activeNodes.Any(x => x.X == walkableNode.X && x.Y == walkableNode.Y))
                     {
@@ -159,7 +145,130 @@ namespace Year2022
 
         public Object Sol2(String input)
         {
-            return "";
+            List<String> lines = input.Split('\n').ToList();
+            Map = lines;
+
+            Int32 startY = Map.FindIndex(x => x.Contains("E"));
+            Int32 startX = Map[startY].IndexOf("E", StringComparison.Ordinal);
+            Node2 start = new(startX, startY);
+
+            StringBuilder sb = new(Map[startY]);
+            sb[startX] = 'z';
+            Map[startY] = sb.ToString().Trim();
+
+            List<Node2> activeNodes = new();
+            List<Node2> visitedNodes = new();
+
+            activeNodes.Add(start);
+
+            // List<Node>? bestRoute = null;
+            Int32 bestRouteLength = Int32.MaxValue;
+
+            while (activeNodes.Any())
+            {
+                Node2 checkNode = activeNodes.MinBy(x => x.CostDistance)!;
+
+                if (Map[checkNode.Y][checkNode.X] == 'a')
+                {
+                    Node2 currentNode = checkNode;
+                    List<Node2> route = new();
+                    route.Add(currentNode);
+                    while (currentNode.Parent != null)
+                    {
+                        route.Add(currentNode.Parent);
+                        currentNode = currentNode.Parent;
+                    }
+
+                    route.Reverse();
+                    route.RemoveAt(0);
+
+                    return route.Count;
+
+                    // if (route.Count < bestRouteLength)
+                    // {
+                    //     // bestRoute = route;
+                    //     bestRouteLength = route.Count;
+                    // }
+                }
+
+                visitedNodes.Add(checkNode);
+                activeNodes.Remove(checkNode);
+
+                List<Node2> walkableNodes = GetWalkableNodes2(checkNode);
+
+                foreach (Node2 walkableNode in walkableNodes)
+                {
+                    if (visitedNodes.Any(node => node.X == walkableNode.X && node.Y == walkableNode.Y)) continue;
+
+                    if (activeNodes.Any(x => x.X == walkableNode.X && x.Y == walkableNode.Y))
+                    {
+                        Node2 existingNode = activeNodes.First(x => x.X == walkableNode.X && x.Y == walkableNode.Y);
+                        if (existingNode.CostDistance > checkNode.CostDistance)
+                        {
+                            activeNodes.Remove(existingNode);
+                            activeNodes.Add(walkableNode);
+                        }
+                    }
+                    else
+                    {
+                        activeNodes.Add(walkableNode);
+                    }
+                }
+            }
+
+            // Console.WriteLine("Shortest route:");
+            // for (Int32 i = 0; i < shortestRoute.Count; i++)
+            // {
+            //     Point point = shortestRoute[i];
+            //     Point previousPoint = i == 0 ? new Point(0, 0) : shortestRoute[i - 1];
+            //     Direction direction = Direction.GetDirection(point.X - previousPoint.X, point.Y - previousPoint.Y);
+            //     Console.WriteLine($"{point} ({direction.Text})");
+            // }
+
+            // foreach (List<Node> route in foundRoutes)
+            // {
+            //     Console.WriteLine("Found route:");
+            //     for (Int32 i = 0; i < route.Count; i++)
+            //     {
+            //         Point point = new(route[i].X, route[i].Y);
+            //         Point previousPoint =
+            //             i == 0 ? new Point(0, 0) : new(route[i - 1].X, route[i - 1].Y);
+            //         Direction direction =
+            //             Direction.GetDirection(point.X - previousPoint.X, point.Y - previousPoint.Y);
+            //         Console.WriteLine($"{point} ({direction.Text})");
+            //     }
+            //
+            //     Console.WriteLine();
+            // }
+
+            return bestRouteLength;
+        }
+        
+        private static List<Node2> GetWalkableNodes2(Node2 currentNode)
+        {
+            List<Node2> walkableNodes = new();
+
+            const String heightLookup = "abcdefghijklmnopqrstuvwxyz";
+            Char c = Map[currentNode.Y][currentNode.X];
+            Int32 currentNodeHeight = heightLookup.IndexOf(c);
+
+            foreach (Direction direction in Direction.Directions)
+            {
+                Point adjacentPoint = new(currentNode.X + direction.DeltaX, currentNode.Y + direction.DeltaY);
+                if (adjacentPoint.X >= Map[0].Length || adjacentPoint.X < 0 ||
+                    adjacentPoint.Y >= Map.Count || adjacentPoint.Y < 0) continue;
+
+                c = Map[adjacentPoint.Y][adjacentPoint.X];
+
+                Int32 adjacentNodeHeight = heightLookup.IndexOf(c);
+
+                if (adjacentNodeHeight + 1 < currentNodeHeight) continue;
+
+                walkableNodes.Add(new Node2(adjacentPoint.X, adjacentPoint.Y,
+                    currentNode.Cost + 1, currentNode));
+            }
+
+            return walkableNodes;
         }
     }
 }
