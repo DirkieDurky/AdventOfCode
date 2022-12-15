@@ -7,9 +7,9 @@ internal class Program
 
     static void Main(String[] args)
     {
-        // RootFolder = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar;
+        RootFolder = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar;
         // RootFolder = @"D:\dev\AoC\";
-        RootFolder = @"C:\DirkData\personal\dev\adventofcode\";
+        // RootFolder = @"C:\DirkData\personal\dev\adventofcode\";
         Console.ForegroundColor = ConsoleColor.Gray;
 
         Type[] problems = AppDomain.CurrentDomain.GetAssemblies()
