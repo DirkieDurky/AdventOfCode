@@ -110,6 +110,6 @@ public class Day10 : IDay
 
         const Int32 screenWidth = 40;
 
-        return Regex.Replace(pixelsString, ".{40}", "$0\n");
+        return Regex.Replace(pixelsString, ".{" + screenWidth + "}", "$0\n");
     }
 }
