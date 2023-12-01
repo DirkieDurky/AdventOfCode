@@ -1,6 +1,6 @@
-namespace Year2023
+namespace Year[YEAR]
 {
-    public class Day01 : IDay
+    public class Day[DAY] : IDay
     {
         public Object Sol1(String input)
         {
