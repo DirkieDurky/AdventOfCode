@@ -6,14 +6,14 @@ namespace Year[YEAR]
         {
 
 
-        return "result";
+            return "result";
         }
 
         public Object Sol2(String input)
         {
 
 
-        return "result";
+            return "result";
         }
     }
 }
