@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Year2023
 {
@@ -30,35 +31,72 @@ namespace Year2023
             return sum;
         }
 
+        public class Card
+        {
+            public int Number;
+            public int[] WinningNumbers;
+            public int[] MyNumbers;
+            public int? CardGenerateAmount;
+
+            public Card(int number, int[] winningNumbers, int[] myNumbers)
+            {
+                Number = number;
+                WinningNumbers = winningNumbers;
+                MyNumbers = myNumbers;
+            }
+        }
+
         public Object Sol2(String input)
         {
             String[] lines = input.Split("\n");
-            String[] cards = lines.Select(x => x.Split(": ")[1].Replace("  ", " ").Trim()).ToArray();
+            List<Card> cards = new();
 
-            List<int> cardsTodo = Enumerable.Range(1, cards.Length).ToList();
-            for (int i = 0; i < cardsTodo.Count; i++)
+            foreach (String line in lines)
             {
-                // Console.WriteLine(cardsTodo[i]);
-                String card = cards[cardsTodo[i] - 1];
-                // Console.WriteLine(card);
-                String[] split = card.Split(" | ");
-                int[] winningNumbers = split[0].Split(" ").Select(int.Parse).ToArray();
-                int[] myNumbers = split[1].Split(" ").Select(int.Parse).ToArray();
+                String[] split = line.Split(": ");
 
-                int myWinningNumberCount = 0;
-                foreach (int number in myNumbers)
-                {
-                    if (winningNumbers.Contains(number)) myWinningNumberCount++;
-                }
-
-                for (int j = 0; j < myWinningNumberCount; j++)
-                {
-                    cardsTodo.Add(cardsTodo[i] + j + 1);
-                    // Console.WriteLine(cardsTodo[i] + j + 1 + " added");
-                }
+                int number = int.Parse(split[0].Replace("   ", " ").Replace("  ", " ").Split(" ")[1]);
+                String[] values = split[1].Split(" | ");
+                int[] winningNumbers = values[0].Replace("  ", " ").Trim().Split(" ").Select(int.Parse).ToArray();
+                int[] myNumbers = values[1].Replace("  ", " ").Trim().Split(" ").Select(int.Parse).ToArray();
+                cards.Add(new Card(number, winningNumbers, myNumbers));
             }
 
-            return cardsTodo.Count;
+            for (int i = cards.Count - 1; i >= 0; i--)
+            {
+                cards[i].CardGenerateAmount = GetWinnedCardIndexes(i);
+            }
+
+            int GetWinnedCardIndexes(int cardIndex)
+            {
+                if (cards[cardIndex].CardGenerateAmount is not null)
+                {
+                    return (int)cards[cardIndex].CardGenerateAmount!;
+                }
+
+                int myWinningNumberCount = 0;
+                foreach (int number in cards[cardIndex].MyNumbers)
+                {
+                    if (cards[cardIndex].WinningNumbers.Contains(number)) myWinningNumberCount++;
+                }
+
+                int sum = 1;
+                foreach (int index in Enumerable.Range(cardIndex + 1, myWinningNumberCount))
+                {
+                    sum += GetWinnedCardIndexes(index);
+                }
+
+                return sum;
+            }
+
+            int sum = 0;
+            foreach (Card card in cards)
+            {
+                if (card.CardGenerateAmount is null) continue;
+                sum += (int)card.CardGenerateAmount;
+            }
+
+            return sum;
         }
     }
 }
