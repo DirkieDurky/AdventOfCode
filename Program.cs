@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 internal class Program
@@ -16,7 +16,7 @@ internal class Program
             .SelectMany(s => s.GetTypes())
             .Where(p => typeof(IDay).IsAssignableFrom(p) && p.IsClass)
             .ToArray();
-        IDay[] days = problems.Select(x => (IDay) Activator.CreateInstance(x)!).ToArray();
+        IDay[] days = problems.Select(x => (IDay)Activator.CreateInstance(x)!).ToArray();
 
         List<(Func<String, Object>, Int32)> matchingFuncs = new();
         if (args.Length == 0)
@@ -41,7 +41,7 @@ internal class Program
         }
         else if (args[0].Equals("all", StringComparison.OrdinalIgnoreCase))
         {
-            matchingFuncs.AddRange(days.SelectMany(x => new (Func<String, Object>, Int32)[] {(x.Sol1, 1), (x.Sol2, 2)})
+            matchingFuncs.AddRange(days.SelectMany(x => new (Func<String, Object>, Int32)[] { (x.Sol1, 1), (x.Sol2, 2) })
                 .ToArray());
         }
         else if (args.All(arg => Regex.IsMatch(arg,
@@ -164,15 +164,15 @@ internal class Program
                         problems.Where(x =>
                                 x.FullName!.Split('.')[0] == "Year" + year &&
                                 (x.FullName.Split('.')[1] == $"Day{day:00}" || day == 0))
-                            .Select(x => (IDay) Activator.CreateInstance(x)!).ToArray()
-                            .SelectMany(x => new (Func<String, Object>, Int32)[] {(x.Sol1, 1), (x.Sol2, 2)})
+                            .Select(x => (IDay)Activator.CreateInstance(x)!).ToArray()
+                            .SelectMany(x => new (Func<String, Object>, Int32)[] { (x.Sol1, 1), (x.Sol2, 2) })
                     );
                 }
                 else
                 {
                     IDay[] matchingDays = problems.Where(x =>
                             x.FullName!.Split('.')[0] == "Year" + year && x.FullName.Split('.')[1] == $"Day{day:00}")
-                        .Select(x => (IDay) Activator.CreateInstance(x)!).ToArray();
+                        .Select(x => (IDay)Activator.CreateInstance(x)!).ToArray();
 
                     if (part == 1)
                     {
