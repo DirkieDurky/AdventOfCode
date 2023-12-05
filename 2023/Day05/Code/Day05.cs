@@ -149,18 +149,6 @@ namespace Year2023
                             break;
                         }
                     }
-                    // Console.WriteLine("RangeStart: " + mapRange.RangeStart);
-                    // Console.WriteLine("RangeEnd: " + mapRange.RangeEnd);
-                    // Console.WriteLine("Offset: " + mapRange.Offset);
-                    // Console.WriteLine();
-
-                    // Console.WriteLine("{");
-                    // foreach (SeedRange seedRange in seedRanges)
-                    // {
-                    //     Console.WriteLine(seedRange.RangeStart + " - " + seedRange.RangeEnd);
-                    // }
-                    // Console.WriteLine("}");
-                    // Console.WriteLine();
                 }
             }
 
