@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 internal class Program
@@ -213,9 +213,9 @@ internal class Program
         }
     }
 
-    public static Int32 PrintProblem(Func<String, Object> problem, Int32 solutionNumber)
+    public static Double PrintProblem(Func<String, Object> problem, Int32 solutionNumber)
     {
-        Int32 totalElapsedTime = 0;
+        Double totalElapsedTime = 0;
         Stopwatch stopwatch = new();
         String[] fullName = problem.Target!.GetType().FullName!.Split('.');
         String year = fullName[0][4..];
@@ -228,8 +228,8 @@ internal class Program
             Object output = problem.Invoke(input);
             stopwatch.Stop();
             Print(ConsoleColor.White, output);
-            PrintLine(ConsoleColor.DarkGray, $" : {stopwatch.ElapsedMilliseconds}ms");
-            totalElapsedTime += (Int32) stopwatch.ElapsedMilliseconds;
+            PrintLine(ConsoleColor.DarkGray, $" : {stopwatch.Elapsed.TotalMilliseconds}ms");
+            totalElapsedTime += stopwatch.Elapsed.TotalMilliseconds;
             stopwatch.Reset();
         }
         catch (Exception e)
@@ -242,7 +242,7 @@ internal class Program
 
     public static void PrintProblems((Func<String, Object>, Int32)[] problems, Boolean printTotal)
     {
-        Int32 totalElapsedTime = 0;
+        Double totalElapsedTime = 0;
         foreach ((Func<String, Object>, Int32) problem in problems)
         {
             totalElapsedTime += PrintProblem(problem.Item1, problem.Item2);
@@ -251,7 +251,7 @@ internal class Program
         if (printTotal)
         {
             Console.Write("\nTotal time: ");
-            PrintLine(ConsoleColor.DarkGray, $"{totalElapsedTime}ms");
+            PrintLine(ConsoleColor.DarkGray, $"{Math.Round(totalElapsedTime, 4)}ms");
         }
         // Console.ReadLine();
     }
