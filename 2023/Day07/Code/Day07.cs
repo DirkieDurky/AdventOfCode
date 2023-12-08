@@ -41,11 +41,10 @@ namespace Year2023
                 {
                     String order = "AKQJT98765432";
 
-                    if (hand1 == hand2) return 0;
                     if (order.IndexOf(hand1[i]) > order.IndexOf(hand2[i])) return -1;
                     if (order.IndexOf(hand1[i]) < order.IndexOf(hand2[i])) return 1;
                 }
-                return 1;
+                return 0;
             }
         }
 
@@ -119,11 +118,10 @@ namespace Year2023
                 {
                     String order = "AKQT98765432J";
 
-                    if (hand1 == hand2) return 0;
                     if (order.IndexOf(hand1[i]) > order.IndexOf(hand2[i])) return -1;
                     if (order.IndexOf(hand1[i]) < order.IndexOf(hand2[i])) return 1;
                 }
-                return 1;
+                return 0;
             }
         }
 
