@@ -8,14 +8,14 @@ namespace Year2023
         {
             int GetPrediction(List<int> inputMap)
             {
-                List<int> resultMap = new();
-
                 if (inputMap.All(x => x == 0))
                 {
                     return 0;
                 }
                 else
                 {
+                    List<int> resultMap = new();
+
                     for (int i = 0; i < inputMap.Count - 1; i++)
                     {
                         resultMap.Add(inputMap[i + 1] - inputMap[i]);
@@ -44,14 +44,14 @@ namespace Year2023
         {
             int GetPrediction(List<int> inputMap)
             {
-                List<int> resultMap = new();
-
                 if (inputMap.All(x => x == 0))
                 {
                     return 0;
                 }
                 else
                 {
+                    List<int> resultMap = new();
+
                     for (int i = 0; i < inputMap.Count - 1; i++)
                     {
                         resultMap.Add(inputMap[i + 1] - inputMap[i]);
