@@ -1,29 +1,70 @@
+using System.Data;
 using System.Drawing;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using Year2022;
 
 namespace Year2023
 {
     public class Day10 : IDay
     {
+        public class Direction
+        {
+            public static Direction None => new Direction(0, 0, "NONE");
+
+            public static Direction Up => new Direction(0, -1, "UP");
+            public static Direction Down => new Direction(0, 1, "DOWN");
+            public static Direction Left => new Direction(-1, 0, "LEFT");
+            public static Direction Right => new Direction(1, 0, "RIGHT");
+
+            public static List<Direction> Directions = new List<Direction> { Up, Down, Left, Right };
+
+            public Int32 DeltaX { get; }
+            public Int32 DeltaY { get; }
+            public String Text { get; }
+
+            private Direction(Int32 deltaX, Int32 deltaY, String text)
+            {
+                DeltaX = deltaX;
+                DeltaY = deltaY;
+                Text = text;
+            }
+
+            public override Boolean Equals(Object? other) =>
+               other != null && GetType() == other.GetType() && Equals((Direction)other);
+
+            public Boolean Equals(Direction other) => DeltaX == other.DeltaX && DeltaY == other.DeltaY;
+
+            public override Int32 GetHashCode()
+            {
+                return DeltaX * 2 + DeltaY;
+            }
+
+            public static Direction operator -(Direction direction)
+            {
+                return new Direction(-direction.DeltaX, -direction.DeltaY, direction.Text switch
+                {
+                    "UP" => "DOWN",
+                    "DOWN" => "UP",
+                    "LEFT" => "RIGHT",
+                    "RIGHT" => "LEFT",
+                    _ => direction.Text,
+                });
+            }
+        }
+
         class Node
         {
             public int X;
             public int Y;
-            public bool UpConnection;
-            public bool RightConnection;
-            public bool DownConnection;
-            public bool LeftConnection;
+            public List<Direction> ConnectionDirections = new();
             public int? Distance;
 
-            public Node(int x, int y, bool upConnection, bool rightConnection, bool downConnection, bool leftConnection)
+            public Node(int x, int y, List<Direction> connectionDirections)
             {
                 X = x;
                 Y = y;
-                UpConnection = upConnection;
-                RightConnection = rightConnection;
-                DownConnection = downConnection;
-                LeftConnection = leftConnection;
+                ConnectionDirections = connectionDirections;
             }
         }
 
@@ -40,48 +81,44 @@ namespace Year2023
             {
                 for (int x = 0; x < lines[y].Length; x++)
                 {
-                    bool upConnection = false;
-                    bool rightConnection = false;
-                    bool downConnection = false;
-                    bool leftConnection = false;
-
+                    List<Direction> connectionDirections = new();
                     switch (lines[y][x])
                     {
                         case '.':
                             break;
                         case 'F':
-                            rightConnection = true;
-                            downConnection = true;
+                            connectionDirections.Add(Direction.Right);
+                            connectionDirections.Add(Direction.Down);
                             break;
                         case '7':
-                            leftConnection = true;
-                            downConnection = true;
+                            connectionDirections.Add(Direction.Left);
+                            connectionDirections.Add(Direction.Down);
                             break;
                         case 'J':
-                            upConnection = true;
-                            leftConnection = true;
+                            connectionDirections.Add(Direction.Up);
+                            connectionDirections.Add(Direction.Left);
                             break;
                         case 'L':
-                            upConnection = true;
-                            rightConnection = true;
+                            connectionDirections.Add(Direction.Up);
+                            connectionDirections.Add(Direction.Right);
                             break;
                         case '|':
-                            upConnection = true;
-                            downConnection = true;
+                            connectionDirections.Add(Direction.Up);
+                            connectionDirections.Add(Direction.Down);
                             break;
                         case '-':
-                            leftConnection = true;
-                            rightConnection = true;
+                            connectionDirections.Add(Direction.Left);
+                            connectionDirections.Add(Direction.Right);
                             break;
                         case 'S':
-                            upConnection = true;
-                            rightConnection = true;
-                            downConnection = true;
-                            leftConnection = true;
+                            connectionDirections.Add(Direction.Up);
+                            connectionDirections.Add(Direction.Right);
+                            connectionDirections.Add(Direction.Down);
+                            connectionDirections.Add(Direction.Left);
                             break;
                     }
 
-                    Node newNode = new Node(x, y, upConnection, rightConnection, downConnection, leftConnection);
+                    Node newNode = new Node(x, y, connectionDirections);
                     nodes[y, x] = newNode;
                     if (lines[y][x] == 'S') startNode = newNode;
                 }
@@ -96,73 +133,36 @@ namespace Year2023
             {
                 Node currentNode = todoNodes.Dequeue();
 
-                if (currentNode.UpConnection && currentNode.Y > 0)
+                foreach (Direction direction in Direction.Directions)
                 {
-                    Node connectedNode = nodes[currentNode.Y - 1, currentNode.X];
-                    if (connectedNode.Distance is null && connectedNode.DownConnection)
+                    if (currentNode.ConnectionDirections.Contains(direction) && currentNode.Y + direction.DeltaY >= 0 && currentNode.Y + direction.DeltaY < gridHeight && currentNode.X + direction.DeltaX >= 0 && currentNode.X + direction.DeltaX < gridWidth)
                     {
-                        connectedNode.Distance = currentNode.Distance + 1;
-                        todoNodes.Enqueue(connectedNode);
+                        Node connectedNode = nodes[currentNode.Y + direction.DeltaY, currentNode.X + direction.DeltaX];
+                        if (connectedNode.Distance is null && connectedNode.ConnectionDirections.Contains(-direction))
+                        {
+                            connectedNode.Distance = currentNode.Distance + 1;
+                            todoNodes.Enqueue(connectedNode);
+                        }
                     }
                 }
-                if (currentNode.RightConnection && currentNode.X < gridWidth)
-                {
-                    Node connectedNode = nodes[currentNode.Y, currentNode.X + 1];
-                    if (connectedNode.Distance is null && connectedNode.LeftConnection)
-                    {
-                        connectedNode.Distance = currentNode.Distance + 1;
-                        todoNodes.Enqueue(connectedNode);
-                    }
-                }
-                if (currentNode.DownConnection && currentNode.Y < gridHeight)
-                {
-                    Node connectedNode = nodes[currentNode.Y + 1, currentNode.X];
-                    if (connectedNode.Distance is null && connectedNode.UpConnection)
-                    {
-                        connectedNode.Distance = currentNode.Distance + 1;
-                        todoNodes.Enqueue(connectedNode);
-                    }
-                }
-                if (currentNode.LeftConnection && currentNode.X > 0)
-                {
-                    Node connectedNode = nodes[currentNode.Y, currentNode.X - 1];
-                    if (connectedNode.Distance is null && connectedNode.RightConnection)
-                    {
-                        connectedNode.Distance = currentNode.Distance + 1;
-                        todoNodes.Enqueue(connectedNode);
-                    }
-                }
-
-                // foreach (Node node in todoNodes)
-                // {
-                //     Console.Write(lines[node.Y][node.X] + " ");
-                // }
-                // Console.WriteLine();
             }
 
-            foreach (String line in lines)
-            {
-                Console.WriteLine(line);
-            }
-
-            Console.WriteLine();
-
-            for (int y = 0; y < gridHeight; y++)
-            {
-                StringBuilder line = new StringBuilder();
-                for (int x = 0; x < gridWidth; x++)
-                {
-                    if (nodes[y, x].Distance is null)
-                    {
-                        line.Append(lines[y][x]);
-                    }
-                    else
-                    {
-                        line.Append(nodes[y, x].Distance % 10);
-                    }
-                }
-                Console.WriteLine(line.ToString());
-            }
+            // for (int y = 0; y < gridHeight; y++)
+            // {
+            //     StringBuilder line = new StringBuilder();
+            //     for (int x = 0; x < gridWidth; x++)
+            //     {
+            //         if (nodes[y, x].Distance is null)
+            //         {
+            //             line.Append(lines[y][x]);
+            //         }
+            //         else
+            //         {
+            //             line.Append(nodes[y, x].Distance % 10);
+            //         }
+            //     }
+            //     Console.WriteLine(line.ToString());
+            // }
 
             int highestDistance = 0;
 
