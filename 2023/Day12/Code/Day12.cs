@@ -48,43 +48,31 @@ namespace Year2023
                 lines.Add(new Line(split[0], split[1].Split(',').Select(int.Parse).ToArray()));
             }
 
-            int sum = 0;
+            int count = 0;
 
             for (int i = 0; i < lines.Count; i++)
             {
-                Queue<String> todoArrangements = new(new[] { lines[i].Springs });
-                HashSet<String> arrangements = new();
-
-                while (todoArrangements.Count > 0)
+                int GetPossibilities(String springs, int[] rule)
                 {
-                    String currentLine = todoArrangements.Dequeue();
+                    int count = 0;
 
-                    int firstUnknownIndex = currentLine.IndexOf('?');
+                    int firstUnknownIndex = springs.IndexOf('?');
                     if (firstUnknownIndex == -1)
                     {
-                        arrangements.Add(currentLine);
-                        continue;
+                        if (IsPossible(springs, rule)) count++;
+                        return count;
                     }
 
-                    StringBuilder newLine = new(currentLine);
+                    StringBuilder newLine = new(springs);
                     newLine[firstUnknownIndex] = '.';
-                    todoArrangements.Enqueue(newLine.ToString());
-                    newLine = new(currentLine);
+                    count += GetPossibilities(newLine.ToString(), rule);
+                    newLine = new(springs);
                     newLine[firstUnknownIndex] = '#';
-                    todoArrangements.Enqueue(newLine.ToString());
+                    count += GetPossibilities(newLine.ToString(), rule);
+
+                    return count;
                 }
-
-                // Console.WriteLine(stringLines[i] + ":");
-                // Console.WriteLine("Variations");
-                // foreach (String variation in arrangements)
-                // {
-                //     Console.WriteLine(variation);
-                // }
-                // Console.WriteLine();
-
-                IEnumerable<String> possibilities = arrangements.Where(variation => IsPossible(variation, lines[i].Rule));
-
-                sum += possibilities.Count();
+                count += GetPossibilities(lines[i].Springs, lines[i].Rule);
 
                 // Console.WriteLine("Possibilities");
                 // foreach (String possibility in possibilities)
@@ -94,7 +82,7 @@ namespace Year2023
                 // Console.WriteLine();
             }
 
-            return sum;
+            return count;
         }
 
         public Object Sol2(String input)
