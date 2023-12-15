@@ -2,17 +2,17 @@ namespace Year2022
 {
     public class Day04 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            Int32 total = 0;
-            String[] lines = input.Split('\n');
+            int total = 0;
+            string[] lines = input.Split('\n');
 
-            foreach (String line in lines)
+            foreach (string line in lines)
             {
-                String[] ranges = line.Split(',');
+                string[] ranges = line.Split(',');
 
-                Int32[] range1 = ranges[0].Split('-').Select(Int32.Parse).ToArray();
-                Int32[] range2 = ranges[1].Split('-').Select(Int32.Parse).ToArray();
+                int[] range1 = ranges[0].Split('-').Select(int.Parse).ToArray();
+                int[] range2 = ranges[1].Split('-').Select(int.Parse).ToArray();
 
                 if (range1[0] >= range2[0] && range1[1] <= range2[1])
                 {
@@ -25,17 +25,17 @@ namespace Year2022
             return total;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            Int32 total = 0;
-            String[] lines = input.Split('\n');
+            int total = 0;
+            string[] lines = input.Split('\n');
 
-            foreach (String line in lines)
+            foreach (string line in lines)
             {
-                String[] ranges = line.Split(',');
+                string[] ranges = line.Split(',');
 
-                Int32[] range1 = ranges[0].Split('-').Select(Int32.Parse).ToArray();
-                Int32[] range2 = ranges[1].Split('-').Select(Int32.Parse).ToArray();
+                int[] range1 = ranges[0].Split('-').Select(int.Parse).ToArray();
+                int[] range2 = ranges[1].Split('-').Select(int.Parse).ToArray();
 
                 if ((range1[0] >= range2[0] && range1[0] <= range2[1]) ||
                     (range1[1] >= range2[0] && range1[1] <= range2[1]) ||

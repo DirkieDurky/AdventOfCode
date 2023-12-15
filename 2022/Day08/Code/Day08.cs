@@ -2,20 +2,20 @@ namespace Year2022
 {
     public class Day08 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            Int32[][] grid = input.Split('\n').Select(x => x.ToCharArray().Select(y => y - '0').ToArray()).ToArray();
-            Int32 maxTreeHeight = -1;
-            Int32 currentTreeHeight;
+            int[][] grid = input.Split('\n').Select(x => x.ToCharArray().Select(y => y - '0').ToArray()).ToArray();
+            int maxTreeHeight = -1;
+            int currentTreeHeight;
 
             HashSet<Tree> visibleTreeList = new();
 
             //Top
-            for (Int32 i = 1; i < grid.Length - 1; i++)
+            for (int i = 1; i < grid.Length - 1; i++)
             {
-                String line = "";
+                string line = "";
                 maxTreeHeight = -1;
-                for (Int32 j = 0; j < grid[i].Length; j++)
+                for (int j = 0; j < grid[i].Length; j++)
                 {
                     currentTreeHeight = grid[j][i];
                     if (currentTreeHeight > maxTreeHeight)
@@ -30,11 +30,11 @@ namespace Year2022
             // Console.WriteLine();
 
             //Bottom
-            for (Int32 i = 1; i < grid.Length - 1; i++)
+            for (int i = 1; i < grid.Length - 1; i++)
             {
-                String line = "";
+                string line = "";
                 maxTreeHeight = -1;
-                for (Int32 j = grid[i].Length - 1; j > 0; j--)
+                for (int j = grid[i].Length - 1; j > 0; j--)
                 {
                     currentTreeHeight = grid[j][i];
                     if (currentTreeHeight > maxTreeHeight)
@@ -49,11 +49,11 @@ namespace Year2022
             // Console.WriteLine();
 
             //Left
-            for (Int32 i = 1; i < grid.Length - 1; i++)
+            for (int i = 1; i < grid.Length - 1; i++)
             {
-                String line = "";
+                string line = "";
                 maxTreeHeight = -1;
-                for (Int32 j = 0; j < grid[i].Length; j++)
+                for (int j = 0; j < grid[i].Length; j++)
                 {
                     currentTreeHeight = grid[i][j];
                     if (currentTreeHeight > maxTreeHeight)
@@ -68,11 +68,11 @@ namespace Year2022
             // Console.WriteLine();
 
             //Right
-            for (Int32 i = 1; i < grid.Length - 1; i++)
+            for (int i = 1; i < grid.Length - 1; i++)
             {
-                String line = "";
+                string line = "";
                 maxTreeHeight = -1;
-                for (Int32 j = grid[i].Length - 1; j > 0; j--)
+                for (int j = grid[i].Length - 1; j > 0; j--)
                 {
                     currentTreeHeight = grid[i][j];
                     if (currentTreeHeight > maxTreeHeight)
@@ -94,29 +94,29 @@ namespace Year2022
             return visibleTreeList.Count + 4;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            Int32[][] grid = input.Split('\n').Select(x => x.ToCharArray().Select(y => y - '0').ToArray()).ToArray();
+            int[][] grid = input.Split('\n').Select(x => x.ToCharArray().Select(y => y - '0').ToArray()).ToArray();
 
-            List<Int32> scores = new();
+            List<int> scores = new();
 
             //For each tree
-            for (Int32 i = 0; i < grid.Length; i++)
+            for (int i = 0; i < grid.Length; i++)
             {
-                for (Int32 j = 0; j < grid[i].Length; j++)
+                for (int j = 0; j < grid[i].Length; j++)
                 {
-                    Int32 currentTreeHeight = grid[j][i];
+                    int currentTreeHeight = grid[j][i];
                     // Console.WriteLine($"Current tree: {j}{i} ({currentTreeHeight})");
-                    Int32 totalScore = 1;
+                    int totalScore = 1;
 
-                    Int32 score;
-                    Int32 current;
-                    Int32 minTreeHeight;
+                    int score;
+                    int current;
+                    int minTreeHeight;
 
                     //Top
                     score = 0;
                     minTreeHeight = currentTreeHeight;
-                    for (Int32 k = 1; j - k >= 0; k++)
+                    for (int k = 1; j - k >= 0; k++)
                     {
                         current = grid[j - k][i];
                         if (current < currentTreeHeight)
@@ -135,7 +135,7 @@ namespace Year2022
                     //Bottom
                     score = 0;
                     minTreeHeight = currentTreeHeight;
-                    for (Int32 k = 1; j + k < grid.Length; k++)
+                    for (int k = 1; j + k < grid.Length; k++)
                     {
                         current = grid[j + k][i];
                         if (current < currentTreeHeight)
@@ -154,7 +154,7 @@ namespace Year2022
                     //Left
                     score = 0;
                     minTreeHeight = currentTreeHeight;
-                    for (Int32 k = 1; i - k >= 0; k++)
+                    for (int k = 1; i - k >= 0; k++)
                     {
                         current = grid[j][i - k];
                         if (current < currentTreeHeight)
@@ -173,7 +173,7 @@ namespace Year2022
                     //Right
                     score = 0;
                     minTreeHeight = currentTreeHeight;
-                    for (Int32 k = 1; i + k < grid[i].Length; k++)
+                    for (int k = 1; i + k < grid[i].Length; k++)
                     {
                         current = grid[j][i + k];
                         if (current < currentTreeHeight)

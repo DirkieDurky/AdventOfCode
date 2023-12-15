@@ -2,15 +2,15 @@ namespace Year2021
 {
     public class Day13 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
             //String[] split = input.Split("\r\n\r\n");
             //String[] paperLines = split[0].Split('\n').ToArray();
             //Int32[][] paper = paperLines.Select(x => x.Split(',').Select(int.Parse).ToArray()).ToArray();
-            Int32[][] paper = input.Split("\r\n\r\n")[0].Split('\n').Select(x => x.Split(',').Select(int.Parse).ToArray()).ToArray();
-            String[] folds = input.Split("\r\n\r\n")[1].Split('\n').Select(x => x.Replace("fold along ", "")).ToArray();
+            int[][] paper = input.Split("\r\n\r\n")[0].Split('\n').Select(x => x.Split(',').Select(int.Parse).ToArray()).ToArray();
+            string[] folds = input.Split("\r\n\r\n")[1].Split('\n').Select(x => x.Replace("fold along ", "")).ToArray();
 
-            Char axis = folds[0].Split('=')[0][0];
+            char axis = folds[0].Split('=')[0][0];
             if (axis == 'x')
             {
                 paper = Fold(paper, 0, int.Parse(folds[0].Split('=')[1]));
@@ -25,14 +25,14 @@ namespace Year2021
             return paper.Length;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            Int32[][] paper = input.Split("\r\n\r\n")[0].Split('\n').Select(x => x.Split(',').Select(int.Parse).ToArray()).ToArray();
-            String[] folds = input.Split("\r\n\r\n")[1].Split('\n').Select(x => x.Replace("fold along ", "")).ToArray();
+            int[][] paper = input.Split("\r\n\r\n")[0].Split('\n').Select(x => x.Split(',').Select(int.Parse).ToArray()).ToArray();
+            string[] folds = input.Split("\r\n\r\n")[1].Split('\n').Select(x => x.Replace("fold along ", "")).ToArray();
             //Console.WriteLine(paper.Length);
-            foreach (String fold in folds)
+            foreach (string fold in folds)
             {
-                Char axis = fold.Split('=')[0][0];
+                char axis = fold.Split('=')[0][0];
                 if (axis == 'x')
                 {
                     paper = Fold(paper, 0, int.Parse(fold.Split('=')[1]));
@@ -48,7 +48,7 @@ namespace Year2021
 
             }
             paper = Unique(paper);
-            Char[,] visualPaper = new Char[paper.MaxBy(x => x[0])![0]+1, paper.MaxBy(x => x[1])![1]+1];
+            char[,] visualPaper = new char[paper.MaxBy(x => x[0])![0] + 1, paper.MaxBy(x => x[1])![1] + 1];
 
             for (int x = 0; x < visualPaper.GetLength(0); x++)
             {
@@ -58,15 +58,15 @@ namespace Year2021
                 }
             }
 
-            foreach (Int32[] coord in paper)
+            foreach (int[] coord in paper)
             {
                 visualPaper[coord[0], coord[1]] = '#';
             }
 
-            String output = "";
+            string output = "";
             for (int y = 0; y < visualPaper.GetLength(1); y++)
             {
-                String line = "";
+                string line = "";
                 for (int x = 0; x < visualPaper.GetLength(0); x++)
                 {
                     line += visualPaper[x, y];
@@ -79,9 +79,9 @@ namespace Year2021
             return output;
         }
 
-        public static Int32[][] Fold(Int32[][] paper, Int32 axis, Int32 coord)
+        public static int[][] Fold(int[][] paper, int axis, int coord)
         {
-            for (Int32 i = 0; i < paper.Length; i++)
+            for (int i = 0; i < paper.Length; i++)
             {
                 if (paper[i][axis] > coord)
                 {
@@ -92,10 +92,10 @@ namespace Year2021
             return paper;
         }
 
-        Int32[][] Unique(Int32[][] list)
+        int[][] Unique(int[][] list)
         {
-            List<Int32[]> output = new();
-            foreach (Int32[] item in list)
+            List<int[]> output = new();
+            foreach (int[] item in list)
             {
                 if (!output.Any(a => a.SequenceEqual(item)))
                 {

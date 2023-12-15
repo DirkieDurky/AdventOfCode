@@ -5,14 +5,14 @@ namespace Year2021
 {
     public class Day12 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[][] connections = input.Split("\n").Select(x => x.Split('-').ToArray()).ToArray();
+            string[][] connections = input.Split("\n").Select(x => x.Split('-').ToArray()).ToArray();
 
-            Dictionary<String, Int32> initialVisitedCount = new();
-            foreach (String[] connection in connections)
+            Dictionary<string, int> initialVisitedCount = new();
+            foreach (string[] connection in connections)
             {
-                foreach (String location in connection)
+                foreach (string location in connection)
                 {
                     //Console.WriteLine(location);
                     if (location == "start")
@@ -26,13 +26,13 @@ namespace Year2021
                 }
             }
 
-            List<(List<String>, Dictionary<String, Int32>)> paths = GetPaths(new List<String> { "start" }, initialVisitedCount);
-            List<(List<String>, Dictionary<String, Int32>)> filtered = paths.Where(x => x.Item1.Last() == "end").ToList();
+            List<(List<string>, Dictionary<string, int>)> paths = GetPaths(new List<string> { "start" }, initialVisitedCount);
+            List<(List<string>, Dictionary<string, int>)> filtered = paths.Where(x => x.Item1.Last() == "end").ToList();
 
-            foreach ((List<String>? path, Dictionary<String, Int32> visitedCount) in filtered)
+            foreach ((List<string>? path, Dictionary<string, int> visitedCount) in filtered)
             {
-                String output = "";
-                for (Int32 i = 0; i < path.Count; i++)
+                string output = "";
+                for (int i = 0; i < path.Count; i++)
                 {
                     output += path[i];
                     if (i != path.Count - 1) output += " -> ";
@@ -43,35 +43,35 @@ namespace Year2021
 
             return filtered.Count;
 
-            List<(List<String>, Dictionary<String, Int32>)> GetPaths(List<String> currentPath, Dictionary<String, Int32> visitedCount)
+            List<(List<string>, Dictionary<string, int>)> GetPaths(List<string> currentPath, Dictionary<string, int> visitedCount)
             {
-                if (currentPath.Last() == "end") return new List<(List<String>, Dictionary<String, Int32>)> { (currentPath,visitedCount) };
-                List<(List<String>, Dictionary<String, Int32>)> possiblePaths = new();
-                foreach (String[] connection in connections)
+                if (currentPath.Last() == "end") return new List<(List<string>, Dictionary<string, int>)> { (currentPath, visitedCount) };
+                List<(List<string>, Dictionary<string, int>)> possiblePaths = new();
+                foreach (string[] connection in connections)
                 {
-                    if (connection[0] == currentPath.Last() && (Char.IsUpper(connection[1][0]) || visitedCount[connection[1]] < 1))
+                    if (connection[0] == currentPath.Last() && (char.IsUpper(connection[1][0]) || visitedCount[connection[1]] < 1))
                     {
-                        List<String> tmpPath = new();
+                        List<string> tmpPath = new();
                         tmpPath.AddRange(currentPath);
                         tmpPath.Add(connection[1]);
-                        Dictionary<String, Int32> tmpVisitedCount = new(visitedCount);
+                        Dictionary<string, int> tmpVisitedCount = new(visitedCount);
                         tmpVisitedCount[connection[1]]++;
                         possiblePaths.Add((tmpPath, tmpVisitedCount));
                     }
-                    else if (connection[1] == currentPath.Last() && (Char.IsUpper(connection[0][0]) || visitedCount[connection[0]] < 1))
+                    else if (connection[1] == currentPath.Last() && (char.IsUpper(connection[0][0]) || visitedCount[connection[0]] < 1))
                     {
-                        List<String> tmpPath = new();
+                        List<string> tmpPath = new();
                         tmpPath.AddRange(currentPath);
                         tmpPath.Add(connection[0]);
-                        Dictionary<String, Int32> tmpVisitedCount = new(visitedCount);
+                        Dictionary<string, int> tmpVisitedCount = new(visitedCount);
                         tmpVisitedCount[connection[0]]++;
                         possiblePaths.Add((tmpPath, tmpVisitedCount));
                     }
                 }
 
-                List<(List<String>, Dictionary<String, Int32>)> outputPossiblePaths = new();
+                List<(List<string>, Dictionary<string, int>)> outputPossiblePaths = new();
                 //outputPossiblePaths.AddRange(possiblePaths);
-                foreach ((List<String> path, Dictionary<String, Int32> visitedCount) item in possiblePaths)
+                foreach ((List<string> path, Dictionary<string, int> visitedCount) item in possiblePaths)
                 {
                     outputPossiblePaths.AddRange(GetPaths(item.path, item.visitedCount));
                 }
@@ -79,14 +79,14 @@ namespace Year2021
             }
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            String[][] connections = input.Split("\n").Select(x => x.Split('-').ToArray()).ToArray();
+            string[][] connections = input.Split("\n").Select(x => x.Split('-').ToArray()).ToArray();
 
-            Dictionary<String, Int32> initialVisitedCount = new();
-            foreach (String[] connection in connections)
+            Dictionary<string, int> initialVisitedCount = new();
+            foreach (string[] connection in connections)
             {
-                foreach (String location in connection)
+                foreach (string location in connection)
                 {
                     //Console.WriteLine(location);
                     if (location == "start")
@@ -100,13 +100,13 @@ namespace Year2021
                 }
             }
 
-            List<(List<String>, Dictionary<String, Int32>)> paths = GetPaths(new List<String> { "start" }, initialVisitedCount,null);
-            List<(List<String>, Dictionary<String, Int32>)> filtered = paths.Where(x => x.Item1.Last() == "end").ToList();
+            List<(List<string>, Dictionary<string, int>)> paths = GetPaths(new List<string> { "start" }, initialVisitedCount, null);
+            List<(List<string>, Dictionary<string, int>)> filtered = paths.Where(x => x.Item1.Last() == "end").ToList();
 
-            foreach ((List<String>? path, Dictionary<String, Int32> visitedCount) in filtered)
+            foreach ((List<string>? path, Dictionary<string, int> visitedCount) in filtered)
             {
-                String output = "";
-                for (Int32 i = 0; i < path.Count; i++)
+                string output = "";
+                for (int i = 0; i < path.Count; i++)
                 {
                     output += path[i];
                     if (i != path.Count - 1) output += " -> ";
@@ -116,27 +116,27 @@ namespace Year2021
             }
 
             return filtered.Count;
-            
 
-            List<(List<String>, Dictionary<String, Int32>)> GetPaths(List<String> currentPath, Dictionary<String, Int32> visitedCount, String? locationToVisitTwice)
+
+            List<(List<string>, Dictionary<string, int>)> GetPaths(List<string> currentPath, Dictionary<string, int> visitedCount, string? locationToVisitTwice)
             {
-                if (currentPath.Last() == "end") return new List<(List<String>, Dictionary<String, Int32>)> {(currentPath, visitedCount)};
-                List<(List<String>, Dictionary<String, Int32>, String?)> possiblePaths = new();
-                foreach (String[] connection in connections)
+                if (currentPath.Last() == "end") return new List<(List<string>, Dictionary<string, int>)> { (currentPath, visitedCount) };
+                List<(List<string>, Dictionary<string, int>, string?)> possiblePaths = new();
+                foreach (string[] connection in connections)
                 {
-                    for (Int32 i = 0; i < 2; i++)
+                    for (int i = 0; i < 2; i++)
                     {
-                        Int32 j = i == 0 ? 1 : 0;
+                        int j = i == 0 ? 1 : 0;
                         if (connection[i] == currentPath.Last() &&
-                            (Char.IsUpper(connection[j][0]) || visitedCount[connection[j]] < 1 ||
+                            (char.IsUpper(connection[j][0]) || visitedCount[connection[j]] < 1 ||
                              (connection[j] == locationToVisitTwice && visitedCount[connection[j]] < 2)))
                         {
-                            List<String> tmpPath = new();
+                            List<string> tmpPath = new();
                             tmpPath.AddRange(currentPath);
                             tmpPath.Add(connection[j]);
-                            Dictionary<String, Int32> tmpVisitedCount = new(visitedCount);
+                            Dictionary<string, int> tmpVisitedCount = new(visitedCount);
                             tmpVisitedCount[connection[j]]++;
-                            if (Char.IsLower(connection[j][0]) && locationToVisitTwice == null)
+                            if (char.IsLower(connection[j][0]) && locationToVisitTwice == null)
                             {
                                 possiblePaths.Add((currentPath, tmpVisitedCount, connection[j]));
                             }
@@ -148,9 +148,9 @@ namespace Year2021
                     }
                 }
 
-                List<(List<String>, Dictionary<String, Int32>)> outputPossiblePaths = new();
+                List<(List<string>, Dictionary<string, int>)> outputPossiblePaths = new();
                 //outputPossiblePaths.AddRange(possiblePaths);
-                foreach ((List<String> path, Dictionary<String, Int32> visitedCount, String? locationToVisitTwice) item
+                foreach ((List<string> path, Dictionary<string, int> visitedCount, string? locationToVisitTwice) item
                          in possiblePaths)
                 {
                     outputPossiblePaths.AddRange(GetPaths(item.path, item.visitedCount, item.locationToVisitTwice));

@@ -2,6 +2,6 @@
 
 public interface ICommand
 {
-    public Int32 LeftExecutionTime { get; set; }
+    public int LeftExecutionTime { get; set; }
     void Execute();
 }

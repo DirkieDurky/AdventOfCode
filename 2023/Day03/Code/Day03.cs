@@ -28,9 +28,9 @@ namespace Year2023
             }
         }
 
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] lines = input.Split("\n");
+            string[] lines = input.Split("\n");
             int height = lines.Length;
             int width = lines[0].Length;
 
@@ -38,7 +38,7 @@ namespace Year2023
 
             for (int y = 0; y < lines.Length; y++)
             {
-                String line = lines[y];
+                string line = lines[y];
 
                 Regex regex = new Regex("[^\\d\\.]");
                 foreach (Match match in regex.Matches(line))
@@ -68,7 +68,7 @@ namespace Year2023
                     Point newPoint = new Point(gearPoint.X + offset.X, gearPoint.Y + offset.Y);
                     if (newPoint.X >= width || newPoint.Y >= height) continue;
 
-                    if (Char.IsNumber(lines[newPoint.Y][newPoint.X])) foundDigits.Add(newPoint);
+                    if (char.IsNumber(lines[newPoint.Y][newPoint.X])) foundDigits.Add(newPoint);
                 }
             }
 
@@ -85,14 +85,14 @@ namespace Year2023
                 int startPointX = foundDigit.X;
                 int length = 1;
 
-                while (startPointX > 0 && Char.IsNumber(lines[foundDigit.Y][startPointX - 1]))
+                while (startPointX > 0 && char.IsNumber(lines[foundDigit.Y][startPointX - 1]))
                 {
                     startPointX--;
                     length++;
                 }
 
                 int currentX = foundDigit.X;
-                while (currentX + 1 < width && Char.IsNumber(lines[foundDigit.Y][currentX + 1]))
+                while (currentX + 1 < width && char.IsNumber(lines[foundDigit.Y][currentX + 1]))
                 {
                     currentX++;
                     length++;
@@ -117,7 +117,7 @@ namespace Year2023
                 int number = 0;
                 for (int i = 0; i < numberPoint.Length; i++)
                 {
-                    number += (int)Char.GetNumericValue(lines[numberPoint.StartPoint.Y][numberPoint.StartPoint.X + i]) * (int)Math.Pow(10, (numberPoint.Length - i - 1));
+                    number += (int)char.GetNumericValue(lines[numberPoint.StartPoint.Y][numberPoint.StartPoint.X + i]) * (int)Math.Pow(10, (numberPoint.Length - i - 1));
                 }
 
                 // Console.WriteLine(number);
@@ -127,9 +127,9 @@ namespace Year2023
             return sum;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            String[] lines = input.Split("\n");
+            string[] lines = input.Split("\n");
             int height = lines.Length;
             int width = lines[0].Length;
 
@@ -137,7 +137,7 @@ namespace Year2023
 
             for (int y = 0; y < lines.Length; y++)
             {
-                String line = lines[y];
+                string line = lines[y];
 
                 Regex regex = new Regex("\\*");
                 foreach (Match match in regex.Matches(line))
@@ -168,7 +168,7 @@ namespace Year2023
                     Point newPoint = new Point(gearPoint.X + offset.X, gearPoint.Y + offset.Y);
                     if (newPoint.X >= width || newPoint.Y >= height) continue;
 
-                    if (Char.IsNumber(lines[newPoint.Y][newPoint.X])) foundDigits.Add(newPoint);
+                    if (char.IsNumber(lines[newPoint.Y][newPoint.X])) foundDigits.Add(newPoint);
                 }
 
                 if (foundDigits.Count >= 2)
@@ -180,14 +180,14 @@ namespace Year2023
                         int startPointX = foundDigit.X;
                         int length = 1;
 
-                        while (startPointX > 0 && Char.IsNumber(lines[foundDigit.Y][startPointX - 1]))
+                        while (startPointX > 0 && char.IsNumber(lines[foundDigit.Y][startPointX - 1]))
                         {
                             startPointX--;
                             length++;
                         }
 
                         int currentX = foundDigit.X;
-                        while (currentX + 1 < width && Char.IsNumber(lines[foundDigit.Y][currentX + 1]))
+                        while (currentX + 1 < width && char.IsNumber(lines[foundDigit.Y][currentX + 1]))
                         {
                             currentX++;
                             length++;
@@ -205,7 +205,7 @@ namespace Year2023
                             int number = 0;
                             for (int i = 0; i < numberPoint.Length; i++)
                             {
-                                number += (int)Char.GetNumericValue(lines[numberPoint.StartPoint.Y][numberPoint.StartPoint.X + i]) * (int)Math.Pow(10, (numberPoint.Length - i - 1));
+                                number += (int)char.GetNumericValue(lines[numberPoint.StartPoint.Y][numberPoint.StartPoint.X + i]) * (int)Math.Pow(10, (numberPoint.Length - i - 1));
                             }
 
                             numbers.Add(number);

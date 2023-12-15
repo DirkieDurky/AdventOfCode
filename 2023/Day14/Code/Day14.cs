@@ -6,9 +6,9 @@ namespace Year2023
 {
     public class Day14 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] map = input.Split('\n');
+            string[] map = input.Split('\n');
             int sum = 0;
 
             for (int x = 0; x < map[0].Length; x++)
@@ -52,9 +52,9 @@ namespace Year2023
             return sum;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            String[] lines = input.Split('\n');
+            string[] lines = input.Split('\n');
             int mapWidth = lines[0].Length;
             int mapHeight = lines.Length;
             CharMap map = new CharMap(lines[0].Length, lines.Length);

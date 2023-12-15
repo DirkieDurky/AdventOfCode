@@ -5,9 +5,9 @@ namespace Year2023
 {
     public class Day06 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] lines = input.Split("\n");
+            string[] lines = input.Split("\n");
             int[] times = Regex.Replace(lines[0].Split(": ")[1].Trim(), @" +", " ").Split(" ").Select(int.Parse).ToArray();
             int[] distances = Regex.Replace(lines[1].Split(": ")[1].Trim(), @" +", " ").Split(" ").Select(int.Parse).ToArray();
 
@@ -45,9 +45,9 @@ namespace Year2023
             return results.Aggregate(1, (a, b) => a * b);
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            String[] lines = input.Split("\n");
+            string[] lines = input.Split("\n");
             long time = long.Parse(Regex.Replace(lines[0].Split(": ")[1].Trim(), @" +", ""));
             long distance = long.Parse(Regex.Replace(lines[1].Split(": ")[1].Trim(), @" +", ""));
 

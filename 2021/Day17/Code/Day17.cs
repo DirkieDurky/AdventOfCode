@@ -4,26 +4,26 @@ namespace Year2021
 {
     public class Day17 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
             Match match = Regex.Match(input, "target area: x=(-?\\d+)..(-?\\d+), y=(-?\\d+)..(-?\\d+)");
-            Int32 lowestX = Int32.Parse(match.Groups[1].Value);
-            Int32 highestX = Int32.Parse(match.Groups[2].Value);
-            Int32 lowestY = Int32.Parse(match.Groups[3].Value);
-            Int32 highestY = Int32.Parse(match.Groups[4].Value);
+            int lowestX = int.Parse(match.Groups[1].Value);
+            int highestX = int.Parse(match.Groups[2].Value);
+            int lowestY = int.Parse(match.Groups[3].Value);
+            int highestY = int.Parse(match.Groups[4].Value);
 
-            Int32 xVelocity = 0;
-            Int32 yVelocity = 0;
+            int xVelocity = 0;
+            int yVelocity = 0;
 
-            List<Int32> resutls = new();
+            List<int> resutls = new();
 
-            Int32 highestResult = 0;
+            int highestResult = 0;
             while (true)
             {
-                Int32? result = SimulateLaunch(xVelocity, yVelocity, lowestY, highestY);
+                int? result = SimulateLaunch(xVelocity, yVelocity, lowestY, highestY);
                 if (result != null)
                 {
-                    highestResult = Math.Max(highestResult, (Int32)result);
+                    highestResult = Math.Max(highestResult, (int)result);
                 }
                 else
                 {
@@ -37,20 +37,20 @@ namespace Year2021
             return highestResult;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
 
 
             return "";
         }
 
-        public Int32? SimulateLaunch(Int32 xVelocity, Int32 yVelocity, Int32 lowestY, Int32 highestY)
+        public int? SimulateLaunch(int xVelocity, int yVelocity, int lowestY, int highestY)
         {
-            Int32 currentX = 0;
-            Int32 currentY = 0;
+            int currentX = 0;
+            int currentY = 0;
             //De we start higher or lower than the end point?
-            Boolean yStartedHigher = highestY < 0;
-            Int32 highestYPos = 0;
+            bool yStartedHigher = highestY < 0;
+            int highestYPos = 0;
             while (currentY < lowestY || currentY > highestY)
             {
                 if (!CanStillHitEndpoint(currentY, yStartedHigher, lowestY, highestY)) return null;
@@ -67,7 +67,7 @@ namespace Year2021
             return highestYPos;
         }
 
-        public Boolean CanStillHitEndpoint(Int32 currentY, Boolean yStartedHigher, Int32 lowestY, Int32 highestY)
+        public bool CanStillHitEndpoint(int currentY, bool yStartedHigher, int lowestY, int highestY)
         {
             if (yStartedHigher)
             {

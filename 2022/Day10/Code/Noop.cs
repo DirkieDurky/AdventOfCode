@@ -2,9 +2,9 @@
 
 public class Noop : ICommand
 {
-    public Int32 LeftExecutionTime { get; set; }
+    public int LeftExecutionTime { get; set; }
 
-    public Noop(Int32 leftExecutionTime)
+    public Noop(int leftExecutionTime)
     {
         LeftExecutionTime = leftExecutionTime;
     }

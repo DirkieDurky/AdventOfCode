@@ -11,23 +11,23 @@ public class Direction
 
     public static List<Direction> Directions = new List<Direction> { Up, Down, Left, Right };
 
-    public Int32 DeltaX { get; }
-    public Int32 DeltaY { get; }
-    public String Text { get; }
+    public int DeltaX { get; }
+    public int DeltaY { get; }
+    public string Text { get; }
 
-    private Direction(Int32 deltaX, Int32 deltaY, String text)
+    private Direction(int deltaX, int deltaY, string text)
     {
         DeltaX = deltaX;
         DeltaY = deltaY;
         Text = text;
     }
 
-    public override Boolean Equals(Object? other) =>
+    public override bool Equals(object? other) =>
        other != null && GetType() == other.GetType() && Equals((Direction)other);
 
-    public Boolean Equals(Direction other) => DeltaX == other.DeltaX && DeltaY == other.DeltaY;
+    public bool Equals(Direction other) => DeltaX == other.DeltaX && DeltaY == other.DeltaY;
 
-    public override Int32 GetHashCode()
+    public override int GetHashCode()
     {
         return DeltaX * 2 + DeltaY;
     }

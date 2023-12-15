@@ -5,18 +5,18 @@ namespace Year2022;
 
 public class Day10 : IDay
 {
-    public static Int32 X = 1;
+    public static int X = 1;
 
-    public Object Sol1(String input)
+    public object Sol1(string input)
     {
         X = 1;
-        String[] lines = input.Split('\n');
+        string[] lines = input.Split('\n');
 
         ICommand? currentCommand = null;
-        List<(Int32, Int32)> xValues = new();
+        List<(int, int)> xValues = new();
 
-        Int32 tickIndex = 1;
-        Int32 commandIndex = 0;
+        int tickIndex = 1;
+        int commandIndex = 0;
         while (commandIndex < lines.Length || (currentCommand != null && currentCommand.LeftExecutionTime > 0))
         {
             if ((tickIndex + 20) % 40 == 0)
@@ -26,14 +26,14 @@ public class Day10 : IDay
 
             if (currentCommand == null)
             {
-                String line = lines[commandIndex];
+                string line = lines[commandIndex];
                 if (line.StartsWith("noop"))
                 {
                     currentCommand = new Noop(1);
                 }
                 else if (line.StartsWith("addx "))
                 {
-                    Int32 addAmount = Int32.Parse(line.Replace("addx ", ""));
+                    int addAmount = int.Parse(line.Replace("addx ", ""));
                     currentCommand = new AddX(addAmount, 2);
                 }
 
@@ -53,9 +53,9 @@ public class Day10 : IDay
             tickIndex++;
         }
 
-        Int32 signalStrengthSum = 0;
+        int signalStrengthSum = 0;
 
-        foreach ((Int32 i, Int32 x) in xValues)
+        foreach ((int i, int x) in xValues)
         {
             signalStrengthSum += i * x;
         }
@@ -63,30 +63,30 @@ public class Day10 : IDay
         return signalStrengthSum;
     }
 
-    public Object Sol2(String input)
+    public object Sol2(string input)
     {
         X = 1;
-        String[] lines = input.Split('\n');
+        string[] lines = input.Split('\n');
 
         StringBuilder pixels = new();
         ICommand? currentCommand = null;
 
-        Int32 tickIndex = 1;
-        Int32 commandIndex = 0;
+        int tickIndex = 1;
+        int commandIndex = 0;
         while (commandIndex < lines.Length || (currentCommand != null && currentCommand.LeftExecutionTime > 0))
         {
             pixels.Append(Math.Abs(X - (tickIndex % 40 - 1)) < 2 ? '#' : '.');
 
             if (currentCommand == null)
             {
-                String line = lines[commandIndex];
+                string line = lines[commandIndex];
                 if (line.StartsWith("noop"))
                 {
                     currentCommand = new Noop(1);
                 }
                 else if (line.StartsWith("addx "))
                 {
-                    Int32 addAmount = Int32.Parse(line.Replace("addx ", ""));
+                    int addAmount = int.Parse(line.Replace("addx ", ""));
                     currentCommand = new AddX(addAmount, 2);
                 }
 
@@ -106,9 +106,9 @@ public class Day10 : IDay
             tickIndex++;
         }
 
-        String pixelsString = pixels.ToString();
+        string pixelsString = pixels.ToString();
 
-        const Int32 screenWidth = 40;
+        const int screenWidth = 40;
 
         return Regex.Replace(pixelsString, ".{" + screenWidth + "}", "$0\n");
     }

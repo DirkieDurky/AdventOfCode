@@ -6,22 +6,22 @@ namespace Year2023
     {
         internal class Line
         {
-            public String Springs;
+            public string Springs;
             public int[] Rule;
 
-            public Line(String springs, int[] rule)
+            public Line(string springs, int[] rule)
             {
                 Springs = springs;
                 Rule = rule;
             }
         }
 
-        internal static List<int> GetForm(String springs)
+        internal static List<int> GetForm(string springs)
         {
             List<int> form = new();
             int currentCount = 0;
 
-            foreach (Char c in springs)
+            foreach (char c in springs)
             {
                 if (c == '#') { currentCount++; }
                 else if (currentCount > 0) { form.Add(currentCount); currentCount = 0; }
@@ -31,20 +31,20 @@ namespace Year2023
             return form;
         }
 
-        internal static bool IsPossible(String possibility, int[] rule)
+        internal static bool IsPossible(string possibility, int[] rule)
         {
             List<int> form = GetForm(possibility);
             return Enumerable.SequenceEqual(form, rule);
         }
 
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] stringLines = input.Split('\n');
+            string[] stringLines = input.Split('\n');
             List<Line> lines = new();
 
-            foreach (String stringLine in stringLines)
+            foreach (string stringLine in stringLines)
             {
-                String[] split = stringLine.Split(' ');
+                string[] split = stringLine.Split(' ');
                 lines.Add(new Line(split[0], split[1].Split(',').Select(int.Parse).ToArray()));
             }
 
@@ -52,7 +52,7 @@ namespace Year2023
 
             for (int i = 0; i < lines.Count; i++)
             {
-                int GetPossibilities(String springs, int[] rule)
+                int GetPossibilities(string springs, int[] rule)
                 {
                     int count = 0;
 
@@ -85,7 +85,7 @@ namespace Year2023
             return count;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
 
 

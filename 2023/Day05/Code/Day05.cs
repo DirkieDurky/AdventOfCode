@@ -16,21 +16,21 @@ namespace Year2023
             }
         }
 
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] lines = input.Split("\n");
+            string[] lines = input.Split("\n");
             long[] seeds = lines[0].Split(": ")[1].Split().Select(long.Parse).ToArray();
 
             List<List<MapRange>> maps = new();
 
-            String[] mapStrings = input.Split("\n\n");
+            string[] mapStrings = input.Split("\n\n");
             for (int i = 1; i < mapStrings.Length; i++)
             {
-                String mapStr = mapStrings[i];
+                string mapStr = mapStrings[i];
 
                 List<MapRange> ranges = new();
 
-                String[] mapStrLines = mapStr.Split("\n");
+                string[] mapStrLines = mapStr.Split("\n");
                 for (int j = 1; j < mapStrLines.Length; j++)
                 {
                     long[] values = mapStrLines[j].Split().Select(long.Parse).ToArray();
@@ -90,9 +90,9 @@ namespace Year2023
             }
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            String[] lines = input.Split("\n");
+            string[] lines = input.Split("\n");
 
             long[] seedValues = lines[0].Split(": ")[1].Split().Select(long.Parse).ToArray();
             List<SeedRange> seedRanges = new();
@@ -102,16 +102,16 @@ namespace Year2023
                 seedRanges.Add(new SeedRange(seedValues[i], seedValues[i] + seedValues[i + 1]));
             }
 
-            String[] mapStrings = input.Split("\n\n");
+            string[] mapStrings = input.Split("\n\n");
             List<List<MapRange>> maps = new();
 
             for (int i = 1; i < mapStrings.Length; i++)
             {
-                String mapStr = mapStrings[i];
+                string mapStr = mapStrings[i];
 
                 List<MapRange> ranges = new();
 
-                String[] mapStrLines = mapStr.Split("\n");
+                string[] mapStrLines = mapStr.Split("\n");
                 for (int j = 1; j < mapStrLines.Length; j++)
                 {
                     long[] values = mapStrLines[j].Split().Select(long.Parse).ToArray();

@@ -4,7 +4,7 @@ namespace Year2023
 {
     public class Day09 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
             int GetPrediction(List<int> inputMap)
             {
@@ -25,7 +25,7 @@ namespace Year2023
                 }
             }
 
-            String[] lines = input.Split('\n');
+            string[] lines = input.Split('\n');
             List<int[]> histories = lines.Select(x => x.Split(" ").Select(int.Parse).ToArray()).ToList();
 
             int total = 0;
@@ -40,7 +40,7 @@ namespace Year2023
             return total;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
             int GetPrediction(List<int> inputMap)
             {
@@ -61,7 +61,7 @@ namespace Year2023
                 }
             }
 
-            String[] lines = input.Split('\n');
+            string[] lines = input.Split('\n');
             List<int[]> histories = lines.Select(x => x.Split(" ").Select(int.Parse).ToArray()).ToList();
 
             int total = 0;

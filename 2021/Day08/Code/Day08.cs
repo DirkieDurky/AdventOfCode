@@ -2,25 +2,25 @@
 {
     public class Day08 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] outputValues = input.Split('\n').Select(x => x.Split(" | ")[1]).ToArray();
+            string[] outputValues = input.Split('\n').Select(x => x.Split(" | ")[1]).ToArray();
             return outputValues.Sum(values => values.Trim().Split(' ').Count(value => value.Length is 2 or 3 or 4 or 7 or 8));
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            String[][] split = input.Split('\n').Select(x => x.Split(" | ")).ToArray();
-            
-            Int32 total = 0;
+            string[][] split = input.Split('\n').Select(x => x.Split(" | ")).ToArray();
 
-            foreach (String[] line in split)
+            int total = 0;
+
+            foreach (string[] line in split)
             {
-                String[] inputValues = line[0].Split(' ');
-                String?[] segDisplays = new String?[10];
-                for (Int32 i = 0; i < 10; i++)
+                string[] inputValues = line[0].Split(' ');
+                string?[] segDisplays = new string?[10];
+                for (int i = 0; i < 10; i++)
                 {
-                    foreach (String value in inputValues)
+                    foreach (string value in inputValues)
                     {
                         if (value.Length == 2) { segDisplays[1] = value; }
                         else if (value.Length == 4) { segDisplays[4] = value; }
@@ -28,12 +28,12 @@
                         else if (value.Length == 7) { segDisplays[8] = value; }
                     }
 
-                    foreach (String value in inputValues)
+                    foreach (string value in inputValues)
                     {
 
                         if (value.Length == 6)
                         {
-                            if (segDisplays[4] != null && segDisplays[4]!.All(x=>value.Contains(x)))
+                            if (segDisplays[4] != null && segDisplays[4]!.All(x => value.Contains(x)))
                             {
                                 segDisplays[9] = value;
                             }
@@ -64,14 +64,14 @@
                         }
                     }
                 }
-                String[] outputValues = line[1].Split(' ');
-                String output = "";
+                string[] outputValues = line[1].Split(' ');
+                string output = "";
 
-                foreach (String outputValue in outputValues)
+                foreach (string outputValue in outputValues)
                 {
-                    for (Int32 i = 0; i < segDisplays.Length; i++)
+                    for (int i = 0; i < segDisplays.Length; i++)
                     {
-                        String segDisplay = segDisplays[i]!;
+                        string segDisplay = segDisplays[i]!;
                         if (outputValue.Length == segDisplay.Length && segDisplay.All(x => outputValue.Contains(x)))
                         {
                             output += i;
@@ -80,7 +80,7 @@
                     }
                 }
 
-                total += Int32.Parse(output);
+                total += int.Parse(output);
             }
 
 

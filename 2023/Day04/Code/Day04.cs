@@ -5,16 +5,16 @@ namespace Year2023
 {
     public class Day04 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] lines = input.Split("\n");
+            string[] lines = input.Split("\n");
 
             int sum = 0;
 
-            foreach (String line in lines)
+            foreach (string line in lines)
             {
-                String values = line.Split(": ")[1].Replace("  ", " ").Trim();
-                String[] split = values.Split(" | ");
+                string values = line.Split(": ")[1].Replace("  ", " ").Trim();
+                string[] split = values.Split(" | ");
                 int[] winningNumbers = split[0].Split(" ").Select(int.Parse).ToArray();
                 int[] myNumbers = split[1].Split(" ").Select(int.Parse).ToArray();
 
@@ -46,17 +46,17 @@ namespace Year2023
             }
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            String[] lines = input.Split("\n");
+            string[] lines = input.Split("\n");
             List<Card> cards = new();
 
-            foreach (String line in lines)
+            foreach (string line in lines)
             {
-                String[] split = line.Split(": ");
+                string[] split = line.Split(": ");
 
                 int number = int.Parse(split[0].Replace("   ", " ").Replace("  ", " ").Split(" ")[1]);
-                String[] values = split[1].Split(" | ");
+                string[] values = split[1].Split(" | ");
                 int[] winningNumbers = values[0].Replace("  ", " ").Trim().Split(" ").Select(int.Parse).ToArray();
                 int[] myNumbers = values[1].Replace("  ", " ").Trim().Split(" ").Select(int.Parse).ToArray();
                 cards.Add(new Card(number, winningNumbers, myNumbers));

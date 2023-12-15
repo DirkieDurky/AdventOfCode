@@ -6,19 +6,19 @@ public class Monkey
 {
     public static List<Monkey> Monkeys = new();
 
-    private readonly Int32 Number;
-    private Int64? CurrentItem;
-    private readonly Queue<Int64> HoldingItems = null!;
+    private readonly int Number;
+    private long? CurrentItem;
+    private readonly Queue<long> HoldingItems = null!;
 
     private readonly Operation Operation;
-    public readonly Int32 TestDivisibleBy;
-    private readonly Int32 ThrowIfTrue;
-    private readonly Int32 ThrowIfFalse;
-    public Int64 InspectCount { get; private set; }
+    public readonly int TestDivisibleBy;
+    private readonly int ThrowIfTrue;
+    private readonly int ThrowIfFalse;
+    public long InspectCount { get; private set; }
 
-    public Monkey(Int32 number, Queue<Int64> holdingItems, Operation operation, Int32 testDivisibleBy,
-        Int32 throwIfTrue,
-        Int32 throwIfFalse)
+    public Monkey(int number, Queue<long> holdingItems, Operation operation, int testDivisibleBy,
+        int throwIfTrue,
+        int throwIfFalse)
     {
         Number = number;
         CurrentItem = holdingItems.Dequeue();
@@ -29,15 +29,15 @@ public class Monkey
         ThrowIfFalse = throwIfFalse;
     }
 
-    public Monkey(String str)
+    public Monkey(string str)
     {
-        String[] lines = str.Split('\n');
+        string[] lines = str.Split('\n');
 
-        foreach (String line in lines)
+        foreach (string line in lines)
         {
             if (line.StartsWith("Monkey "))
             {
-                Number = Int32.Parse(Regex.Match(line, @"\d+").Groups[0].Value);
+                Number = int.Parse(Regex.Match(line, @"\d+").Groups[0].Value);
             }
             else if (line.StartsWith("  Starting items: "))
             {
@@ -49,8 +49,8 @@ public class Monkey
                 //
                 // Console.WriteLine();
 
-                HoldingItems = new Queue<Int64>(Regex.Matches(line, @"\d+")
-                    .Select(x => Int64.Parse(x.ToString())));
+                HoldingItems = new Queue<long>(Regex.Matches(line, @"\d+")
+                    .Select(x => long.Parse(x.ToString())));
                 CurrentItem = HoldingItems.Dequeue();
             }
             else if (line.StartsWith("  Operation: "))
@@ -59,20 +59,20 @@ public class Monkey
             }
             else if (line.StartsWith("  Test: "))
             {
-                TestDivisibleBy = Int32.Parse(Regex.Match(line, @"\d+").Groups[0].Value);
+                TestDivisibleBy = int.Parse(Regex.Match(line, @"\d+").Groups[0].Value);
             }
             else if (line.StartsWith("    If true: "))
             {
-                ThrowIfTrue = Int32.Parse(Regex.Match(line, @"\d+").Groups[0].Value);
+                ThrowIfTrue = int.Parse(Regex.Match(line, @"\d+").Groups[0].Value);
             }
             else if (line.StartsWith("    If false: "))
             {
-                ThrowIfFalse = Int32.Parse(Regex.Match(line, @"\d+").Groups[0].Value);
+                ThrowIfFalse = int.Parse(Regex.Match(line, @"\d+").Groups[0].Value);
             }
         }
     }
 
-    private void ReceiveItem(Int32 item)
+    private void ReceiveItem(int item)
     {
         if (CurrentItem == null)
         {
@@ -83,10 +83,10 @@ public class Monkey
         HoldingItems.Enqueue(item);
     }
 
-    private void ThrowItem(Int32 monkeyNumber)
+    private void ThrowItem(int monkeyNumber)
     {
         Monkey monkey = Monkeys.First(m => m.Number == monkeyNumber);
-        Int32 currentItem = (Int32) CurrentItem!;
+        int currentItem = (int)CurrentItem!;
         monkey.ReceiveItem(currentItem);
         if (HoldingItems.Count > 0)
         {
@@ -109,27 +109,27 @@ public class Monkey
         };
     }
 
-    private void Inspect(Boolean divideBy3 = true)
+    private void Inspect(bool divideBy3 = true)
     {
         ExecuteOperation();
         if (divideBy3) CurrentItem /= 3;
         InspectCount++;
     }
 
-    public Int64[] GetHoldingItems()
+    public long[] GetHoldingItems()
     {
         if (CurrentItem == null)
         {
             return HoldingItems.ToArray();
         }
 
-        Int64[] result = new Int64[HoldingItems.Count + 1];
-        result[0] = (Int64) CurrentItem;
+        long[] result = new long[HoldingItems.Count + 1];
+        result[0] = (long)CurrentItem;
         HoldingItems.ToArray().CopyTo(result, 1);
         return result;
     }
 
-    public void ExecuteTurn(Boolean divideBy3 = true)
+    public void ExecuteTurn(bool divideBy3 = true)
     {
         while (CurrentItem != null)
         {

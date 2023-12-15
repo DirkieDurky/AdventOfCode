@@ -4,9 +4,9 @@ namespace Year2023
 {
     public class Day11 : IDay
     {
-        public long CalculateDistance(String input, int expansionAmount)
+        public long CalculateDistance(string input, int expansionAmount)
         {
-            String[] lines = input.Split('\n');
+            string[] lines = input.Split('\n');
 
             List<Point> galaxies = new();
 
@@ -66,12 +66,12 @@ namespace Year2023
 
             return sum / 2;
         }
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
             return CalculateDistance(input, 1);
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
             return CalculateDistance(input, 999999);
         }

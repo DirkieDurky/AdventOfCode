@@ -5,7 +5,7 @@ namespace Year2021
 {
     public class Day11 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
             int flashCount = 0;
 
@@ -32,7 +32,7 @@ namespace Year2021
                         for (int y = 0; y < 10; y++)
                         {
                             if (grid[x][y] > 9 && !totalFlashedOctopusses.Any(a => a.Item1.Equals(x) && a.Item2.Equals(y)))
-                                //if (grid[x][y] > 9 && !flashedOctopusses.Contains((x,y)))
+                            //if (grid[x][y] > 9 && !flashedOctopusses.Contains((x,y)))
                             {
                                 flashCount++;
                                 if (x > 0 && y > 0) grid[x - 1][y - 1]++;
@@ -60,7 +60,7 @@ namespace Year2021
             return flashCount;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
             int[][] grid = input.Split('\n').Select(x => x.ToCharArray().Select(y => y - '0').ToArray()).ToArray();
             bool found = false;

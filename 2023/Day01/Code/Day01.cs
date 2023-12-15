@@ -4,13 +4,13 @@ namespace Year2023
 {
     public class Day01 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] lines = input.Split("\n");
+            string[] lines = input.Split("\n");
             int sum = 0;
 
             Regex regex = new Regex(@"\d");
-            foreach (String line in lines)
+            foreach (string line in lines)
             {
                 if (line == "") continue;
                 MatchCollection matches = regex.Matches(line);
@@ -20,20 +20,20 @@ namespace Year2023
             return sum;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            String[] lines = input.Split("\n");
+            string[] lines = input.Split("\n");
             int sum = 0;
 
-            foreach (String line in lines)
+            foreach (string line in lines)
             {
                 if (line == "") continue;
 
-                List<String> matches = new();
+                List<string> matches = new();
 
-                List<(String, int)> foundNumbers = new();
+                List<(string, int)> foundNumbers = new();
 
-                foreach (String number in new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", })
+                foreach (string number in new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", })
                 {
                     int index = 0;
                     while (index != -1)
@@ -49,7 +49,7 @@ namespace Year2023
 
                 matches.AddRange(foundNumbers.OrderBy(x => x.Item2).Select(x => x.Item1));
 
-                Dictionary<String, int> numbers = new(){
+                Dictionary<string, int> numbers = new(){
                     {"one", 1},
                     {"two", 2},
                     {"three", 3},
@@ -61,13 +61,13 @@ namespace Year2023
                     {"nine", 9},
                 };
 
-                String[] firstAndLast = { matches[0].ToString(), matches[matches.Count - 1].ToString() };
+                string[] firstAndLast = { matches[0].ToString(), matches[matches.Count - 1].ToString() };
 
-                String result = "";
+                string result = "";
 
-                foreach (String item in firstAndLast)
+                foreach (string item in firstAndLast)
                 {
-                    if (Char.IsNumber(item[0]))
+                    if (char.IsNumber(item[0]))
                     {
                         result += item;
                     }

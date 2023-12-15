@@ -2,17 +2,17 @@ namespace Year2022
 {
     public class Day13 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
             List<(IValue, IValue)> pairs = Packet.ParsePairs(input);
 
-            Int32 indexSum = 0;
+            int indexSum = 0;
 
-            for (Int32 i = 0; i < pairs.Count; i++)
+            for (int i = 0; i < pairs.Count; i++)
             {
-                Boolean? isInRightOrder = IsInRightOrder(pairs[i]);
+                bool? isInRightOrder = IsInRightOrder(pairs[i]);
                 if (isInRightOrder == null) throw new Exception("Pairs are equal");
-                indexSum += (Boolean) isInRightOrder ? i + 1 : 0;
+                indexSum += (bool)isInRightOrder ? i + 1 : 0;
                 // Console.WriteLine(i);
                 // Console.WriteLine((Boolean) isInRightOrder);
                 // Console.WriteLine();
@@ -21,13 +21,13 @@ namespace Year2022
             return indexSum;
         }
 
-        public static Boolean? IsInRightOrder((IValue, IValue) pair)
+        public static bool? IsInRightOrder((IValue, IValue) pair)
         {
             //Handle case where both values are Integers
-            if (pair is {Item1: Integer, Item2: Integer})
+            if (pair is { Item1: Integer, Item2: Integer })
             {
-                Int32 item1Int = ((Integer) pair.Item1).GetValue();
-                Int32 item2Int = ((Integer) pair.Item2).GetValue();
+                int item1Int = ((Integer)pair.Item1).GetValue();
+                int item2Int = ((Integer)pair.Item2).GetValue();
 
                 if (item1Int == item2Int) return null;
                 return item1Int < item2Int;
@@ -35,30 +35,30 @@ namespace Year2022
 
             //Convert Integers to a List with one element
             List<IValue> item1 =
-                ((List) ((pair.Item1 is Integer) ? new List(new List<IValue>() {pair.Item1}) : pair.Item1))
+                ((List)((pair.Item1 is Integer) ? new List(new List<IValue>() { pair.Item1 }) : pair.Item1))
                 .GetValue();
             List<IValue> item2 =
-                ((List) ((pair.Item2 is Integer) ? new List(new List<IValue>() {pair.Item2}) : pair.Item2))
+                ((List)((pair.Item2 is Integer) ? new List(new List<IValue>() { pair.Item2 }) : pair.Item2))
                 .GetValue();
 
             //Handle case where both values are Lists
-            for (Int32 i = 0; i < Math.Max(item1.Count, item2.Count); i++)
+            for (int i = 0; i < Math.Max(item1.Count, item2.Count); i++)
             {
                 if (i >= item1.Count) return true;
                 if (i >= item2.Count) return false;
-                Boolean? isInRightOrder = IsInRightOrder((item1[i], item2[i]));
+                bool? isInRightOrder = IsInRightOrder((item1[i], item2[i]));
                 if (isInRightOrder != null) return isInRightOrder;
             }
 
             return null;
         }
 
-        public static String FindSubList(String str, Int32 startIndex)
+        public static string FindSubList(string str, int startIndex)
         {
-            Int32 openingCount = 0;
-            for (Int32 i = startIndex; i < str.Length; i++)
+            int openingCount = 0;
+            for (int i = startIndex; i < str.Length; i++)
             {
-                Char c = str[i];
+                char c = str[i];
                 if (c == '[') openingCount++;
                 if (c == ']') openingCount--;
                 if (openingCount == 0) return str.Substring(startIndex, i - startIndex + 1);
@@ -67,18 +67,18 @@ namespace Year2022
             throw new Exception("No list found in string");
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
             List<IValue> packets = Packet.Parse(input);
-            List additionalPacket1 = new(new List<IValue> {new List(new List<IValue> {new Integer(2)})});
-            List additionalPacket2 = new(new List<IValue> {new List(new List<IValue> {new Integer(6)})});
+            List additionalPacket1 = new(new List<IValue> { new List(new List<IValue> { new Integer(2) }) });
+            List additionalPacket2 = new(new List<IValue> { new List(new List<IValue> { new Integer(6) }) });
             packets.Add(additionalPacket1);
             packets.Add(additionalPacket2);
 
             packets.Sort();
 
-            Int32 additionalPacket1Index = packets.IndexOf(additionalPacket1);
-            Int32 additionalPacket2Index = packets.IndexOf(additionalPacket2);
+            int additionalPacket1Index = packets.IndexOf(additionalPacket1);
+            int additionalPacket2Index = packets.IndexOf(additionalPacket2);
 
             // foreach (IValue packet in packets)
             // {

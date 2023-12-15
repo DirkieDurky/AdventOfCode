@@ -3,9 +3,9 @@ namespace Year2022
 {
     public class Day09 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] lines = input.Split('\n');
+            string[] lines = input.Split('\n');
 
             HashSet<Point> tailPath = new();
             List<Move.Direction> directions = Move.Parse(lines);
@@ -32,12 +32,12 @@ namespace Year2022
                         break;
                 }
 
-                Int32 horDiff = headPoint.X - tailPoint.X;
-                Int32 verDiff = headPoint.Y - tailPoint.Y;
-                Int32 horAbsDiff = Math.Abs(headPoint.X - tailPoint.X);
-                Int32 verAbsDiff = Math.Abs(headPoint.Y - tailPoint.Y);
-                Boolean horDetached = horAbsDiff > 1;
-                Boolean verDetached = verAbsDiff > 1;
+                int horDiff = headPoint.X - tailPoint.X;
+                int verDiff = headPoint.Y - tailPoint.Y;
+                int horAbsDiff = Math.Abs(headPoint.X - tailPoint.X);
+                int verAbsDiff = Math.Abs(headPoint.Y - tailPoint.Y);
+                bool horDetached = horAbsDiff > 1;
+                bool verDetached = verAbsDiff > 1;
 
                 if (horAbsDiff > 1)
                 {
@@ -63,11 +63,11 @@ namespace Year2022
             return tailPath.Count();
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            const Int32 KnotAmount = 10;
+            const int KnotAmount = 10;
 
-            String[] lines = input.Split('\n');
+            string[] lines = input.Split('\n');
 
             HashSet<Point> tailPath = new();
             List<Move.Direction> directions = Move.Parse(lines);
@@ -95,14 +95,14 @@ namespace Year2022
 
                 // Console.WriteLine($"{knotPoints[0].X} {knotPoints[0].Y}");
 
-                for (Int32 i = 1; i < knotPoints.Length; i++)
+                for (int i = 1; i < knotPoints.Length; i++)
                 {
-                    Int32 horDiff = knotPoints[i - 1].X - knotPoints[i].X;
-                    Int32 verDiff = knotPoints[i - 1].Y - knotPoints[i].Y;
-                    Int32 horAbsDiff = Math.Abs(knotPoints[i - 1].X - knotPoints[i].X);
-                    Int32 verAbsDiff = Math.Abs(knotPoints[i - 1].Y - knotPoints[i].Y);
-                    Boolean horDetached = horAbsDiff > 1;
-                    Boolean verDetached = verAbsDiff > 1;
+                    int horDiff = knotPoints[i - 1].X - knotPoints[i].X;
+                    int verDiff = knotPoints[i - 1].Y - knotPoints[i].Y;
+                    int horAbsDiff = Math.Abs(knotPoints[i - 1].X - knotPoints[i].X);
+                    int verAbsDiff = Math.Abs(knotPoints[i - 1].Y - knotPoints[i].Y);
+                    bool horDetached = horAbsDiff > 1;
+                    bool verDetached = verAbsDiff > 1;
 
                     if (horAbsDiff > 1)
                     {

@@ -2,18 +2,18 @@
 
 public struct Operation
 {
-    public Char Operator;
-    public Int32 Value;
+    public char Operator;
+    public int Value;
 
-    public Operation(Char @operator, Int32 value)
+    public Operation(char @operator, int value)
     {
         Operator = @operator;
         Value = value;
     }
 
-    public Operation(String str)
+    public Operation(string str)
     {
-        String[] split = str.Split();
+        string[] split = str.Split();
 
         if (split[3] == "*" && split[4] == "old")
         {
@@ -23,6 +23,6 @@ public struct Operation
         }
 
         Operator = split[3][0];
-        Value = Int32.Parse(split[4]);
+        Value = int.Parse(split[4]);
     }
 }

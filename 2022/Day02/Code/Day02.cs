@@ -2,28 +2,28 @@ namespace Year2022
 {
     public class Day02 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String lookup = "ABCXYZ";
-            Dictionary<Int32, Int32> winningTable = new() {
+            string lookup = "ABCXYZ";
+            Dictionary<int, int> winningTable = new() {
                 {1,3},
                 {3,2},
                 {2,1}
             };
 
-            Int32 score = 0;
-            String[] matches = input.Split('\n');
+            int score = 0;
+            string[] matches = input.Split('\n');
 
-            foreach (String match in matches)
+            foreach (string match in matches)
             {
-                Int32 matchScore = 0;
-                Char[] split = match.Split(' ').Select(x => x[0]).ToArray();
-                Int32 opponentMove = lookup.IndexOf(split[0]) % 3 + 1;
-                Int32 myMove = lookup.IndexOf(split[1]) % 3 + 1;
+                int matchScore = 0;
+                char[] split = match.Split(' ').Select(x => x[0]).ToArray();
+                int opponentMove = lookup.IndexOf(split[0]) % 3 + 1;
+                int myMove = lookup.IndexOf(split[1]) % 3 + 1;
 
                 matchScore += myMove;
 
-                Boolean? matchResult = null;
+                bool? matchResult = null;
 
                 if (winningTable[myMove] == opponentMove) matchResult = true;
                 if (winningTable[opponentMove] == myMove) matchResult = false;
@@ -47,31 +47,31 @@ namespace Year2022
             return score;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            String lookup = "ABCXYZ";
-            Dictionary<Int32, Int32> winningTable = new() {
+            string lookup = "ABCXYZ";
+            Dictionary<int, int> winningTable = new() {
                 {1,3},
                 {3,2},
                 {2,1}
             };
-            Dictionary<Int32, Int32> losingTable = new() {
+            Dictionary<int, int> losingTable = new() {
                 {1,2},
                 {2,3},
                 {3,1}
             };
 
-            Int32 score = 0;
-            String[] matches = input.Split('\n');
+            int score = 0;
+            string[] matches = input.Split('\n');
 
-            foreach (String match in matches)
+            foreach (string match in matches)
             {
-                Int32 matchScore = 0;
-                Char[] split = match.Split(' ').Select(x => x[0]).ToArray();
-                Int32 opponentMove = lookup.IndexOf(split[0]) % 3 + 1;
-                Int32 desiredResult = lookup.IndexOf(split[1]) % 3 + 1;
+                int matchScore = 0;
+                char[] split = match.Split(' ').Select(x => x[0]).ToArray();
+                int opponentMove = lookup.IndexOf(split[0]) % 3 + 1;
+                int desiredResult = lookup.IndexOf(split[1]) % 3 + 1;
 
-                Int32 myMove = desiredResult switch
+                int myMove = desiredResult switch
                 {
                     1 => winningTable[opponentMove],
                     2 => opponentMove,
@@ -81,7 +81,7 @@ namespace Year2022
 
                 matchScore += myMove;
 
-                Boolean? matchResult = null;
+                bool? matchResult = null;
 
                 if (winningTable[myMove] == opponentMove) matchResult = true;
                 if (winningTable[opponentMove] == myMove) matchResult = false;

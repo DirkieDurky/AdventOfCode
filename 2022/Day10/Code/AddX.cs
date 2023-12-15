@@ -2,9 +2,9 @@ namespace Year2022;
 
 public class AddX : Command, ICommand
 {
-    public Int32 AddAmount;
+    public int AddAmount;
 
-    public AddX(Int32 addAmount, Int32 leftExecutionTime)
+    public AddX(int addAmount, int leftExecutionTime)
     {
         AddAmount = addAmount;
         LeftExecutionTime = leftExecutionTime;

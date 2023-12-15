@@ -2,14 +2,14 @@
 
 public class Integer : IValue
 {
-    private Int32 _value;
+    private int _value;
 
     public Integer(int value)
     {
         _value = value;
     }
 
-    public Int32 GetValue()
+    public int GetValue()
     {
         return _value;
     }

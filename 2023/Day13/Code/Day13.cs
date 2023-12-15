@@ -8,7 +8,7 @@ namespace Year2023
     public class Day13 : IDay
     {
         //(int reflectionIndex, int reflectionSize, bool orientation: (0 => horizontal, 1 => vertical))
-        internal List<(int, int, bool)> GetReflectionPoints(String[] map)
+        internal List<(int, int, bool)> GetReflectionPoints(string[] map)
         {
             List<(int, int, bool)> reflectionPoints = new();
 
@@ -19,7 +19,7 @@ namespace Year2023
                 reflectionPoints.Add((horizontalReflection.Item1, horizontalReflection.Item2, true));
             }
 
-            String[] transposedLines = new String[map[0].Length];
+            string[] transposedLines = new string[map[0].Length];
 
             for (int x = 0; x < map[0].Length; x++)
             {
@@ -43,15 +43,15 @@ namespace Year2023
             return reflectionPoints;
         }
 
-        internal List<(int, int)> GetHorizontalReflectionPoints(String[] map)
+        internal List<(int, int)> GetHorizontalReflectionPoints(string[] map)
         {
-            String? lastLine = null;
+            string? lastLine = null;
 
             List<(int, int)> reflectionPoints = new();
 
             for (int i = 0; i < map.Length; i++)
             {
-                String line = map[i];
+                string line = map[i];
                 if (lastLine is not null && line == lastLine)
                 {
                     bool isReflection = true;
@@ -77,15 +77,15 @@ namespace Year2023
 
             return reflectionPoints;
         }
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] maps = input.Split("\n\n");
+            string[] maps = input.Split("\n\n");
 
             int sum = 0;
 
-            foreach (String map in maps)
+            foreach (string map in maps)
             {
-                String[] lines = map.Split('\n');
+                string[] lines = map.Split('\n');
 
                 (int, int, bool) reflection = GetReflectionPoints(lines)!.First();
 
@@ -104,7 +104,7 @@ namespace Year2023
             return sum;
         }
 
-        internal (int, int, bool) GetReflectionPointAfterFixingSpeck(String[] lines)
+        internal (int, int, bool) GetReflectionPointAfterFixingSpeck(string[] lines)
         {
             (int, int, bool) originalReflection = GetReflectionPoints(lines)!.First();
 
@@ -115,7 +115,7 @@ namespace Year2023
             {
                 for (int x = 0; x < lines[0].Length; x++)
                 {
-                    String[] newMap = (String[])lines.Clone();
+                    string[] newMap = (string[])lines.Clone();
 
                     StringBuilder temp = new(newMap[y]);
                     temp[x] = temp[x] == '.' ? '#' : '.';
@@ -135,15 +135,15 @@ namespace Year2023
             throw new Exception("Nothing found");
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            String[] maps = input.Split("\n\n");
+            string[] maps = input.Split("\n\n");
 
             int sum = 0;
 
-            foreach (String map in maps)
+            foreach (string map in maps)
             {
-                String[] lines = map.Split('\n');
+                string[] lines = map.Split('\n');
 
                 (int, int, bool) reflection = GetReflectionPointAfterFixingSpeck(lines);
 
@@ -162,7 +162,7 @@ namespace Year2023
             return sum;
         }
 
-        internal void ShowReflectionPoint(String[] map, (int, int, bool) reflection)
+        internal void ShowReflectionPoint(string[] map, (int, int, bool) reflection)
         {
             if (reflection.Item3)
             {

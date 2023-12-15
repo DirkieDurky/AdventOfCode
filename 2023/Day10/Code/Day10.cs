@@ -19,23 +19,23 @@ namespace Year2023
 
             public static List<Direction> Directions = new List<Direction> { Up, Down, Left, Right };
 
-            public Int32 DeltaX { get; }
-            public Int32 DeltaY { get; }
-            public String Text { get; }
+            public int DeltaX { get; }
+            public int DeltaY { get; }
+            public string Text { get; }
 
-            private Direction(Int32 deltaX, Int32 deltaY, String text)
+            private Direction(int deltaX, int deltaY, string text)
             {
                 DeltaX = deltaX;
                 DeltaY = deltaY;
                 Text = text;
             }
 
-            public override Boolean Equals(Object? other) =>
+            public override bool Equals(object? other) =>
                other != null && GetType() == other.GetType() && Equals((Direction)other);
 
-            public Boolean Equals(Direction other) => DeltaX == other.DeltaX && DeltaY == other.DeltaY;
+            public bool Equals(Direction other) => DeltaX == other.DeltaX && DeltaY == other.DeltaY;
 
-            public override Int32 GetHashCode()
+            public override int GetHashCode()
             {
                 return DeltaX * 2 + DeltaY;
             }
@@ -68,9 +68,9 @@ namespace Year2023
             }
         }
 
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] lines = input.Split('\n');
+            string[] lines = input.Split('\n');
             int gridHeight = lines.Length;
             int gridWidth = lines[0].Length;
             Node[,] nodes = new Node[gridHeight, gridWidth];
@@ -193,16 +193,16 @@ namespace Year2023
             }
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            String[] lines = input.Split('\n');
+            string[] lines = input.Split('\n');
             int gridHeight = lines.Length;
             int gridWidth = lines[0].Length;
             Node2[,] nodes = new Node2[gridHeight, gridWidth];
 
             int expandedGridHeight = gridHeight * 2;
             int expandedGridWidth = gridWidth * 2;
-            String[] expandedGrid = new string[expandedGridHeight];
+            string[] expandedGrid = new string[expandedGridHeight];
 
             Node2? startNode = null;
 
@@ -452,7 +452,7 @@ namespace Year2023
 
             //Count amount of total empty cells
             int totalEmptyCells = 0;
-            foreach (String line in expandedGrid)
+            foreach (string line in expandedGrid)
             {
                 totalEmptyCells += line.Count(x => x == '.');
             }

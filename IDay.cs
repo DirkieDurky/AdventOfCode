@@ -1,5 +1,5 @@
 public interface IDay
 {
-    public Object Sol1(String input);
-    public Object Sol2(String input);
+    public object Sol1(string input);
+    public object Sol2(string input);
 }

@@ -15,32 +15,32 @@ namespace Year2023
             public int blueCount = 0;
         }
 
-        public static List<Game> Parse(String input)
+        public static List<Game> Parse(string input)
         {
-            String[] lines = input.Split("\n");
+            string[] lines = input.Split("\n");
             List<Game> games = new();
 
-            foreach (String game in lines)
+            foreach (string game in lines)
             {
                 if (game == "") continue;
 
-                String[] split = game.Split(": ");
+                string[] split = game.Split(": ");
 
                 Game newGame = new()
                 {
                     ID = int.Parse(split[0].Split(" ")[1])
                 };
 
-                String[] sets = split[1].Split("; ");
+                string[] sets = split[1].Split("; ");
 
-                foreach (String set in sets)
+                foreach (string set in sets)
                 {
-                    String[] cubeAmounts = set.Split(", ");
+                    string[] cubeAmounts = set.Split(", ");
                     Set newSet = new();
 
-                    foreach (String cubeAmount in cubeAmounts)
+                    foreach (string cubeAmount in cubeAmounts)
                     {
-                        String[] cube = cubeAmount.Split(" ");
+                        string[] cube = cubeAmount.Split(" ");
 
                         switch (cube[1])
                         {
@@ -65,7 +65,7 @@ namespace Year2023
             return games;
         }
 
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
             int sum = 0;
             List<Game> games = Parse(input);
@@ -98,7 +98,7 @@ namespace Year2023
             return sum;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
             int sum = 0;
             List<Game> games = Parse(input);

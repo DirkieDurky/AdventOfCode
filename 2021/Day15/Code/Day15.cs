@@ -2,7 +2,7 @@ namespace Year2021
 {
     public class Day15 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
             //List<(Direction, Int32)> path = new();
 
@@ -14,8 +14,8 @@ namespace Year2021
             return "";
         }
 
-        public Object Sol2(String input)
-        {      
+        public object Sol2(string input)
+        {
 
 
             return "";
@@ -31,10 +31,10 @@ namespace Year2021
 
         class Position
         {
-            private Int32 X;
-            private Int32 Y;
+            private int X;
+            private int Y;
 
-            public Position(Int32 x, Int32 y)
+            public Position(int x, int y)
             {
                 X = x;
                 Y = y;

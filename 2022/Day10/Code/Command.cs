@@ -2,7 +2,7 @@
 
 public abstract class Command
 {
-    public Int32 LeftExecutionTime { get; set; }
+    public int LeftExecutionTime { get; set; }
 
     public void NextTick()
     {

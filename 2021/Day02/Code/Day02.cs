@@ -2,14 +2,14 @@
 {
     public class Day02 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            Int32 hor = 0;
-            Int32 depth = 0;
-            foreach (String line in input.Split('\n'))
+            int hor = 0;
+            int depth = 0;
+            foreach (string line in input.Split('\n'))
             {
-                String command = line.Split(' ')[0];
-                Int32 units = Int32.Parse(line.Split(' ')[1]);
+                string command = line.Split(' ')[0];
+                int units = int.Parse(line.Split(' ')[1]);
                 switch (command)
                 {
                     case "forward": hor += units; break;
@@ -21,15 +21,15 @@
             return hor * depth;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            Int32 hor = 0;
-            Int32 depth = 0;
-            Int32 aim = 0;
-            foreach (String line in input.Split('\n'))
+            int hor = 0;
+            int depth = 0;
+            int aim = 0;
+            foreach (string line in input.Split('\n'))
             {
-                String command = line.Split(' ')[0];
-                Int32 units = Int32.Parse(line.Split(' ')[1]);
+                string command = line.Split(' ')[0];
+                int units = int.Parse(line.Split(' ')[1]);
                 switch (command)
                 {
                     case "forward": hor += units; depth += aim * units; break;

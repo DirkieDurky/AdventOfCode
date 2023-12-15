@@ -5,24 +5,24 @@ namespace Year2022
 {
     public class Day12 : IDay
     {
-        public static List<String> Map = null!;
+        public static List<string> Map = null!;
         public static Point End;
 
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            List<String> lines = input.Split('\n').ToList();
+            List<string> lines = input.Split('\n').ToList();
             Map = lines;
 
-            Int32 startY = Map.FindIndex(x => x.Contains("S"));
-            Int32 startX = Map[startY].IndexOf("S", StringComparison.Ordinal);
+            int startY = Map.FindIndex(x => x.Contains("S"));
+            int startX = Map[startY].IndexOf("S", StringComparison.Ordinal);
             Node start = new(startX, startY);
 
             StringBuilder sb = new(Map[startY]);
             sb[startX] = 'a';
             Map[startY] = sb.ToString().Trim();
 
-            Int32 endY = Map.FindIndex(x => x.Contains("E"));
-            Int32 endX = Map[endY].IndexOf("E", StringComparison.Ordinal);
+            int endY = Map.FindIndex(x => x.Contains("E"));
+            int endX = Map[endY].IndexOf("E", StringComparison.Ordinal);
 
             sb = new(Map[endY]);
             sb[endX] = 'z';
@@ -34,7 +34,7 @@ namespace Year2022
             activeNodes.Add(start);
 
             // List<Node>? bestRoute = null;
-            Int32 bestRouteLength = Int32.MaxValue;
+            int bestRouteLength = int.MaxValue;
 
             while (activeNodes.Any())
             {
@@ -120,9 +120,9 @@ namespace Year2022
         {
             List<Node> walkableNodes = new();
 
-            const String heightLookup = "abcdefghijklmnopqrstuvwxyz";
-            Char c = Map[currentNode.Y][currentNode.X];
-            Int32 currentNodeHeight = heightLookup.IndexOf(c);
+            const string heightLookup = "abcdefghijklmnopqrstuvwxyz";
+            char c = Map[currentNode.Y][currentNode.X];
+            int currentNodeHeight = heightLookup.IndexOf(c);
 
             foreach (Direction direction in Direction.Directions)
             {
@@ -132,7 +132,7 @@ namespace Year2022
 
                 c = Map[adjacentPoint.Y][adjacentPoint.X];
 
-                Int32 adjacentNodeHeight = heightLookup.IndexOf(c);
+                int adjacentNodeHeight = heightLookup.IndexOf(c);
 
                 if (adjacentNodeHeight > currentNodeHeight + 1) continue;
 
@@ -143,13 +143,13 @@ namespace Year2022
             return walkableNodes;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            List<String> lines = input.Split('\n').ToList();
+            List<string> lines = input.Split('\n').ToList();
             Map = lines;
 
-            Int32 startY = Map.FindIndex(x => x.Contains("E"));
-            Int32 startX = Map[startY].IndexOf("E", StringComparison.Ordinal);
+            int startY = Map.FindIndex(x => x.Contains("E"));
+            int startX = Map[startY].IndexOf("E", StringComparison.Ordinal);
             Node2 start = new(startX, startY);
 
             StringBuilder sb = new(Map[startY]);
@@ -162,7 +162,7 @@ namespace Year2022
             activeNodes.Add(start);
 
             // List<Node>? bestRoute = null;
-            Int32 bestRouteLength = Int32.MaxValue;
+            int bestRouteLength = int.MaxValue;
 
             while (activeNodes.Any())
             {
@@ -243,14 +243,14 @@ namespace Year2022
 
             return bestRouteLength;
         }
-        
+
         private static List<Node2> GetWalkableNodes2(Node2 currentNode)
         {
             List<Node2> walkableNodes = new();
 
-            const String heightLookup = "abcdefghijklmnopqrstuvwxyz";
-            Char c = Map[currentNode.Y][currentNode.X];
-            Int32 currentNodeHeight = heightLookup.IndexOf(c);
+            const string heightLookup = "abcdefghijklmnopqrstuvwxyz";
+            char c = Map[currentNode.Y][currentNode.X];
+            int currentNodeHeight = heightLookup.IndexOf(c);
 
             foreach (Direction direction in Direction.Directions)
             {
@@ -260,7 +260,7 @@ namespace Year2022
 
                 c = Map[adjacentPoint.Y][adjacentPoint.X];
 
-                Int32 adjacentNodeHeight = heightLookup.IndexOf(c);
+                int adjacentNodeHeight = heightLookup.IndexOf(c);
 
                 if (adjacentNodeHeight + 1 < currentNodeHeight) continue;
 

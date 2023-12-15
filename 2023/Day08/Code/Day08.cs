@@ -2,25 +2,25 @@ namespace Year2023
 {
     public class Day08 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] split = input.Split("\n\n");
-            String directions = split[0];
-            String[] networkNodeStrings = split[1].Split("\n");
+            string[] split = input.Split("\n\n");
+            string directions = split[0];
+            string[] networkNodeStrings = split[1].Split("\n");
 
-            Dictionary<String, (String, String)> networkNodes = new();
+            Dictionary<string, (string, string)> networkNodes = new();
 
-            foreach (String networkNodeString in networkNodeStrings)
+            foreach (string networkNodeString in networkNodeStrings)
             {
                 split = networkNodeString.Split(" = ");
-                String[] split2 = split[1].Split(", ");
+                string[] split2 = split[1].Split(", ");
                 networkNodes.Add(split[0], (split2[0].Replace("(", ""), split2[1].Replace(")", "")));
             }
 
-            String currentNode = "AAA";
-            Int32 stepCount = 0;
+            string currentNode = "AAA";
+            int stepCount = 0;
 
-            for (Int32 i = 0; currentNode != "ZZZ"; i = (i + 1) % directions.Length)
+            for (int i = 0; currentNode != "ZZZ"; i = (i + 1) % directions.Length)
             {
                 currentNode = directions[i] == 'L' ? networkNodes[currentNode].Item1 : networkNodes[currentNode].Item2;
                 stepCount++;
@@ -29,23 +29,23 @@ namespace Year2023
             return stepCount;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            String[] split = input.Split("\n\n");
-            String directions = split[0];
-            String[] networkNodeStrings = split[1].Split("\n");
+            string[] split = input.Split("\n\n");
+            string directions = split[0];
+            string[] networkNodeStrings = split[1].Split("\n");
 
-            Dictionary<String, (String, String)> networkNodes = new();
+            Dictionary<string, (string, string)> networkNodes = new();
 
-            foreach (String networkNodeString in networkNodeStrings)
+            foreach (string networkNodeString in networkNodeStrings)
             {
                 split = networkNodeString.Split(" = ");
-                String[] split2 = split[1].Split(", ");
+                string[] split2 = split[1].Split(", ");
                 networkNodes.Add(split[0], (split2[0].Replace("(", ""), split2[1].Replace(")", "")));
             }
 
-            List<String> currentNodes = new();
-            foreach (String networkNode in networkNodes.Keys)
+            List<string> currentNodes = new();
+            foreach (string networkNode in networkNodes.Keys)
             {
                 if (networkNode[networkNode.Length - 1] == 'A') currentNodes.Add(networkNode);
             }
@@ -53,12 +53,12 @@ namespace Year2023
             List<long> stepCounts = new();
 
             //Find amount of steps until the first node that ends with a z
-            for (Int32 i = 0; i < currentNodes.Count; i++)
+            for (int i = 0; i < currentNodes.Count; i++)
             {
-                Boolean started = false;
+                bool started = false;
 
                 long stepCount = 0;
-                for (Int32 j = 0; currentNodes[i][currentNodes[i].Length - 1] != 'Z' || !started; j = (j + 1) % directions.Length)
+                for (int j = 0; currentNodes[i][currentNodes[i].Length - 1] != 'Z' || !started; j = (j + 1) % directions.Length)
                 {
                     started = true;
                     currentNodes[i] = directions[j] == 'L' ? networkNodes[currentNodes[i]].Item1 : networkNodes[currentNodes[i]].Item2;

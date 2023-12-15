@@ -2,19 +2,19 @@ namespace Year2022
 {
     public class Day03 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String lookup = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            Int32 total = 0;
-            String[] lines = input.Split('\n');
+            string lookup = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            int total = 0;
+            string[] lines = input.Split('\n');
 
-            foreach (String line in lines)
+            foreach (string line in lines)
             {
-                String firstHalf = line.Substring(0, line.Length / 2);
-                String lastHalf = line.Substring((line.Length / 2));
+                string firstHalf = line.Substring(0, line.Length / 2);
+                string lastHalf = line.Substring((line.Length / 2));
 
-                Char commonCharacter = default;
-                foreach (Char chr in firstHalf)
+                char commonCharacter = default;
+                foreach (char chr in firstHalf)
                 {
                     if (lastHalf.IndexOf(chr) != -1)
                     {
@@ -30,17 +30,17 @@ namespace Year2022
             return total;
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            const Int32 groupSize = 3;
-            String lookup = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            Int32 total = 0;
-            String[] lines = input.Split('\n');
-            String[][] groups = new String[(int)Math.Ceiling(lines.Length / (float)groupSize)][];
-            for (Int32 i = 0; i < lines.Length; i += groupSize)
+            const int groupSize = 3;
+            string lookup = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            int total = 0;
+            string[] lines = input.Split('\n');
+            string[][] groups = new string[(int)Math.Ceiling(lines.Length / (float)groupSize)][];
+            for (int i = 0; i < lines.Length; i += groupSize)
             {
-                String[] group = new String[groupSize];
-                for (Int32 j = 0; j < groupSize; j++)
+                string[] group = new string[groupSize];
+                for (int j = 0; j < groupSize; j++)
                 {
                     if (i + j % groupSize >= lines.Length) break;
                     group[j] = lines[i + j % groupSize];
@@ -48,16 +48,16 @@ namespace Year2022
                 groups[i / groupSize] = group;
             }
 
-            foreach (String[] group in groups)
+            foreach (string[] group in groups)
             {
                 // foreach (String elf in group.Where(str => str != null))
                 // {
                 //     Console.WriteLine(elf);
                 // }
 
-                Char commonCharacter = default;
+                char commonCharacter = default;
 
-                foreach (Char chr in group[0].Replace("\n", "").Replace("\r", ""))
+                foreach (char chr in group[0].Replace("\n", "").Replace("\r", ""))
                 {
                     if (!StringsContain(group.Where(str => str != null).Skip(1).ToArray(), chr)) continue;
                     commonCharacter = chr;
@@ -75,9 +75,9 @@ namespace Year2022
                 total += lookup.IndexOf(commonCharacter) + 1;
             }
 
-            Boolean StringsContain(String[] strings, Char chr)
+            bool StringsContain(string[] strings, char chr)
             {
-                foreach (String str in strings)
+                foreach (string str in strings)
                 {
                     if (!str.Contains(chr)) return false;
                 }

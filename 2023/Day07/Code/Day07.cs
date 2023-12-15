@@ -6,7 +6,7 @@ namespace Year2023
 {
     public class Day07 : IDay
     {
-        public int GetHandType(String hand)
+        public int GetHandType(string hand)
         {
             Dictionary<char, int> charCounts = new();
 
@@ -31,15 +31,15 @@ namespace Year2023
             return 7;
         }
 
-        public class SortHandByCards : IComparer<String>
+        public class SortHandByCards : IComparer<string>
         {
-            public Int32 Compare(String? hand1, String? hand2)
+            public int Compare(string? hand1, string? hand2)
             {
                 if (hand1 is null || hand2 is null || hand1.Length != hand2.Length) throw new Exception();
 
                 for (int i = 0; i < hand1.Length; i++)
                 {
-                    String order = "AKQJT98765432";
+                    string order = "AKQJT98765432";
 
                     if (order.IndexOf(hand1[i]) > order.IndexOf(hand2[i])) return -1;
                     if (order.IndexOf(hand1[i]) < order.IndexOf(hand2[i])) return 1;
@@ -48,14 +48,14 @@ namespace Year2023
             }
         }
 
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] lines = input.Split("\n");
-            List<(String, int)> hands = new();
+            string[] lines = input.Split("\n");
+            List<(string, int)> hands = new();
 
-            foreach (String line in lines)
+            foreach (string line in lines)
             {
-                String[] split = line.Split(" ");
+                string[] split = line.Split(" ");
                 hands.Add((split[0], int.Parse(split[1])));
             }
 
@@ -72,7 +72,7 @@ namespace Year2023
 
             return sum;
         }
-        public int GetHandType2(String hand)
+        public int GetHandType2(string hand)
         {
             Dictionary<char, int> charCounts = new();
 
@@ -108,15 +108,15 @@ namespace Year2023
             return 7;
         }
 
-        public class SortHandByCards2 : IComparer<String>
+        public class SortHandByCards2 : IComparer<string>
         {
-            public Int32 Compare(String? hand1, String? hand2)
+            public int Compare(string? hand1, string? hand2)
             {
                 if (hand1 is null || hand2 is null || hand1.Length != hand2.Length) throw new Exception();
 
                 for (int i = 0; i < hand1.Length; i++)
                 {
-                    String order = "AKQT98765432J";
+                    string order = "AKQT98765432J";
 
                     if (order.IndexOf(hand1[i]) > order.IndexOf(hand2[i])) return -1;
                     if (order.IndexOf(hand1[i]) < order.IndexOf(hand2[i])) return 1;
@@ -125,14 +125,14 @@ namespace Year2023
             }
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            String[] lines = input.Split("\n");
-            List<(String, int)> hands = new();
+            string[] lines = input.Split("\n");
+            List<(string, int)> hands = new();
 
-            foreach (String line in lines)
+            foreach (string line in lines)
             {
-                String[] split = line.Split(" ");
+                string[] split = line.Split(" ");
                 hands.Add((split[0], int.Parse(split[1])));
             }
 

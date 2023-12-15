@@ -3,18 +3,18 @@ namespace Year2022
 {
     public class Day07 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] lines = input.Split('\n');
+            string[] lines = input.Split('\n');
             List<Folder> folderList = new();
             Folder? currentFolder = null;
 
-            for (Int32 i = 0; i < lines.Length; i++)
+            for (int i = 0; i < lines.Length; i++)
             {
-                String line = lines[i];
+                string line = lines[i];
                 if (line.StartsWith("$ cd "))
                 {
-                    String newFolderName = line.Replace("$ cd ", "");
+                    string newFolderName = line.Replace("$ cd ", "");
                     if (newFolderName == "..")
                     {
                         currentFolder = currentFolder!.Parent;
@@ -32,7 +32,7 @@ namespace Year2022
                             IEnumerable<Folder> foundFolders = currentFolder!.SubFolders.Where(folder => folder.Name == newFolderName);
                             if (foundFolders.Count() < 1)
                             {
-                                String exceptionMessage = $"Line {i}: Specified folder {newFolderName} not found in directory {currentFolder.Name}: Folder only has following subfolders:";
+                                string exceptionMessage = $"Line {i}: Specified folder {newFolderName} not found in directory {currentFolder.Name}: Folder only has following subfolders:";
                                 foreach (Folder folder in currentFolder!.SubFolders)
                                 {
                                     exceptionMessage += $"\n{folder.Name}";
@@ -49,7 +49,7 @@ namespace Year2022
                 else if (line.StartsWith("$ ls")) { }
                 else if (line.StartsWith("dir "))
                 {
-                    String newFolderName = line.Replace("dir ", "");
+                    string newFolderName = line.Replace("dir ", "");
                     Folder newFolder = new Folder(newFolderName, currentFolder);
                     folderList.Add(newFolder);
                     currentFolder!.SubFolders.Add(newFolder);
@@ -57,7 +57,7 @@ namespace Year2022
                 else
                 {
                     MatchCollection matches = Regex.Matches(line, @"\d+");
-                    Int32 fileSize = Int32.Parse(matches[0].Value);
+                    int fileSize = int.Parse(matches[0].Value);
                     Folder current = currentFolder!;
                     current.Size += fileSize;
 
@@ -77,18 +77,18 @@ namespace Year2022
             return folderList.Where(folder => folder.Size <= 100000).Sum(folder => folder.Size);
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            String[] lines = input.Split('\n');
+            string[] lines = input.Split('\n');
             List<Folder> folderList = new();
             Folder? currentFolder = null;
 
-            for (Int32 i = 0; i < lines.Length; i++)
+            for (int i = 0; i < lines.Length; i++)
             {
-                String line = lines[i];
+                string line = lines[i];
                 if (line.StartsWith("$ cd "))
                 {
-                    String newFolderName = line.Replace("$ cd ", "");
+                    string newFolderName = line.Replace("$ cd ", "");
                     if (newFolderName == "..")
                     {
                         currentFolder = currentFolder!.Parent;
@@ -106,7 +106,7 @@ namespace Year2022
                             IEnumerable<Folder> foundFolders = currentFolder!.SubFolders.Where(folder => folder.Name == newFolderName);
                             if (foundFolders.Count() < 1)
                             {
-                                String exceptionMessage = $"Line {i}: Specified folder {newFolderName} not found in directory {currentFolder.Name}: Folder only has following subfolders:";
+                                string exceptionMessage = $"Line {i}: Specified folder {newFolderName} not found in directory {currentFolder.Name}: Folder only has following subfolders:";
                                 foreach (Folder folder in currentFolder!.SubFolders)
                                 {
                                     exceptionMessage += $"\n{folder.Name}";
@@ -123,7 +123,7 @@ namespace Year2022
                 else if (line.StartsWith("$ ls")) { }
                 else if (line.StartsWith("dir "))
                 {
-                    String newFolderName = line.Replace("dir ", "");
+                    string newFolderName = line.Replace("dir ", "");
                     Folder newFolder = new Folder(newFolderName, currentFolder);
                     folderList.Add(newFolder);
                     currentFolder!.SubFolders.Add(newFolder);
@@ -131,7 +131,7 @@ namespace Year2022
                 else
                 {
                     MatchCollection matches = Regex.Matches(line, @"\d+");
-                    Int32 fileSize = Int32.Parse(matches[0].Value);
+                    int fileSize = int.Parse(matches[0].Value);
                     Folder current = currentFolder!;
                     current.Size += fileSize;
 
@@ -143,11 +143,11 @@ namespace Year2022
                 }
             }
 
-            const Int32 TotalAvailableSpace = 70000000;
-            const Int32 TotalRequiredSpace = 30000000;
-            Int32 usedSpace = folderList.Where(folder => folder.Name == "/").First().Size;
-            Int32 freeSpace = TotalAvailableSpace - usedSpace;
-            Int32 spaceToFreeUp = TotalRequiredSpace - freeSpace;
+            const int TotalAvailableSpace = 70000000;
+            const int TotalRequiredSpace = 30000000;
+            int usedSpace = folderList.Where(folder => folder.Name == "/").First().Size;
+            int freeSpace = TotalAvailableSpace - usedSpace;
+            int spaceToFreeUp = TotalRequiredSpace - freeSpace;
 
             Folder folderToDelete = folderList.Where(folder => folder.Size >= spaceToFreeUp).MinBy(folder => folder.Size)!;
 

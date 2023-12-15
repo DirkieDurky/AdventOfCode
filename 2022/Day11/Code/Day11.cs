@@ -2,19 +2,19 @@ namespace Year2022
 {
     public class Day11 : IDay
     {
-        public static Int32 ModNumber = 1;
+        public static int ModNumber = 1;
 
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
             Monkey.Monkeys.Clear();
-            String[] monkeys = input.Split("\n\n");
+            string[] monkeys = input.Split("\n\n");
 
-            foreach (String monkey in monkeys)
+            foreach (string monkey in monkeys)
             {
                 Monkey.Monkeys.Add(new Monkey(monkey));
             }
 
-            for (Int32 i = 0; i < 20; i++)
+            for (int i = 0; i < 20; i++)
             {
                 foreach (Monkey monkey in Monkey.Monkeys)
                 {
@@ -34,7 +34,7 @@ namespace Year2022
                 // Console.WriteLine();
             }
 
-            List<Int64> inspectCounts = Monkey.Monkeys.Select(monkey => monkey.InspectCount).ToList();
+            List<long> inspectCounts = Monkey.Monkeys.Select(monkey => monkey.InspectCount).ToList();
             inspectCounts.Sort();
 
             // foreach (Int32 count in inspectCounts)
@@ -45,12 +45,12 @@ namespace Year2022
             return inspectCounts[^1] * inspectCounts[^2];
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
             Monkey.Monkeys.Clear();
-            String[] monkeys = input.Split("\n\n");
+            string[] monkeys = input.Split("\n\n");
 
-            foreach (String monkey in monkeys)
+            foreach (string monkey in monkeys)
             {
                 Monkey.Monkeys.Add(new Monkey(monkey));
             }
@@ -62,9 +62,9 @@ namespace Year2022
 
             // Console.WriteLine(ModNumber);
 
-            Int32[] arr = {1, 20, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000};
+            int[] arr = { 1, 20, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000 };
 
-            for (Int32 i = 0; i < 10000; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 foreach (Monkey monkey in Monkey.Monkeys)
                 {
@@ -88,7 +88,7 @@ namespace Year2022
                 // }
             }
 
-            List<Int64> inspectCounts = Monkey.Monkeys.Select(monkey => monkey.InspectCount).ToList();
+            List<long> inspectCounts = Monkey.Monkeys.Select(monkey => monkey.InspectCount).ToList();
             inspectCounts.Sort();
 
             // foreach (Int32 count in inspectCounts)

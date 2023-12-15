@@ -9,18 +9,18 @@ public class Direction
     public static Direction Left => new Direction(-1, 0, "LEFT");
     public static Direction Right => new Direction(1, 0, "RIGHT");
 
-    public static List<Direction> Directions = new() {Up, Down, Left, Right};
+    public static List<Direction> Directions = new() { Up, Down, Left, Right };
 
-    public static Direction GetDirection(Int32 deltaX, Int32 deltaY)
+    public static Direction GetDirection(int deltaX, int deltaY)
     {
         return Directions.First(dir => dir.DeltaX == deltaX && dir.DeltaY == deltaY);
     }
 
-    public Int32 DeltaX { get; }
-    public Int32 DeltaY { get; }
-    public String Text { get; }
+    public int DeltaX { get; }
+    public int DeltaY { get; }
+    public string Text { get; }
 
-    private Direction(Int32 deltaX, Int32 deltaY, String text)
+    private Direction(int deltaX, int deltaY, string text)
     {
         DeltaX = deltaX;
         DeltaY = deltaY;
@@ -28,12 +28,12 @@ public class Direction
     }
 
 
-    public override Boolean Equals(Object? other) =>
-        other != null && GetType() == other.GetType() && Equals((Direction) other);
+    public override bool Equals(object? other) =>
+        other != null && GetType() == other.GetType() && Equals((Direction)other);
 
-    public Boolean Equals(Direction other) => DeltaX == other.DeltaX && DeltaY == other.DeltaY;
+    public bool Equals(Direction other) => DeltaX == other.DeltaX && DeltaY == other.DeltaY;
 
-    public override Int32 GetHashCode()
+    public override int GetHashCode()
     {
         return DeltaX * 2 + DeltaY;
     }

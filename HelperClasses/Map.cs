@@ -47,17 +47,17 @@ class Map<T>
 
     public object Clone() => new Map<T>((T[,])Content.Clone());
 
-    public override Boolean Equals(Object? other) =>
+    public override bool Equals(object? other) =>
        other != null && GetType() == other.GetType() && Equals((Map<T>)other);
 
-    public Boolean Equals(Map<T> other)
+    public bool Equals(Map<T> other)
     {
         return Content.Rank == other.Content.Rank &&
             Enumerable.Range(0, Content.Rank).All(dimension => Content.GetLength(dimension) == other.Content.GetLength(dimension)) &&
             Content.Cast<T>().SequenceEqual(other.Content.Cast<T>());
     }
 
-    public override Int32 GetHashCode()
+    public override int GetHashCode()
     {
         int hashCode = 0;
 
@@ -87,7 +87,7 @@ class CharMap : Map<char>, ICloneable
 
     public new object Clone() => new CharMap((char[,])Content.Clone());
 
-    public void Fill(String[] newContent)
+    public void Fill(string[] newContent)
     {
         if (newContent.Length != Height
             || newContent.Any(x => x.Length != newContent[0].Length)

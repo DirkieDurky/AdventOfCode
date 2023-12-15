@@ -15,13 +15,13 @@ class Move
         Dir = direction;
     }
 
-    public static List<Direction> Parse(String[] lines)
+    public static List<Direction> Parse(string[] lines)
     {
         List<Direction> directions = new();
 
-        foreach (String line in lines)
+        foreach (string line in lines)
         {
-            String[] split = line.Split();
+            string[] split = line.Split();
             Direction dir = split[0] switch
             {
                 "U" => Direction.Up,
@@ -30,7 +30,7 @@ class Move
                 "R" => Direction.Right,
                 _ => throw new ArgumentOutOfRangeException()
             };
-            for (Int32 i = 0; i < int.Parse(split[1]); i++)
+            for (int i = 0; i < int.Parse(split[1]); i++)
             {
                 directions.Add(dir);
             }

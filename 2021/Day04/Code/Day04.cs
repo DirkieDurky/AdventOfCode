@@ -4,20 +4,20 @@ namespace Year2021
 {
     public class Day04 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] lines = input.Split("\n").ToArray();
-            Int32[] numbers = lines[0].Split(',').Select(x => Int32.Parse(x)).ToArray();
-            List<Int32[,]> boards = new();
+            string[] lines = input.Split("\n").ToArray();
+            int[] numbers = lines[0].Split(',').Select(x => int.Parse(x)).ToArray();
+            List<int[,]> boards = new();
             {
-                Int32[,] board = new Int32[5, 5];
-                for (Int32 i = 2; i < lines.Length; i++)
+                int[,] board = new int[5, 5];
+                for (int i = 2; i < lines.Length; i++)
                 {
                     if ((i - 1) % 6 != 0)
                     {
                         // int[] input = Regex.Split(inputs[i], " +").Select(x => int.Parse(x)).ToArray();
-                        Int32[] ints = Regex.Split(lines[i].Trim(), " +").Select(x => Int32.Parse(x)).ToArray();
-                        for (Int32 k = 0; k < 5; k++)
+                        int[] ints = Regex.Split(lines[i].Trim(), " +").Select(x => int.Parse(x)).ToArray();
+                        for (int k = 0; k < 5; k++)
                         {
                             board[k, ((i - 1) % 6) - 1] = ints[k];
                         }
@@ -25,12 +25,12 @@ namespace Year2021
                     else
                     {
                         boards.Add(board);
-                        board = new Int32[5, 5];
+                        board = new int[5, 5];
                     }
                 }
                 boards.Add(board);
             }
-            List<Int32> calledNumbers = new();
+            List<int> calledNumbers = new();
 
             // for (int i = 0; i < 5; i++)
             // {
@@ -42,15 +42,15 @@ namespace Year2021
             //     Console.WriteLine(String.Join(',', line));
             // }
 
-            foreach (Int32 number in numbers)
+            foreach (int number in numbers)
             {
                 calledNumbers.Add(number);
-                foreach (Int32[,] board in boards)
+                foreach (int[,] board in boards)
                 {
                     if (matchFound(board))
                     {
-                        Int32 total = 0;
-                        foreach (Int32 cell in board)
+                        int total = 0;
+                        foreach (int cell in board)
                         {
                             if (!calledNumbers.Contains(cell)) total += cell;
                         }
@@ -61,13 +61,13 @@ namespace Year2021
             }
             return "";
 
-            Boolean matchFound(Int32[,] board)
+            bool matchFound(int[,] board)
             {
-                for (Int32 i = 0; i < 5; i++)
+                for (int i = 0; i < 5; i++)
                 {
-                    Int32 matchesInRow = 0;
-                    Int32[] line = new Int32[5];
-                    for (Int32 j = 0; j < 5; j++)
+                    int matchesInRow = 0;
+                    int[] line = new int[5];
+                    for (int j = 0; j < 5; j++)
                     {
                         if (calledNumbers.Contains(board[j, i])) matchesInRow++;
                         line[j] = board[j, i];
@@ -75,10 +75,10 @@ namespace Year2021
                     // Console.WriteLine(String.Join(' ', line));
                     if (matchesInRow == 5) return true;
                 }
-                for (Int32 i = 0; i < 5; i++)
+                for (int i = 0; i < 5; i++)
                 {
-                    Int32 matchesInColumn = 0;
-                    for (Int32 j = 0; j < 5; j++)
+                    int matchesInColumn = 0;
+                    for (int j = 0; j < 5; j++)
                     {
                         if (calledNumbers.Contains(board[i, j])) matchesInColumn++;
                     }
@@ -88,21 +88,21 @@ namespace Year2021
             }
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
-            String[] lines = input.Split("\n").ToArray();
-            Int32[] numbers = lines[0].Split(',').Select(x => Int32.Parse(x)).ToArray();
-            List<Int32[,]> boards = new();
-            List<(Int32[,], Int32, Int32)> completedBoards = new();
+            string[] lines = input.Split("\n").ToArray();
+            int[] numbers = lines[0].Split(',').Select(x => int.Parse(x)).ToArray();
+            List<int[,]> boards = new();
+            List<(int[,], int, int)> completedBoards = new();
             {
-                Int32[,] board = new Int32[5, 5];
-                for (Int32 i = 2; i < lines.Length; i++)
+                int[,] board = new int[5, 5];
+                for (int i = 2; i < lines.Length; i++)
                 {
                     if ((i - 1) % 6 != 0)
                     {
                         // int[] input = Regex.Split(inputs[i], " +").Select(x => int.Parse(x)).ToArray();
-                        Int32[] ints = Regex.Split(lines[i].Trim(), " +").Select(Int32.Parse).ToArray();
-                        for (Int32 k = 0; k < 5; k++)
+                        int[] ints = Regex.Split(lines[i].Trim(), " +").Select(int.Parse).ToArray();
+                        for (int k = 0; k < 5; k++)
                         {
                             board[k, ((i - 1) % 6) - 1] = ints[k];
                         }
@@ -110,12 +110,12 @@ namespace Year2021
                     else
                     {
                         boards.Add(board);
-                        board = new Int32[5, 5];
+                        board = new int[5, 5];
                     }
                 }
                 boards.Add(board);
             }
-            List<Int32> calledNumbers = new();
+            List<int> calledNumbers = new();
 
             // for (int i = 0; i < 5; i++)
             // {
@@ -127,18 +127,18 @@ namespace Year2021
             //     Console.WriteLine(String.Join(',', line));
             // }
 
-            Int32 lastSum = 0;
-            Int32 lastNumber = 0;
-            foreach (Int32 number in numbers)
+            int lastSum = 0;
+            int lastNumber = 0;
+            foreach (int number in numbers)
             {
                 calledNumbers.Add(number);
-                foreach (Int32[,] board in boards)
+                foreach (int[,] board in boards)
                 {
                     if (completedBoards.Any(x => x.Item1 == board)) continue;
                     if (matchFound(board))
                     {
-                        Int32 total = 0;
-                        foreach (Int32 cell in board)
+                        int total = 0;
+                        foreach (int cell in board)
                         {
                             if (!calledNumbers.Contains(cell)) total += cell;
                         }
@@ -151,13 +151,13 @@ namespace Year2021
             // return $"{completedBoards.Last().Item2} {completedBoards.Last().Item3}";
             return completedBoards.Last().Item2 * completedBoards.Last().Item3;
 
-            Boolean matchFound(Int32[,] board)
+            bool matchFound(int[,] board)
             {
-                for (Int32 i = 0; i < 5; i++)
+                for (int i = 0; i < 5; i++)
                 {
-                    Int32 matchesInRow = 0;
-                    Int32[] line = new Int32[5];
-                    for (Int32 j = 0; j < 5; j++)
+                    int matchesInRow = 0;
+                    int[] line = new int[5];
+                    for (int j = 0; j < 5; j++)
                     {
                         if (calledNumbers.Contains(board[j, i])) matchesInRow++;
                         line[j] = board[j, i];
@@ -165,10 +165,10 @@ namespace Year2021
                     // Console.WriteLine(String.Join(' ', line));
                     if (matchesInRow == 5) return true;
                 }
-                for (Int32 i = 0; i < 5; i++)
+                for (int i = 0; i < 5; i++)
                 {
-                    Int32 matchesInColumn = 0;
-                    for (Int32 j = 0; j < 5; j++)
+                    int matchesInColumn = 0;
+                    for (int j = 0; j < 5; j++)
                     {
                         if (calledNumbers.Contains(board[i, j])) matchesInColumn++;
                     }

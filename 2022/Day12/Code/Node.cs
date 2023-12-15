@@ -4,14 +4,14 @@ namespace Year2022;
 
 public class Node
 {
-    public Int32 X;
-    public Int32 Y;
-    public Int32 Cost;
-    public Int32 Distance;
-    public Int32 CostDistance => Cost + Distance;
+    public int X;
+    public int Y;
+    public int Cost;
+    public int Distance;
+    public int CostDistance => Cost + Distance;
     public Node? Parent;
 
-    public Node(Int32 x, Int32 y, Int32 cost = 0, Node? parent = null)
+    public Node(int x, int y, int cost = 0, Node? parent = null)
     {
         X = x;
         Y = y;

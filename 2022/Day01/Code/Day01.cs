@@ -2,29 +2,29 @@ namespace Year2022
 {
     public class Day01 : IDay
     {
-        public Object Sol1(String input)
+        public object Sol1(string input)
         {
-            String[] elves = input.Split("\n\n");
-            List<Int32> totalElveCaloryCount = new List<Int32>();
+            string[] elves = input.Split("\n\n");
+            List<int> totalElveCaloryCount = new List<int>();
 
-            foreach (String elf in elves)
+            foreach (string elf in elves)
             {
-                Int32[] caloryCount = elf.Split("\n").Select(i => Int32.Parse(i)).ToArray();
+                int[] caloryCount = elf.Split("\n").Select(i => int.Parse(i)).ToArray();
                 totalElveCaloryCount.Add(caloryCount.Sum());
             }
 
             return totalElveCaloryCount.Max();
         }
 
-        public Object Sol2(String input)
+        public object Sol2(string input)
         {
 
-            String[] elves = input.Split("\n\n");
-            List<Int32> totalElveCaloryCount = new List<Int32>();
+            string[] elves = input.Split("\n\n");
+            List<int> totalElveCaloryCount = new List<int>();
 
-            foreach (String elf in elves)
+            foreach (string elf in elves)
             {
-                Int32[] caloryCount = elf.Split("\n").Select(i => Int32.Parse(i)).ToArray();
+                int[] caloryCount = elf.Split("\n").Select(i => int.Parse(i)).ToArray();
                 totalElveCaloryCount.Add(caloryCount.Sum());
             }
 
