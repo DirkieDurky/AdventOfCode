@@ -80,14 +80,83 @@ namespace Year2023
             }
 
             List<Char[,]> mapHistory = new();
-            bool started = false;
 
-            Direction[] directionLookup = [Direction.Up, Direction.Right, Direction.Down, Direction.Left];
-
-            for (int i = 0; !mapHistory.Contains(map) || !started; i++)
+            int i = 0;
+            while (true)
             {
-                Roll(directionLookup[i % 4]);
+                Roll(Direction.Up);
+                Roll(Direction.Left);
+                Roll(Direction.Down);
+                Roll(Direction.Right);
+
+                //checks whether there is already a map that looks exactly like map in mapHistory
+                if (mapHistory.Any(x => x.Rank == map.Rank &&
+                    Enumerable.Range(0, x.Rank).All(dimension => x.GetLength(dimension) == map.GetLength(dimension)) &&
+                    x.Cast<char>().SequenceEqual(map.Cast<char>())))
+                {
+                    // Console.WriteLine(i + ":");
+                    // for (int y = 0; y < mapHeight; y++)
+                    // {
+                    //     StringBuilder line = new();
+                    //     for (int x = 0; x < mapWidth; x++)
+                    //     {
+                    //         line.Append(map[x, y]);
+                    //     }
+                    //     Console.WriteLine(line);
+                    // }
+                    break;
+                }
+
+                mapHistory.Add((Char[,])map.Clone());
+
+                // Console.WriteLine(i + ":");
+                // for (int y = 0; y < mapHeight; y++)
+                // {
+                //     StringBuilder line = new();
+                //     for (int x = 0; x < mapWidth; x++)
+                //     {
+                //         line.Append(map[x, y]);
+                //     }
+                //     Console.WriteLine(line);
+                // }
+                // Console.WriteLine();
+                i++;
             }
+
+            int loopStart = mapHistory.TakeWhile(x => !(x.Rank == map.Rank &&
+                    Enumerable.Range(0, x.Rank).All(dimension => x.GetLength(dimension) == map.GetLength(dimension)) &&
+                    x.Cast<char>().SequenceEqual(map.Cast<char>()))).Count();
+            int loopEnd = i;
+            int loopLength = loopEnd - loopStart;
+
+            char[,] finalMap = mapHistory[loopStart + ((1_000_000_000 - loopStart) % loopLength) - 1];
+
+            // Console.WriteLine("Final map:");
+            // for (int y = 0; y < mapHeight; y++)
+            // {
+            //     StringBuilder line = new();
+            //     for (int x = 0; x < mapWidth; x++)
+            //     {
+            //         line.Append(finalMap[x, y]);
+            //     }
+            //     Console.WriteLine(line);
+            // }
+            // Console.WriteLine();
+
+            int sum = 0;
+
+            for (int y = 0; y < mapHeight; y++)
+            {
+                for (int x = 0; x < mapWidth; x++)
+                {
+                    if (finalMap[x, y] == 'O')
+                    {
+                        sum += mapHeight - y;
+                    }
+                }
+            }
+
+            return sum;
 
             void Roll(Direction direction)
             {
@@ -219,8 +288,6 @@ namespace Year2023
                         break;
                 }
             }
-
-            return "";
         }
 
         internal enum Direction
