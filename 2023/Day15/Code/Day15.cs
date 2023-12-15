@@ -19,11 +19,11 @@ namespace Year2023
         public object Sol2(string input)
         {
             string[] steps = input.Split(',');
-            Dictionary<string, int>[] boxes = new Dictionary<string, int>[256];
+            Dictionary<string, Lens>[] boxes = new Dictionary<string, Lens>[256];
 
             for (int i = 0; i < boxes.Length; i++)
             {
-                boxes[i] = new Dictionary<string, int>();
+                boxes[i] = new Dictionary<string, Lens>();
             }
 
             foreach (string step in steps)
@@ -36,13 +36,15 @@ namespace Year2023
                     int focalLength = int.Parse(split[1]);
                     if (boxes[boxIndex].ContainsKey(label))
                     {
-                        boxes[boxIndex][label] = focalLength;
+                        // Console.WriteLine(label + " edited in box " + boxIndex);
+                        boxes[boxIndex][label].FocalLength = focalLength;
                     }
                     else
                     {
-                        boxes[boxIndex] = ReverseDictionary(boxes[boxIndex]);
-                        boxes[boxIndex].Add(label, focalLength);
-                        boxes[boxIndex] = ReverseDictionary(boxes[boxIndex]);
+                        // Console.WriteLine(label + " added to box " + boxIndex + " with index " + (boxes[boxIndex].Count() + 1));
+                        int newIndex = 0;
+                        if (boxes[boxIndex].Any()) newIndex = boxes[boxIndex].MaxBy(x => x.Value.Index).Value.Index + 1;
+                        boxes[boxIndex].Add(label, new Lens(label, newIndex, focalLength));
                     }
                 }
                 else
@@ -50,7 +52,18 @@ namespace Year2023
                     string label = step.Replace("-", "");
                     int boxIndex = Hash(label);
 
+                    if (!boxes[boxIndex].ContainsKey(label)) continue;
+                    int index = boxes[boxIndex][label].Index;
                     boxes[boxIndex].Remove(label);
+                    // Console.WriteLine(label + " removed from box " + boxIndex);
+                    foreach ((string currentLabel, Lens lens) in boxes[boxIndex])
+                    {
+                        if (lens.Index > index)
+                        {
+                            lens.Index--;
+                            // Console.WriteLine("Index of " + currentLabel + " is now " + lens.Index);
+                        }
+                    }
                 }
             }
 
@@ -58,16 +71,29 @@ namespace Year2023
 
             for (int i = 0; i < boxes.Length; i++)
             {
-                Dictionary<string, int> box = boxes[i];
-                box = ReverseDictionary(box);
-                foreach ((string label, int value) in box)
+                Dictionary<string, Lens> box = boxes[i];
+                foreach ((string label, Lens lens) in box)
                 {
-                    Console.WriteLine(label + ": box " + (i + 1) + " * " + (box.Keys.ToList().IndexOf(label) + 1) + " * " + value + " = " + (i + 1) * (box.Keys.ToList().IndexOf(label) + 1) * value);
-                    sum += (i + 1) * (box.Keys.ToList().IndexOf(label) + 1) * value;
+                    // Console.WriteLine(label + ": " + (i + 1) + " (box " + i + ") * " + (lens.Index + 1) + " (slot) * " + lens.FocalLength + " (focal length) = " + (i + 1) * (lens.Index + 1) * lens.FocalLength);
+                    sum += (i + 1) * (lens.Index + 1) * lens.FocalLength;
                 }
             }
 
             return sum;
+        }
+
+        class Lens
+        {
+            public string Label;
+            public int FocalLength;
+            public int Index;
+
+            public Lens(string label, int index, int value)
+            {
+                Label = label;
+                Index = index;
+                FocalLength = value;
+            }
         }
 
         internal int Hash(string str)
@@ -80,19 +106,6 @@ namespace Year2023
                 value = value % 256;
             }
             return value;
-        }
-
-        internal Dictionary<string, int> ReverseDictionary(Dictionary<string, int> dictionary)
-        {
-            Dictionary<string, int> newDictionary = new();
-
-            for (int i = dictionary.Count() - 1; i >= 0; i--)
-            {
-                KeyValuePair<string, int> keyValuePair = dictionary.ElementAt(i);
-                newDictionary.Add(keyValuePair.Key, keyValuePair.Value);
-            }
-
-            return newDictionary;
         }
     }
 }
