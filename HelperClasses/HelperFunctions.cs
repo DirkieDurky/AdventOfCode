@@ -1,4 +1,4 @@
-namespace HelperFunctions
+namespace HelperClasses
 {
     class HelperFunctions
     {

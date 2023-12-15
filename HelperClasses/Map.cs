@@ -1,0 +1,107 @@
+using System.Reflection.Metadata.Ecma335;
+using System.Text;
+
+namespace HelperClasses;
+
+class Map<T>
+{
+    public T[,] Content;
+    public int Height;
+    public int Width;
+
+    public Map(int width, int height)
+    {
+        Width = width;
+        Height = height;
+        Content = new T[Width, Height];
+    }
+
+    public Map(T[,] startContent)
+    {
+        Height = startContent.GetLength(1);
+        Width = startContent.GetLength(0);
+        Content = startContent;
+    }
+
+    public T this[int x, int y]
+    {
+        get { return Content[x, y]; }
+        set { Content[x, y] = value; }
+    }
+
+    public void Print()
+    {
+        Console.WriteLine(Height);
+        Console.WriteLine(Width);
+        for (int y = 0; y < Height; y++)
+        {
+            StringBuilder line = new();
+            for (int x = 0; x < Width; x++)
+            {
+                line.Append(Content[x, y]);
+            }
+            Console.WriteLine(line);
+        }
+        Console.WriteLine();
+    }
+
+    public object Clone() => new Map<T>((T[,])Content.Clone());
+
+    public override Boolean Equals(Object? other) =>
+       other != null && GetType() == other.GetType() && Equals((Map<T>)other);
+
+    public Boolean Equals(Map<T> other)
+    {
+        return Content.Rank == other.Content.Rank &&
+            Enumerable.Range(0, Content.Rank).All(dimension => Content.GetLength(dimension) == other.Content.GetLength(dimension)) &&
+            Content.Cast<T>().SequenceEqual(other.Content.Cast<T>());
+    }
+
+    public override Int32 GetHashCode()
+    {
+        int hashCode = 0;
+
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                hashCode = (hashCode * 397) ^ (Content[x, y] != null ? Content[x, y]!.GetHashCode() : 0);
+            }
+        }
+
+        return hashCode;
+    }
+}
+
+class CharMap : Map<char>, ICloneable
+{
+    public CharMap(int width, int height) : base(width, height)
+    {
+        //Empty
+    }
+
+    public CharMap(char[,] startContent) : base(startContent)
+    {
+        //Empty
+    }
+
+    public new object Clone() => new CharMap((char[,])Content.Clone());
+
+    public void Fill(String[] newContent)
+    {
+        if (newContent.Length != Height
+            || newContent.Any(x => x.Length != newContent[0].Length)
+            || newContent[0].Length != Width)
+        {
+            throw new Exception("New content size doesn't match map size");
+        }
+
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                Content[x, y] = newContent[y][x];
+            }
+        }
+    }
+}

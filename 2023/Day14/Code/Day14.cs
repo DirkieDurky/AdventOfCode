@@ -1,6 +1,6 @@
 using System.Data;
 using System.Drawing;
-using System.Text;
+using HelperClasses;
 
 namespace Year2023
 {
@@ -57,16 +57,10 @@ namespace Year2023
             String[] lines = input.Split('\n');
             int mapWidth = lines[0].Length;
             int mapHeight = lines.Length;
-            Char[,] map = new Char[lines[0].Length, lines.Length];
+            CharMap map = new CharMap(lines[0].Length, lines.Length);
 
             //Fill map
-            for (int y = 0; y < lines.Length; y++)
-            {
-                for (int x = 0; x < lines[0].Length; x++)
-                {
-                    map[x, y] = lines[y][x];
-                }
-            }
+            map.Fill(lines);
 
             List<Point> roundRocks = new();
 
@@ -79,69 +73,32 @@ namespace Year2023
                 }
             }
 
-            List<Char[,]> mapHistory = new();
+            List<CharMap> mapHistory = new();
 
             int i = 0;
             while (true)
             {
-                Roll(Direction.Up);
-                Roll(Direction.Left);
-                Roll(Direction.Down);
-                Roll(Direction.Right);
+                Roll(Direction.DirectionEnum.Up);
+                Roll(Direction.DirectionEnum.Left);
+                Roll(Direction.DirectionEnum.Down);
+                Roll(Direction.DirectionEnum.Right);
 
                 //checks whether there is already a map that looks exactly like map in mapHistory
-                if (mapHistory.Any(x => x.Rank == map.Rank &&
-                    Enumerable.Range(0, x.Rank).All(dimension => x.GetLength(dimension) == map.GetLength(dimension)) &&
-                    x.Cast<char>().SequenceEqual(map.Cast<char>())))
-                {
-                    // Console.WriteLine(i + ":");
-                    // for (int y = 0; y < mapHeight; y++)
-                    // {
-                    //     StringBuilder line = new();
-                    //     for (int x = 0; x < mapWidth; x++)
-                    //     {
-                    //         line.Append(map[x, y]);
-                    //     }
-                    //     Console.WriteLine(line);
-                    // }
-                    break;
-                }
+                if (mapHistory.Contains(map)) break;
 
-                mapHistory.Add((Char[,])map.Clone());
-
-                // Console.WriteLine(i + ":");
-                // for (int y = 0; y < mapHeight; y++)
-                // {
-                //     StringBuilder line = new();
-                //     for (int x = 0; x < mapWidth; x++)
-                //     {
-                //         line.Append(map[x, y]);
-                //     }
-                //     Console.WriteLine(line);
-                // }
-                // Console.WriteLine();
+                mapHistory.Add((CharMap)map.Clone());
                 i++;
             }
 
-            int loopStart = mapHistory.TakeWhile(x => !(x.Rank == map.Rank &&
-                    Enumerable.Range(0, x.Rank).All(dimension => x.GetLength(dimension) == map.GetLength(dimension)) &&
-                    x.Cast<char>().SequenceEqual(map.Cast<char>()))).Count();
+            //Take first map in history that equals to map
+            int loopStart = mapHistory.TakeWhile(x => !x.Equals(map)).Count();
             int loopEnd = i;
             int loopLength = loopEnd - loopStart;
 
-            char[,] finalMap = mapHistory[loopStart + ((1_000_000_000 - loopStart) % loopLength) - 1];
+            CharMap finalMap = mapHistory[loopStart + ((1_000_000_000 - loopStart) % loopLength) - 1];
 
-            // Console.WriteLine("Final map:");
-            // for (int y = 0; y < mapHeight; y++)
-            // {
-            //     StringBuilder line = new();
-            //     for (int x = 0; x < mapWidth; x++)
-            //     {
-            //         line.Append(finalMap[x, y]);
-            //     }
-            //     Console.WriteLine(line);
-            // }
-            // Console.WriteLine();
+            Console.WriteLine("Final map:");
+            finalMap.Print();
 
             int sum = 0;
 
@@ -158,11 +115,11 @@ namespace Year2023
 
             return sum;
 
-            void Roll(Direction direction)
+            void Roll(Direction.DirectionEnum direction)
             {
                 switch (direction)
                 {
-                    case Direction.Right:
+                    case Direction.DirectionEnum.Right:
                         for (int y = 0; y < mapHeight; y++)
                         {
                             int roundRockCount = 0;
@@ -193,7 +150,7 @@ namespace Year2023
                             }
                         }
                         break;
-                    case Direction.Left:
+                    case Direction.DirectionEnum.Left:
                         for (int y = 0; y < mapHeight; y++)
                         {
                             int roundRockCount = 0;
@@ -224,7 +181,7 @@ namespace Year2023
                             }
                         }
                         break;
-                    case Direction.Down:
+                    case Direction.DirectionEnum.Down:
                         for (int x = 0; x < mapWidth; x++)
                         {
                             int roundRockCount = 0;
@@ -255,7 +212,7 @@ namespace Year2023
                             }
                         }
                         break;
-                    case Direction.Up:
+                    case Direction.DirectionEnum.Up:
                         for (int x = 0; x < mapWidth; x++)
                         {
                             int roundRockCount = 0;
@@ -288,14 +245,6 @@ namespace Year2023
                         break;
                 }
             }
-        }
-
-        internal enum Direction
-        {
-            Up,
-            Right,
-            Down,
-            Left,
         }
     }
 }
