@@ -2,21 +2,23 @@ namespace HelperClasses;
 
 public class Direction
 {
-    public static Direction None => new Direction(0, 0, "NONE");
+    public static Direction None => new Direction(null, 0, 0, "NONE");
 
-    public static Direction Up => new Direction(0, -1, "UP");
-    public static Direction Down => new Direction(0, 1, "DOWN");
-    public static Direction Left => new Direction(-1, 0, "LEFT");
-    public static Direction Right => new Direction(1, 0, "RIGHT");
+    public static Direction Up => new Direction(DirectionEnum.Up, 0, -1, "UP");
+    public static Direction Down => new Direction(DirectionEnum.Down, 0, 1, "DOWN");
+    public static Direction Left => new Direction(DirectionEnum.Left, -1, 0, "LEFT");
+    public static Direction Right => new Direction(DirectionEnum.Right, 1, 0, "RIGHT");
 
     public static List<Direction> Directions = new List<Direction> { Up, Down, Left, Right };
 
+    public DirectionEnum? DirectionE { get; }
     public int DeltaX { get; }
     public int DeltaY { get; }
     public string Text { get; }
 
-    private Direction(int deltaX, int deltaY, string text)
+    private Direction(DirectionEnum? directionE, int deltaX, int deltaY, string text)
     {
+        DirectionE = directionE;
         DeltaX = deltaX;
         DeltaY = deltaY;
         Text = text;
@@ -34,14 +36,24 @@ public class Direction
 
     public static Direction operator -(Direction direction)
     {
-        return new Direction(-direction.DeltaX, -direction.DeltaY, direction.Text switch
+        DirectionEnum? directionE = direction.DirectionE switch
+        {
+            DirectionEnum.Up => DirectionEnum.Down,
+            DirectionEnum.Down => DirectionEnum.Up,
+            DirectionEnum.Left => DirectionEnum.Right,
+            DirectionEnum.Right => DirectionEnum.Left,
+            _ => null,
+        };
+
+        string text = direction.Text switch
         {
             "UP" => "DOWN",
             "DOWN" => "UP",
             "LEFT" => "RIGHT",
             "RIGHT" => "LEFT",
             _ => direction.Text,
-        });
+        };
+        return new Direction(directionE, -direction.DeltaX, -direction.DeltaY, text);
     }
 
     public enum DirectionEnum

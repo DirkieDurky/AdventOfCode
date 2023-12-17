@@ -3,7 +3,7 @@ using System.Text;
 
 namespace HelperClasses;
 
-class Map<T>
+class Map<T> : ICloneable
 {
     public T[,] Content;
     public int Height;
@@ -83,6 +83,17 @@ class CharMap : Map<char>, ICloneable
     public CharMap(char[,] startContent) : base(startContent)
     {
         //Empty
+    }
+
+    public CharMap(string[] newContent) : base(newContent[0].Length, newContent.Length)
+    {
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                Content[x, y] = newContent[y][x];
+            }
+        }
     }
 
     public new object Clone() => new CharMap((char[,])Content.Clone());
