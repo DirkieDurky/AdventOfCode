@@ -63,4 +63,21 @@ public class Direction
         Down,
         Left,
     }
+
+    public static Direction FindDirectionByDirectionEnum(DirectionEnum directionEnum)
+    {
+        switch (directionEnum)
+        {
+            case DirectionEnum.Up:
+                return Up;
+            case DirectionEnum.Down:
+                return Down;
+            case DirectionEnum.Right:
+                return Right;
+            case DirectionEnum.Left:
+                return Left;
+        }
+
+        return None;
+    }
 }
