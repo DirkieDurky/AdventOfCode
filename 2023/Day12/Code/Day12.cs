@@ -1,4 +1,7 @@
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
+using HelperClasses;
 
 namespace Year2023
 {
@@ -52,34 +55,84 @@ namespace Year2023
 
             for (int i = 0; i < lines.Count; i++)
             {
-                int GetPossibilities(string springs, int[] rule)
+                HashSet<string> GetPossibilities(string springs, int[] rule, HashSet<string> foundPossibilities)
                 {
-                    int count = 0;
-
+                    if (IsPossible(springs, rule)) foundPossibilities.Add(springs);
                     int firstUnknownIndex = springs.IndexOf('?');
-                    if (firstUnknownIndex == -1)
+                    if (firstUnknownIndex == -1) return foundPossibilities;
+
+                    List<int> ruleList = new(rule);
+
+                    int springIndex = 0;
+                    int damagedSpringAmountLeft = 0;
+                    while (springIndex < springs.Length)
                     {
-                        if (IsPossible(springs, rule)) count++;
-                        return count;
+                        char c = springs[springIndex];
+                        if (c == '?') break;
+                        switch (c)
+                        {
+                            case '#':
+                                if (damagedSpringAmountLeft == 0 && ruleList.Count > 0)
+                                {
+                                    damagedSpringAmountLeft = ruleList[0];
+                                    ruleList.RemoveAt(0);
+                                }
+                                damagedSpringAmountLeft--;
+                                break;
+                            case '.':
+                                if (damagedSpringAmountLeft > 0) return foundPossibilities;
+                                break;
+                        }
+                        springIndex++;
                     }
 
-                    StringBuilder newLine = new(springs);
-                    newLine[firstUnknownIndex] = '.';
-                    count += GetPossibilities(newLine.ToString(), rule);
-                    newLine = new(springs);
-                    newLine[firstUnknownIndex] = '#';
-                    count += GetPossibilities(newLine.ToString(), rule);
+                    //Finish possibly unfinished streak of damaged springs (Like in #?.# 2,1 for example)
+                    //as opposed to a new streak of damaged springs (Like ??.# 2,1 or .?.# 1,1)
+                    if (damagedSpringAmountLeft > 0)
+                    {
+                        StringBuilder newString = new(springs);
+                        springs.Remove(springIndex, damagedSpringAmountLeft);
+                        springs.Insert(springIndex, new string('#', damagedSpringAmountLeft));
+                    }
 
-                    return count;
+                    foreach (int dotIndex in HelperFunctions.AllIndexesOf(springs, "?"))
+                    {
+                        StringBuilder newString = new(springs);
+                        newString.Remove(dotIndex, rule[0]);
+                        newString.Insert(dotIndex, '.');
+                        foundPossibilities.UnionWith(GetPossibilities(newString.ToString(), rule, foundPossibilities));
+                    }
+
+                    // List<int> placementPossibilities = HelperFunctions.AllIndexesOf(springs, new string('?', rule[0]));
+                    List<int> placementPossibilities = Regex.Matches(springs, $"\\?(?=([?#]{{{rule[0] - 1}}}))").Select(x => x.Index).ToList();
+                    if (placementPossibilities.Count == 0) return foundPossibilities;
+
+                    foreach (int placementIndex in placementPossibilities)
+                    {
+                        StringBuilder newString = new(springs);
+                        //Put damaged springs in a position to try
+                        // if (placementIndex + rule[0] >= springs.Length)
+                        // {
+                        newString.Remove(placementIndex, rule[0]);
+                        newString.Insert(placementIndex, new string('#', rule[0]));
+                        // }
+                        // else
+                        // {
+                        //     newString.Remove(placementIndex, rule[0] + 1);
+                        //     newString.Insert(placementIndex, new string('#', rule[0]) + '.');
+                        // }
+                        //Replace all unknown springs before the index with working springs
+                        if (placementIndex > 0)
+                            newString.Replace('?', '.', 0, placementIndex);
+                        foundPossibilities.UnionWith(GetPossibilities(newString.ToString(), rule, foundPossibilities));
+                    }
+
+                    return foundPossibilities;
                 }
-                count += GetPossibilities(lines[i].Springs, lines[i].Rule);
 
-                // Console.WriteLine("Possibilities");
-                // foreach (String possibility in possibilities)
-                // {
-                //     Console.WriteLine(possibility);
-                // }
-                // Console.WriteLine();
+                HashSet<string> possibilities = GetPossibilities(lines[i].Springs, lines[i].Rule, new());
+                Console.WriteLine(possibilities.Count);
+                count += possibilities.Count;
             }
 
             return count;

@@ -47,6 +47,15 @@ class Map<T> : ICloneable
 
     public object Clone() => new Map<T>((T[,])Content.Clone());
 
+    // public object DeepClone()
+    // {
+    //     MemoryStream mem = new MemoryStream();
+    //     System.Runtime.Serialization.Formatters.Binary.BinaryFormatter form = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+    //     form.Serialize(mem, this);
+    //     mem.Position = 0;
+    //     return form.Deserialize(mem);
+    // }
+
     public override bool Equals(object? other) =>
        other != null && GetType() == other.GetType() && Equals((Map<T>)other);
 
