@@ -165,8 +165,84 @@ namespace Year2023
             return sum;
         }
 
+        internal class Wall
+        {
+            public Direction Direction;
+            public Point StartPoint;
+            public Point EndPoint;
+
+            public Wall(Direction direction, Point startPoint, Point endPoint)
+            {
+                Direction = direction;
+                StartPoint = startPoint;
+                EndPoint = endPoint;
+            }
+        }
+
         public object Sol2(string input)
         {
+            string[] lines = input.Split('\n');
+            Instruction[] instructions = new Instruction[lines.Length];
+
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string line = lines[i];
+                string[] split = line.Split();
+
+                Direction direction = split[0] switch
+                {
+                    "U" => Direction.Up,
+                    "D" => Direction.Down,
+                    "L" => Direction.Left,
+                    "R" => Direction.Right,
+                    _ => throw new Exception("I'm a teapot"),
+                };
+
+                instructions[i] = new Instruction(direction, int.Parse(split[1]), split[2].Replace("(", "").Replace(")", ""));
+            }
+
+            int minX = int.MaxValue;
+            int maxX = 0;
+            int minY = int.MaxValue;
+            int maxY = 0;
+
+            int gridWidth = Math.Abs(minX) + maxX + 1;
+            int gridHeight = Math.Abs(minY) + maxY + 1;
+
+            int testX = 0;
+            int testY = 0;
+            foreach (Instruction instruction in instructions)
+            {
+                testX += instruction.Direction.DeltaX * instruction.Amount;
+                testY += instruction.Direction.DeltaY * instruction.Amount;
+
+                if (testX < minX) minX = testX;
+                if (testX > maxX) maxX = testX;
+                if (testY < minY) minY = testY;
+                if (testY > maxY) maxY = testY;
+            }
+
+            List<int>[] borderIndexes = new List<int>[gridHeight];
+
+            Point currentPoint = new(Math.Abs(minX), Math.Abs(minY));
+            foreach (Instruction instruction in instructions)
+            {
+                Point lastPoint = currentPoint;
+                currentPoint.X += instruction.Direction.DeltaX * instruction.Amount;
+                currentPoint.Y += instruction.Direction.DeltaY * instruction.Amount;
+
+                if (instruction.Direction.DirectionE == Direction.DirectionEnum.Left || instruction.Direction.DirectionE == Direction.DirectionEnum.Right) continue;
+
+
+            }
+
+
+
+            // foreach (Wall wall in walls)
+            // {
+            //     Console.WriteLine(wall.Direction.Text + " " + wall.StartPoint.X + "," + wall.StartPoint.Y + " " + wall.EndPoint.X + "," + wall.EndPoint.Y);
+            // }
+
 
 
             return 0;
