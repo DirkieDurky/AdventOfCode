@@ -9,7 +9,7 @@ public class Direction
     public static Direction Left => new Direction(DirectionEnum.Left, -1, 0, "LEFT");
     public static Direction Right => new Direction(DirectionEnum.Right, 1, 0, "RIGHT");
 
-    public static List<Direction> Directions = new List<Direction> { Up, Down, Left, Right };
+    public static List<Direction> Directions = new List<Direction> { Up, Right, Down, Left, };
 
     public DirectionEnum? DirectionE { get; }
     public int DeltaX { get; }
@@ -56,7 +56,19 @@ public class Direction
         return new Direction(directionE, -direction.DeltaX, -direction.DeltaY, text);
     }
 
-    public enum DirectionEnum
+    public static Direction RotateCW(Direction direction)
+    {
+        return Directions[(Directions.IndexOf(direction) + 1) % Directions.Count];
+	}
+
+	public static Direction RotateCCW(Direction direction)
+	{
+        int index = Directions.IndexOf(direction) - 1;
+        if (index < 0) index = 3;
+		return Directions[index];
+	}
+
+	public enum DirectionEnum
     {
         Up,
         Right,

@@ -23,6 +23,29 @@ class Map<T> : ICloneable
         Content = startContent;
     }
 
+    public Map(T[][] startContent)
+	{
+		//Convert jagged array to 2D array
+		try
+		{
+			int FirstDim = startContent.Length;
+			int SecondDim = startContent.GroupBy(row => row.Length).Single().Key; // throws InvalidOperationException if source is not rectangular
+
+			var result = new T[FirstDim, SecondDim];
+			for (int i = 0; i < FirstDim; ++i)
+				for (int j = 0; j < SecondDim; ++j)
+					result[i, j] = startContent[i][j];
+
+			Content = result;
+		}
+		catch (InvalidOperationException)
+		{
+			throw new InvalidOperationException("The given jagged array is not rectangular.");
+		}
+		Height = Content.GetLength(1);
+		Width = Content.GetLength(0);
+	}
+
     public T this[int x, int y]
     {
         get { return Content[x, y]; }
