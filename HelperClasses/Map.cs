@@ -54,14 +54,12 @@ class Map<T> : ICloneable
 
     public void Print()
     {
-        Console.WriteLine(Height);
-        Console.WriteLine(Width);
         for (int y = 0; y < Height; y++)
         {
             StringBuilder line = new();
             for (int x = 0; x < Width; x++)
             {
-                line.Append(Content[x, y]);
+                line.Append(Content[y, x]);
             }
             Console.WriteLine(line);
         }
