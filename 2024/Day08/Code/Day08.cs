@@ -33,9 +33,10 @@ namespace Year2024
 			{
 				foreach (Point location in antennaLocation.Value)
 				{
-					foreach (Point location2 in antennaLocation.Value)
+					for (Int32 i = antennaLocation.Value.Count - 1; i >= 0; i--)
 					{
-						if (location == location2) continue;
+						Point location2 = antennaLocation.Value[i];
+						if (location == location2) break;
 						Point diff = new Point(location.X - location2.X, location.Y - location2.Y);
 
 						Point locationPlusDiff = new Point(location.X + diff.X, location.Y + diff.Y);
