@@ -1,5 +1,8 @@
+using System;
+using System.Drawing;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
+using System.Xml.Resolvers;
 
 namespace HelperClasses;
 
@@ -24,32 +27,38 @@ class Map<T> : ICloneable
     }
 
     public Map(T[][] startContent)
-	{
-		//Convert jagged array to 2D array
-		try
-		{
-			int FirstDim = startContent.Length;
-			int SecondDim = startContent.GroupBy(row => row.Length).Single().Key; // throws InvalidOperationException if source is not rectangular
+    {
+        //Convert jagged array to 2D array
+        try
+        {
+            int FirstDim = startContent.Length;
+            int SecondDim = startContent.GroupBy(row => row.Length).Single().Key; // throws InvalidOperationException if source is not rectangular
 
-			var result = new T[FirstDim, SecondDim];
-			for (int i = 0; i < FirstDim; ++i)
-				for (int j = 0; j < SecondDim; ++j)
-					result[i, j] = startContent[i][j];
+            var result = new T[FirstDim, SecondDim];
+            for (int i = 0; i < FirstDim; ++i)
+                for (int j = 0; j < SecondDim; ++j)
+                    result[j, i] = startContent[i][j];
 
-			Content = result;
-		}
-		catch (InvalidOperationException)
-		{
-			throw new InvalidOperationException("The given jagged array is not rectangular.");
-		}
-		Height = Content.GetLength(1);
-		Width = Content.GetLength(0);
-	}
+            Content = result;
+        }
+        catch (InvalidOperationException)
+        {
+            throw new InvalidOperationException("The given jagged array is not rectangular.");
+        }
+        Height = Content.GetLength(1);
+        Width = Content.GetLength(0);
+    }
 
     public T this[int x, int y]
     {
         get { return Content[x, y]; }
         set { Content[x, y] = value; }
+    }
+
+    public T this[Point point]
+    {
+        get { return Content[point.X, point.Y]; }
+        set { Content[point.X, point.Y] = value; }
     }
 
     public void Print()
@@ -59,7 +68,7 @@ class Map<T> : ICloneable
             StringBuilder line = new();
             for (int x = 0; x < Width; x++)
             {
-                line.Append(Content[y, x]);
+                line.Append(Content[x, y]);
             }
             Console.WriteLine(line);
         }
@@ -100,6 +109,21 @@ class Map<T> : ICloneable
         }
 
         return hashCode;
+    }
+
+    public List<Point> IndexesOf(T item)
+    {
+        List<Point> found = new();
+
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                if (Content[x, y] != null && Content[x, y]!.Equals(item)) found.Add(new Point(x, y));
+            }
+        }
+
+        return found;
     }
 }
 
