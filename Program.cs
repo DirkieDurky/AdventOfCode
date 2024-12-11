@@ -221,8 +221,6 @@ internal class Program
         string year = fullName[0][4..];
         string day = fullName[1][3..];
         Console.WriteLine($"\n{year}/{day}-{solutionNumber}:");
-        try
-        {
             string input = File.ReadAllText($@"{RootFolder}{year}\Day{day}\Input\used input.txt");
             stopwatch.Start();
             object output = problem.Invoke(input);
@@ -231,11 +229,6 @@ internal class Program
             PrintLine(ConsoleColor.DarkGray, $" : {stopwatch.Elapsed.TotalMilliseconds}ms");
             totalElapsedTime += stopwatch.Elapsed.TotalMilliseconds;
             stopwatch.Reset();
-        }
-        catch (Exception e)
-        {
-            PrintLine(ConsoleColor.Red, $"Unhandled exception. {e.GetType()}: {e.Message}\n{e.StackTrace}");
-        }
 
         return totalElapsedTime;
     }
