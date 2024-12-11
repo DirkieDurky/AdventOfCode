@@ -42,6 +42,36 @@ namespace Year2024
         }
         public object Sol2(string input)
         {
+            LinkedList<long> stones = new LinkedList<long>(input.Split(" ").Select(long.Parse));
+
+            for (int i = 0; i < 75; i++)
+            {
+                for (LinkedListNode<long> stone = stones.First!; stone != null; stone = stone.Next!)
+                {
+                    string stoneStr = stone.Value.ToString()!;
+                    if (stone.Value == 0) stone.Value = 1;
+                    else if (stoneStr.Length % 2 == 0)
+                    {
+                        stones.AddAfter(stone, int.Parse(stoneStr.Substring(stoneStr.Length / 2)));
+                        stone.Value = int.Parse(stoneStr.Substring(0, stoneStr.Length / 2));
+                        stone = stone.Next!;
+                        if (stone == null) break;
+                    }
+                    else
+                    {
+                        stone.Value *= 2024;
+                    }
+                }
+
+                //Console.WriteLine(String.Join(" ", stones));
+                Console.WriteLine($"{i}: {stones.Count} stones");
+            }
+
+            return stones.Count;
+        }
+
+        public object Sol2Attempt(string input)
+        {
             List<Stone> stones = input.Split(" ").Select(long.Parse).Select(x => new Stone(x, 0)).ToList();
 
             for (int i = 0; i < 75; i++)
