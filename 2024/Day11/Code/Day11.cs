@@ -37,7 +37,7 @@ namespace Year2024
                 }
 
                 //Console.WriteLine(String.Join(" ", stones));
-                Console.WriteLine($"{i}: {stones.Count} stones");
+                //Console.WriteLine($"{i}: {stones.Count} stones");
             }
 
             return stones.Count;
@@ -55,24 +55,20 @@ namespace Year2024
                 Dictionary<long, long> newStones = new Dictionary<long, long>();
                 foreach (var stone in stones)
                 {
-                    string stoneStr = stone.Key.ToString();
+                    long valueLength = (long)(Math.Log10(stone.Key) + 1);
                     if (stone.Key == 0)
                     {
                         newStones[1] = (newStones.ContainsKey(1) ? newStones[1] : 0) + stone.Value;
                     }
-
-                    //int valueLength = ((int)Math.Log10(stones[j]) + 1);
-                    //if (valueLength % 2 == 0)
-                    //{
-                    //    int halvingNumber = (int)Math.Pow(10, (valueLength - 1));
-                    //    stones.Insert(j + 1, stones[j] % halvingNumber);
-                    //    stones[j] = stones[j] / halvingNumber;
-                    //}
-
-                    else if (stoneStr.Length % 2 == 0)
+                    else if (valueLength % 2 == 0)
                     {
-                        long leftPart = long.Parse(stoneStr.Substring(stoneStr.Length / 2));
-                        long rightPart = long.Parse(stoneStr.Substring(0, stoneStr.Length / 2));
+                        if (valueLength > 10)
+                        {
+
+                        }
+                        long halvingNumber = (long)Math.Pow(10, valueLength / 2);
+                        long leftPart = stone.Key / halvingNumber;
+                        long rightPart = stone.Key % halvingNumber;
 
                         newStones[leftPart] = (newStones.ContainsKey(leftPart) ? newStones[leftPart] : 0) + stone.Value;
                         newStones[rightPart] = (newStones.ContainsKey(rightPart) ? newStones[rightPart] : 0) + stone.Value;
@@ -86,7 +82,7 @@ namespace Year2024
 
                 stones = newStones;
 
-                //Console.WriteLine($"After {i + 1} blinks: {stones.Sum(x => (long)x.Value)} stones");
+                //Console.WriteLine($"After {i + 1} blinks: {stones.Sum(x => x.Value)} stones");
                 //Console.WriteLine(String.Join(" ", stones.Keys));
             }
 
