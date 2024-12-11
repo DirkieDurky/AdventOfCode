@@ -48,12 +48,13 @@ namespace Year2024
 					if (startPosChars.Contains(grid[x,y]))
 					{
 						return new PosInfo(x, y, grid[x, y] switch
-						{
-							'^' => Direction.Up,
-							'v' => Direction.Down,
-							'<' => Direction.Left,
-							'>' => Direction.Right,
-						});
+                        {
+                            '^' => Direction.Up,
+                            'v' => Direction.Down,
+                            '<' => Direction.Left,
+                            '>' => Direction.Right,
+                            _ => throw new KrijgDeTeringException(),
+                        });
 					}
 				}
 			}
@@ -71,35 +72,40 @@ namespace Year2024
 				Pos = new Point(x, y);
 				Orientation = orientation;
 			}
-		}
+        }
 
-		public object Sol2(string input)
-		{
-			int count = 0;
-			char[] startPosChars = new char[] { '^', 'v', '<', '>' };
-			Map<char> grid = new Map<char>(input.Split("\n").Select(x => x.ToCharArray()).ToArray());
+        public object Sol2(string input)
+        {
+            int total = 0;
+            char[] startPosChars = new char[] { '^', 'v', '<', '>' };
+            Map<char> grid = new Map<char>(input.Split("\n").Select(x => x.ToCharArray()).ToArray());
 
-			PosInfo pos = FindStart(startPosChars, grid);
+            PosInfo pos = FindStart(startPosChars, grid);
 
-			for (int y = 0; y < grid.Height; y++)
-			{
-				for (int x = 0; x < grid.Width; x++)
-				{
-					if (pos.Pos.X == x && pos.Pos.Y == y) continue;
+            int threadsRemaining = grid.Height;
+            Parallel.For(0, grid.Height, y =>
+            {
+                int count = 0;
+
+                for (int x = 0; x < grid.Width; x++)
+                {
+                    if (pos.Pos.X == x && pos.Pos.Y == y) continue;
                     if (grid[x, y] == '#') continue;
 
-					Map<char> newGrid = (Map<char>)grid.Clone();
+                    Map<char> newGrid = (Map<char>)grid.Clone();
                     newGrid[x, y] = '#';
 
-					if (PathGetsStuck(pos, newGrid)) count++;
-				}
-				Console.WriteLine($"Y:{y} {count}");
-			}
+                    if (PathGetsStuck(pos, newGrid)) count++;
+                }
 
-			return count;
-		}
+                total += count;
+                Console.WriteLine($"For Y:{y} Found:{count} Threads remaining: {--threadsRemaining} Current total: {total}");
+            });
 
-		private bool PathGetsStuck(PosInfo pos, Map<char> grid)
+            return total;
+        }
+
+        private bool PathGetsStuck(PosInfo pos, Map<char> grid)
 		{
 			HashSet<PosInfo> moveHistory = new HashSet<PosInfo>();
 			moveHistory.Add(pos);
