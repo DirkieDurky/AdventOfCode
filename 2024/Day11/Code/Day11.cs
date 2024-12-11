@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
+using Year2022;
 
 namespace Year2024
 {
@@ -48,12 +49,13 @@ namespace Year2024
             {
                 for (LinkedListNode<long> stone = stones.First!; stone != null; stone = stone.Next!)
                 {
-                    string stoneStr = stone.Value.ToString()!;
+                    int stoneValueLength = (int)(Math.Log10(stone.Value) + 1);
                     if (stone.Value == 0) stone.Value = 1;
-                    else if (stoneStr.Length % 2 == 0)
+                    else if (stoneValueLength % 2 == 0)
                     {
-                        stones.AddAfter(stone, int.Parse(stoneStr.Substring(stoneStr.Length / 2)));
-                        stone.Value = int.Parse(stoneStr.Substring(0, stoneStr.Length / 2));
+                        int halvingNumber = (int)Math.Pow(10, (stoneValueLength - 1));
+                        stones.AddAfter(stone, stone.Value % halvingNumber);
+                        stone.Value = stone.Value / halvingNumber;
                         stone = stone.Next!;
                         if (stone == null) break;
                     }
