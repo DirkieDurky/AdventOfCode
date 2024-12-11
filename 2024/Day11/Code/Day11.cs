@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using Year2022;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Year2024
 {
@@ -42,6 +43,68 @@ namespace Year2024
             return stones.Count;
         }
         public object Sol2(string input)
+        {
+            Dictionary<long, long> stones = new Dictionary<long, long>();
+            foreach (long stone in input.Split(" ").Select(long.Parse))
+            {
+                stones.Add(stone, 1);
+            }
+
+            for (int i = 0; i < 75; i++)
+            {
+                Dictionary<long, long> newStones = new Dictionary<long, long>();
+                foreach (var stone in stones)
+                {
+                    string stoneStr = stone.Key.ToString();
+                    if (stone.Key == 0)
+                    {
+                        newStones[1] = (newStones.ContainsKey(1) ? newStones[1] : 0) + stone.Value;
+                    }
+
+                    //int valueLength = ((int)Math.Log10(stones[j]) + 1);
+                    //if (valueLength % 2 == 0)
+                    //{
+                    //    int halvingNumber = (int)Math.Pow(10, (valueLength - 1));
+                    //    stones.Insert(j + 1, stones[j] % halvingNumber);
+                    //    stones[j] = stones[j] / halvingNumber;
+                    //}
+
+                    else if (stoneStr.Length % 2 == 0)
+                    {
+                        long leftPart = long.Parse(stoneStr.Substring(stoneStr.Length / 2));
+                        long rightPart = long.Parse(stoneStr.Substring(0, stoneStr.Length / 2));
+
+                        newStones[leftPart] = (newStones.ContainsKey(leftPart) ? newStones[leftPart] : 0) + stone.Value;
+                        newStones[rightPart] = (newStones.ContainsKey(rightPart) ? newStones[rightPart] : 0) + stone.Value;
+                    }
+                    else
+                    {
+                        long newValue = stone.Key * 2024;
+                        newStones[newValue] = (newStones.ContainsKey(newValue) ? newStones[newValue] : 0) + stone.Value;
+                    }
+                }
+
+                stones = newStones;
+
+                //Console.WriteLine($"After {i + 1} blinks: {stones.Sum(x => (long)x.Value)} stones");
+                //Console.WriteLine(String.Join(" ", stones.Keys));
+            }
+
+            return stones.Sum(x => x.Value);
+        }
+
+        void AddOrSet1(Dictionary<long, int> dictionary, long key)
+        {
+            if (dictionary.ContainsKey(key)) dictionary[key]++;
+            else dictionary[key] = 1;
+        }
+
+        void ChangeKey(Dictionary<long, int> dictionary, long from, long to)
+        {
+            dictionary[to] = dictionary[from];
+        }
+
+        public object Sol2Attempt2(string input)
         {
             LinkedList<long> stones = new LinkedList<long>(input.Split(" ").Select(long.Parse));
 
