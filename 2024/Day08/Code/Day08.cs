@@ -1,4 +1,4 @@
-using HelperClasses;
+using Advent_of_Code.HelperClasses;
 using System.Drawing;
 using System.Text;
 

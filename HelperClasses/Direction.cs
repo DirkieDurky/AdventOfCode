@@ -1,4 +1,4 @@
-namespace HelperClasses;
+namespace Advent_of_Code.HelperClasses;
 
 public class Direction
 {

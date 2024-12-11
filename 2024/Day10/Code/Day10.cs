@@ -1,5 +1,4 @@
-using HelperClasses;
-using System.Drawing;
+using Advent_of_Code.HelperClasses;
 
 namespace Year2024
 {
@@ -12,19 +11,19 @@ namespace Year2024
             Map<int> grid = new Map<int>(intGrid);
             int total = 0;
 
-            foreach (Point trailStart in grid.IndexesOf(0))
+            foreach (Position trailStart in grid.IndexesOf(0))
             {
                 int subTotal = 0;
 
-                Queue<Point> pointsToCheck = new();
-                pointsToCheck.Enqueue(trailStart);
+                Queue<Position> PositionsToCheck = new();
+                PositionsToCheck.Enqueue(trailStart);
 
-                while (pointsToCheck.Count > 0)
+                while (PositionsToCheck.Count > 0)
                 {
-                    Point currentPoint = pointsToCheck.Dequeue();
-                    int currentNumber = grid[currentPoint];
+                    Position currentPosition = PositionsToCheck.Dequeue();
+                    int currentNumber = grid[currentPosition];
 
-                    if (grid[currentPoint] == 9)
+                    if (grid[currentPosition] == 9)
                     {
                         subTotal++;
                         continue;
@@ -32,13 +31,13 @@ namespace Year2024
 
                     foreach (Direction direction in Direction.Directions)
                     {
-                        if (currentPoint.X + direction.DeltaX < 0 || currentPoint.X + direction.DeltaX >= grid.Width
-                            || currentPoint.Y + direction.DeltaY < 0 || currentPoint.Y + direction.DeltaY >= grid.Height) continue;
-                        Point contender = new Point(currentPoint.X + direction.DeltaX, currentPoint.Y + direction.DeltaY);
+                        if (currentPosition.X + direction.DeltaX < 0 || currentPosition.X + direction.DeltaX >= grid.Width
+                            || currentPosition.Y + direction.DeltaY < 0 || currentPosition.Y + direction.DeltaY >= grid.Height) continue;
+                        Position contender = new Position(currentPosition.X + direction.DeltaX, currentPosition.Y + direction.DeltaY);
                         if (grid[contender] == currentNumber + 1)
                         {
-                            if (pointsToCheck.Contains(contender)) continue;
-                            pointsToCheck.Enqueue(contender);
+                            if (PositionsToCheck.Contains(contender)) continue;
+                            PositionsToCheck.Enqueue(contender);
                         }
                     }
                 }
@@ -56,19 +55,19 @@ namespace Year2024
             Map<int> grid = new Map<int>(intGrid);
             int total = 0;
 
-            foreach (Point trailStart in grid.IndexesOf(0))
+            foreach (Position trailStart in grid.IndexesOf(0))
             {
                 int subTotal = 0;
 
-                Queue<Point> pointsToCheck = new();
-                pointsToCheck.Enqueue(trailStart);
+                Queue<Position> PositionsToCheck = new();
+                PositionsToCheck.Enqueue(trailStart);
 
-                while (pointsToCheck.Count > 0)
+                while (PositionsToCheck.Count > 0)
                 {
-                    Point currentPoint = pointsToCheck.Dequeue();
-                    int currentNumber = grid[currentPoint];
+                    Position currentPosition = PositionsToCheck.Dequeue();
+                    int currentNumber = grid[currentPosition];
 
-                    if (grid[currentPoint] == 9)
+                    if (grid[currentPosition] == 9)
                     {
                         subTotal++;
                         continue;
@@ -76,12 +75,12 @@ namespace Year2024
 
                     foreach (Direction direction in Direction.Directions)
                     {
-                        if (currentPoint.X + direction.DeltaX < 0 || currentPoint.X + direction.DeltaX >= grid.Width
-                            || currentPoint.Y + direction.DeltaY < 0 || currentPoint.Y + direction.DeltaY >= grid.Height) continue;
-                        Point contender = new Point(currentPoint.X + direction.DeltaX, currentPoint.Y + direction.DeltaY);
+                        if (currentPosition.X + direction.DeltaX < 0 || currentPosition.X + direction.DeltaX >= grid.Width
+                            || currentPosition.Y + direction.DeltaY < 0 || currentPosition.Y + direction.DeltaY >= grid.Height) continue;
+                        Position contender = new Position(currentPosition.X + direction.DeltaX, currentPosition.Y + direction.DeltaY);
                         if (grid[contender] == currentNumber + 1)
                         {
-                            pointsToCheck.Enqueue(contender);
+                            PositionsToCheck.Enqueue(contender);
                         }
                     }
                 }

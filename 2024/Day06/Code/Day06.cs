@@ -1,4 +1,4 @@
-using HelperClasses;
+using Advent_of_Code.HelperClasses;
 using System.Drawing;
 
 namespace Year2024
@@ -45,9 +45,9 @@ namespace Year2024
 			{
 				for (int x = 0; x < grid.Content.GetLength(1); x++)
 				{
-					if (startPosChars.Contains(grid[y,x]))
+					if (startPosChars.Contains(grid[x,y]))
 					{
-						return new PosInfo(x, y, grid[y,x] switch
+						return new PosInfo(x, y, grid[x, y] switch
 						{
 							'^' => Direction.Up,
 							'v' => Direction.Down,
@@ -86,10 +86,10 @@ namespace Year2024
 				for (int x = 0; x < grid.Width; x++)
 				{
 					if (pos.Pos.X == x && pos.Pos.Y == y) continue;
-					if (grid[y,x] == '#') continue;
+                    if (grid[x, y] == '#') continue;
 
 					Map<char> newGrid = (Map<char>)grid.Clone();
-					newGrid[y,x] = '#';
+                    newGrid[x, y] = '#';
 
 					if (PathGetsStuck(pos, newGrid)) count++;
 				}
@@ -112,7 +112,7 @@ namespace Year2024
 				if (newY < 0 || newY >= grid.Height
 				|| newX < 0 || newX >= grid.Width) return false;
 
-				while (grid[newY,newX] == '#')
+				while (grid[newX,newY] == '#')
 				{
 					pos.Orientation = Direction.RotateCW(pos.Orientation);
 
@@ -128,5 +128,9 @@ namespace Year2024
 				moveHistory.Add(pos);
 			}
 		}
+	}
+
+	public class KrijgDeTeringException : Exception
+	{
 	}
 }

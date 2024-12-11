@@ -1,10 +1,6 @@
-using System;
-using System.Drawing;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
-using System.Xml.Resolvers;
 
-namespace HelperClasses;
+namespace Advent_of_Code.HelperClasses;
 
 class Map<T> : ICloneable
 {
@@ -45,6 +41,7 @@ class Map<T> : ICloneable
         {
             throw new InvalidOperationException("The given jagged array is not rectangular.");
         }
+
         Height = Content.GetLength(1);
         Width = Content.GetLength(0);
     }
@@ -55,10 +52,10 @@ class Map<T> : ICloneable
         set { Content[x, y] = value; }
     }
 
-    public T this[Point point]
+    public T this[Position pos]
     {
-        get { return Content[point.X, point.Y]; }
-        set { Content[point.X, point.Y] = value; }
+        get { return Content[pos.X, pos.Y]; }
+        set { Content[pos.X, pos.Y] = value; }
     }
 
     public void Print()
@@ -111,15 +108,15 @@ class Map<T> : ICloneable
         return hashCode;
     }
 
-    public List<Point> IndexesOf(T item)
+    public List<Position> IndexesOf(T item)
     {
-        List<Point> found = new();
+        List<Position> found = new();
 
         for (int y = 0; y < Height; y++)
         {
             for (int x = 0; x < Width; x++)
             {
-                if (Content[x, y] != null && Content[x, y]!.Equals(item)) found.Add(new Point(x, y));
+                if (Content[x, y] != null && Content[x, y]!.Equals(item)) found.Add(new Position(x, y));
             }
         }
 

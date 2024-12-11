@@ -1,4 +1,4 @@
-using HelperClasses;
+using Advent_of_Code.HelperClasses;
 
 namespace Year2023
 {
