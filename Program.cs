@@ -7,8 +7,8 @@ internal class Program
 
     static void Main(string[] args)
     {
-        RootFolder = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar;
-        // RootFolder = @"D:\dev\AoC\";
+        //RootFolder = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar;
+        RootFolder = @"C:\Users\dirk\home\dev\AdventOfCode\";
         // RootFolder = @"C:\DirkData\personal\dev\adventofcode\";
         Console.ForegroundColor = ConsoleColor.Gray;
 

@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using HelperClasses;
+using Advent_of_Code.HelperClasses;
 
 namespace Year2023
 {

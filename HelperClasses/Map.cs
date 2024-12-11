@@ -1,7 +1,6 @@
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
-namespace HelperClasses;
+namespace Advent_of_Code.HelperClasses;
 
 class Map<T> : ICloneable
 {
@@ -23,16 +22,44 @@ class Map<T> : ICloneable
         Content = startContent;
     }
 
+    public Map(T[][] startContent)
+    {
+        //Convert jagged array to 2D array
+        try
+        {
+            int FirstDim = startContent.Length;
+            int SecondDim = startContent.GroupBy(row => row.Length).Single().Key; // throws InvalidOperationException if source is not rectangular
+
+            var result = new T[FirstDim, SecondDim];
+            for (int i = 0; i < FirstDim; ++i)
+                for (int j = 0; j < SecondDim; ++j)
+                    result[j, i] = startContent[i][j];
+
+            Content = result;
+        }
+        catch (InvalidOperationException)
+        {
+            throw new InvalidOperationException("The given jagged array is not rectangular.");
+        }
+
+        Height = Content.GetLength(1);
+        Width = Content.GetLength(0);
+    }
+
     public T this[int x, int y]
     {
         get { return Content[x, y]; }
         set { Content[x, y] = value; }
     }
 
+    public T this[Position pos]
+    {
+        get { return Content[pos.X, pos.Y]; }
+        set { Content[pos.X, pos.Y] = value; }
+    }
+
     public void Print()
     {
-        Console.WriteLine(Height);
-        Console.WriteLine(Width);
         for (int y = 0; y < Height; y++)
         {
             StringBuilder line = new();
@@ -79,6 +106,21 @@ class Map<T> : ICloneable
         }
 
         return hashCode;
+    }
+
+    public List<Position> IndexesOf(T item)
+    {
+        List<Position> found = new();
+
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                if (Content[x, y] != null && Content[x, y]!.Equals(item)) found.Add(new Position(x, y));
+            }
+        }
+
+        return found;
     }
 }
 

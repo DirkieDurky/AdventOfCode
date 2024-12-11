@@ -33,7 +33,7 @@ namespace Year2021
             //     }
             //     Console.WriteLine(String.Join(',', line));
             // }
-            return HelperClasses.HelperFunctions.Flatten(grid).Where(x => x > 1).ToArray().Length;
+            return Advent_of_Code.HelperClasses.HelperFunctions.Flatten(grid).Where(x => x > 1).ToArray().Length;
         }
 
         public object Sol2(string input)
@@ -56,7 +56,7 @@ namespace Year2021
                 } while (x - xIncrementAmount != line[1][0] || y - yIncrementAmount != line[1][1]);
             }
 
-            return HelperClasses.HelperFunctions.Flatten(grid).Where(x => x > 1).ToArray().Length;
+            return Advent_of_Code.HelperClasses.HelperFunctions.Flatten(grid).Where(x => x > 1).ToArray().Length;
         }
     }
 }
