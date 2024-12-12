@@ -99,7 +99,7 @@ namespace Year2024
                             Position nextPosition = currentPosition + direction;
                             if (!nextPosition.IsInBounds(grid))
                             {
-                                currentRegion.AddBorder(new Border(currentPosition, direction));
+                                currentRegion.Borders.Add(new Border(currentPosition, direction));
                                 continue;
                             }
                             if (currentRegion.Plots.Contains(nextPosition)) continue;
@@ -111,7 +111,7 @@ namespace Year2024
                             }
                             else
                             {
-                                currentRegion.AddBorder(new Border(currentPosition, direction));
+                                currentRegion.Borders.Add(new Border(currentPosition, direction));
                             }
                         }
                     }
@@ -140,22 +140,6 @@ namespace Year2024
             public List<Position> Plots = plots;
             public List<Border> Borders { get; private set; } = new();
             public int Sides { get; set; } = 0;
-
-            public void AddBorder(Border border)
-            {
-                Borders.Add(border);
-                //foreach (Direction direction in Direction.Directions)
-                //{
-                //    Position newPos = border.Position + direction;
-
-                //    if (Borders.Any(b => b.Position == newPos && b.Side == border.Side))
-                //    {
-                //        return;
-                //    }
-                //}
-
-                //Sides++;
-            }
 
             public int CountCorners(CharMap grid)
             {
