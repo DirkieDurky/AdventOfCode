@@ -136,7 +136,7 @@ namespace Year2023
                 Point currentPoint = todoPoints.Dequeue();
                 map[currentPoint.X, currentPoint.Y].Filled = true;
 
-                foreach (Direction direction in Direction.Directions)
+                foreach (Direction direction in Direction.OrthogonalDirections)
                 {
                     Point testPoint = new Point(currentPoint.X + direction.DeltaX, currentPoint.Y + direction.DeltaY);
 

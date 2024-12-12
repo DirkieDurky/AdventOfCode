@@ -2,7 +2,7 @@ using System.Text;
 
 namespace Advent_of_Code.HelperClasses;
 
-class Map<T> : ICloneable
+public class Map<T> : ICloneable
 {
     public T[,] Content;
     public int Height;

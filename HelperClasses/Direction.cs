@@ -9,7 +9,14 @@ public class Direction
     public static Direction Left => new Direction(DirectionEnum.Left, -1, 0, "LEFT");
     public static Direction Right => new Direction(DirectionEnum.Right, 1, 0, "RIGHT");
 
-    public static List<Direction> Directions = new List<Direction> { Up, Right, Down, Left, };
+    public static Direction UpRight => new Direction(DirectionEnum.UpRight, 1, -1, "UPRIGHT");
+    public static Direction DownRight => new Direction(DirectionEnum.DownRight, 1, 1, "DOWNRIGHT");
+    public static Direction DownLeft => new Direction(DirectionEnum.DownLeft, -1, 1, "DOWNLEFT");
+    public static Direction UpLeft => new Direction(DirectionEnum.UpLeft, -1, -1, "UPLEFT");
+
+    public static List<Direction> OrthogonalDirections = new List<Direction> { Up, Right, Down, Left, };
+    public static List<Direction> DiagonalDirections = new List<Direction> { UpRight, DownRight, DownLeft, UpLeft, };
+    public static List<Direction> AllDirections = new List<Direction> { Up, Right, Down, Left, UpRight, DownRight, DownLeft, UpLeft, };
 
     public DirectionEnum? DirectionE { get; }
     public int DeltaX { get; }
@@ -58,14 +65,14 @@ public class Direction
 
     public static Direction RotateCW(Direction direction)
     {
-        return Directions[(Directions.IndexOf(direction) + 1) % Directions.Count];
+        return OrthogonalDirections[(OrthogonalDirections.IndexOf(direction) + 1) % OrthogonalDirections.Count];
 	}
 
 	public static Direction RotateCCW(Direction direction)
 	{
-        int index = Directions.IndexOf(direction) - 1;
+        int index = OrthogonalDirections.IndexOf(direction) - 1;
         if (index < 0) index = 3;
-		return Directions[index];
+		return OrthogonalDirections[index];
 	}
 
 	public enum DirectionEnum
@@ -74,6 +81,10 @@ public class Direction
         Right,
         Down,
         Left,
+        UpRight,
+        DownRight,
+        DownLeft,
+        UpLeft,
     }
 
     public static Direction FindDirectionByDirectionEnum(DirectionEnum directionEnum)

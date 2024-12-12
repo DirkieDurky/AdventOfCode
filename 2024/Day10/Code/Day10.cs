@@ -29,7 +29,7 @@ namespace Year2024
                         continue;
                     }
 
-                    foreach (Direction direction in Direction.Directions)
+                    foreach (Direction direction in Direction.OrthogonalDirections)
                     {
                         if (currentPosition.X + direction.DeltaX < 0 || currentPosition.X + direction.DeltaX >= grid.Width
                             || currentPosition.Y + direction.DeltaY < 0 || currentPosition.Y + direction.DeltaY >= grid.Height) continue;
@@ -73,7 +73,7 @@ namespace Year2024
                         continue;
                     }
 
-                    foreach (Direction direction in Direction.Directions)
+                    foreach (Direction direction in Direction.OrthogonalDirections)
                     {
                         if (currentPosition.X + direction.DeltaX < 0 || currentPosition.X + direction.DeltaX >= grid.Width
                             || currentPosition.Y + direction.DeltaY < 0 || currentPosition.Y + direction.DeltaY >= grid.Height) continue;
