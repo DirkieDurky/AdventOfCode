@@ -127,7 +127,7 @@ namespace Year2024
                 region.Sides = region.CountCorners(grid);
             }
 
-            foreach (Region2 region in foundRegions.OrderBy(x => x.Plots.Count))
+            foreach (Region2 region in foundRegions)
             {
                 Console.WriteLine($"{region.Plots.Count} * {region.Sides} = {region.Plots.Count * region.Sides} (Starting at {region.Plots.First().X}, {region.Plots.First().Y} with type {region.Type})");
             }
