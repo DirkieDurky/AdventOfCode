@@ -31,6 +31,11 @@
             return new Position(a.X - b.DeltaX, a.Y - b.DeltaY);
         }
 
+        public static Position operator *(Position a, int b)
+        {
+            return new Position(a.X * b, a.Y * b);
+        }
+
         public static Position Diff(Position a, Position b)
         {
             return new Position(Math.Abs(a.X - b.X), Math.Abs(a.Y - b.Y));
