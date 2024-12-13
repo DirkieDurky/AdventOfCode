@@ -46,10 +46,10 @@ namespace Year2024
 
             optimalOrder = optimalOrder.OrderBy(x => x.Item1 * 3 + x.Item2).ToList();
 
-            //foreach ((int buttonA, int buttonB) pressCount2 in optimalOrder)
-            //{
-            //    Console.WriteLine($"{pressCount2.buttonA} {pressCount2.buttonB}");
-            //}
+            foreach ((int buttonA, int buttonB) pressCount2 in optimalOrder)
+            {
+                Console.WriteLine($"{pressCount2.buttonA} {pressCount2.buttonB}");
+            }
 
             int total = 0;
             foreach (ClawMachine clawMachine in clawMachines)
@@ -103,7 +103,9 @@ namespace Year2024
             long total = 0;
             foreach (ClawMachine2 clawMachine in clawMachines)
             {
-                total += GetMinimalPrice2(clawMachine);
+                long result = GetMinimalPrice2(clawMachine);
+                Console.WriteLine(result);
+                total += result;
             }
 
             return total;
@@ -111,26 +113,16 @@ namespace Year2024
 
         private long GetMinimalPrice2(ClawMachine2 clawMachine)
         {
-            int buttonAPresses = 0;
+            double denominator = clawMachine.ButtonA.X * clawMachine.ButtonB.Y - clawMachine.ButtonA.Y * clawMachine.ButtonB.X;
+            double numerator = clawMachine.PrizeY * clawMachine.ButtonA.X - clawMachine.PrizeX * clawMachine.ButtonA.Y;
 
-            while (true)
-            {
-                long x = clawMachine.PrizeX - (clawMachine.ButtonA * buttonAPresses).X;
-                long y = clawMachine.PrizeY - (clawMachine.ButtonA * buttonAPresses).Y;
+            double buttonBPresses = numerator / denominator;
+            if (buttonBPresses % 1 > 0) return 0;
 
-                //Console.WriteLine($"{x} {y}");
-                //Console.WriteLine($"{(clawMachine.PrizeX % clawMachine.ButtonA.X)} {(clawMachine.PrizeY % clawMachine.ButtonA.Y)}");
+            double buttonAPresses = (clawMachine.PrizeX - clawMachine.ButtonB.X * buttonBPresses) / clawMachine.ButtonA.X;
+            if (buttonAPresses % 1 > 0) return 0;
 
-                if (clawMachine.PrizeX < 0 || clawMachine.PrizeY < 0) return 0;
-                if ((x % clawMachine.ButtonB.X) == 0
-                    && (y % clawMachine.ButtonB.Y) == 0)
-                {
-                    Console.WriteLine($"{clawMachine.PrizeY / clawMachine.ButtonB.Y} {buttonAPresses}");
-                    return buttonAPresses * 3 + clawMachine.PrizeY / clawMachine.ButtonB.Y;
-                }
-
-                buttonAPresses++;
-            }
+            return (long)(buttonAPresses * 3 + buttonBPresses);
         }
 
         class ClawMachine2(Position buttonA, Position buttonB, long prizeX, long prizeY)
