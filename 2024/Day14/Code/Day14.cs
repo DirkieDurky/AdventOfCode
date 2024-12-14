@@ -160,27 +160,38 @@ namespace Year2024
                     moveCount++;
                     if (moveCount % 10000 == 0) Console.WriteLine(moveCount);
 
-                    int consecutiveEqualCount = 0;
-
-                    List<int> xValuesOnLastYAxis = new();
-                    for (int y = 0; y < height; y++)
+                    int[] robotNumberPerQuadrant = new int[4];
+                    foreach (Robot robot in robots)
                     {
-                        List<int> xValuesOnYAxis = robots.Where(r => r.Pos.Y == y).Select(r => r.Pos.X).ToList();
-                        if (xValuesOnLastYAxis.Any() && xValuesOnYAxis.Count > xValuesOnLastYAxis.Count)
+                        if (robot.Pos.X < width / 2)
                         {
-                            consecutiveEqualCount++;
-                            if (consecutiveEqualCount >= 6)
+                            if (robot.Pos.Y < height / 2)
                             {
-                                Print(robots, width, height);
-                                Console.WriteLine($"MoveCount:{moveCount}. Line {y - 1} and {y} are equal");
-                                return;
+                                robotNumberPerQuadrant[0]++;
+                            }
+                            else if (robot.Pos.Y > height / 2)
+                            {
+                                robotNumberPerQuadrant[2]++;
                             }
                         }
-                        else
+                        else if (robot.Pos.X > width / 2)
                         {
-                            consecutiveEqualCount = 0;
+                            if (robot.Pos.Y < height / 2)
+                            {
+                                robotNumberPerQuadrant[1]++;
+                            }
+                            else if (robot.Pos.Y > height / 2)
+                            {
+                                robotNumberPerQuadrant[3]++;
+                            }
                         }
-                        xValuesOnLastYAxis = xValuesOnYAxis;
+                    }
+
+                    if (robotNumberPerQuadrant.Any(x => x < 60))
+                    {
+                        Print(robots, width, height);
+                        Console.WriteLine($"MoveCount:{moveCount} {String.Join(",", robotNumberPerQuadrant)}");
+                        return;
                     }
                 }
             }
