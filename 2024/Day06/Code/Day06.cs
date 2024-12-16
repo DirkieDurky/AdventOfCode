@@ -40,7 +40,6 @@ namespace Year2024
 
 		private PosInfo FindStart(char[] startPosChars, Map<char> grid)
 		{
-			//Find start
 			for (int y = 0; y < grid.Content.Length; y++)
 			{
 				for (int x = 0; x < grid.Content.GetLength(1); x++)
